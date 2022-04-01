@@ -1,0 +1,136 @@
+<template>
+<label class="xyn-radio" :class="{'is-checked': currentValue}" >
+    <span class="xyn-radio_input">
+    <span class="xyn-radio_inner"></span>
+        <input
+        type="radio"
+        class="xyn-radio_original"
+        v-model="currentValue"
+        >
+    </span>
+    <span class="xyn-radio_label">
+        <slot></slot>
+        <!-- 如果没有传值，就把label作为文本显示 -->
+        <template v-if="!$slots.default">{{label}}</template>
+    </span>
+</label>
+</template>
+
+<script lang="ts">
+import { defineComponent, inject, ref, watch } from 'vue'
+import {RadioGroup} from '../types/component'
+export default defineComponent({
+    name:"XynRadio",
+    props: {
+      label: {
+        type: String,
+        defualt: ''
+      },
+      modelValue: {
+        type:Boolean,
+        default: false
+      },
+      name: {
+        type: String,
+        defualt: ''
+      }
+    },
+    setup(props,context) {
+      const currentValue = ref (props.modelValue)
+      const radioGroup:RadioGroup|undefined = inject("RadioGroup")
+      if(radioGroup){
+        currentValue.value=radioGroup.getSelect()===props.label
+        context.emit("update:modelValue",currentValue)
+      }
+      watch(currentValue,()=>{
+        radioGroup?.setSelect(props.label)
+        context.emit("update:modelValue",currentValue)
+        context.emit("change",!currentValue,currentValue)
+      })
+
+      return{
+        radioGroup,currentValue
+      }
+    }
+})
+</script>
+
+<style lang="less" scoped>
+  .xyn-radio{
+    color: #606266;
+    font-weight: 500;
+    line-height: 1;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    white-space: nowrap;
+    outline: none;
+    font-size: 14px;
+    margin-right: 30px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    .xyn-radio_input{
+      white-space: nowrap;
+      cursor: pointer;
+      outline: none;
+      display: inline-block;
+      line-height: 1;
+      position: relative;
+      vertical-align: middle;
+      .xyn-radio_inner{
+        border: 1px solid #dcdfe6;
+        border-radius: 100%;
+        width: 14px;
+        height: 14px;
+        background-color: #fff;
+        position: relative;
+        cursor: pointer;
+        display: inline-block;
+        box-sizing: border-box;
+        &:after{
+          width: 4px;
+          height: 4px;
+          border-radius: 100%;
+          background-color: #fff;
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%,-50%) scale(0);
+          transition: transform .15s ease-in;
+        }
+      }
+      .xyn-radio_original{
+        opacity: 0;
+        outline: none;
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        left: 0px;
+        right: 0;
+        bottom: 0;
+        margin: 0;
+      }
+    }
+    .xyn-radio_label{
+      font-size: 14px;
+      padding-left: 10px;;
+    }
+  }
+  // 选中的样式
+  .xyn-radio.is-checked{
+    .xyn-radio_input{
+      .xyn-radio_inner{
+        border-color: #409eff;
+        background-color: #409eff;
+        &:after{
+          transform: translate(-50%,-50%) scale(1);
+        }
+      }
+    }
+    .xyn-radio_label{
+      color:#409eff;
+    }
+  }
+</style>

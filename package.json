@@ -1,0 +1,33 @@
+{
+  "name": "xyn-ui",
+  "private": false,
+  "version": "0.0.1",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/xyn-ui-umd.js",
+  "module": "./dist/xyn-ui-es.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "less": "^4.1.2",
+    "vue": "^3.2.25",
+    "xyn-ui": "^0.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.23",
+    "@vitejs/plugin-vue": "^2.2.0",
+    "typescript": "^4.5.4",
+    "vite": "^2.9.1",
+    "vue-tsc": "^0.29.8"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/xyn-ui-es.js",
+      "require": "./dist/xyn-ui-umd.js"
+    }
+  }
+}

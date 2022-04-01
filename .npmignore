@@ -1,0 +1,16 @@
+#忽略目录
+examples/
+packages/
+public/
+node_modules/
+.vscode/
+src/
+#忽略指定文件
+vue.config.js
+babel.config.js
+*.map
+.gitignore
+index.html
+*.json
+vite.config.ts
+*.md
