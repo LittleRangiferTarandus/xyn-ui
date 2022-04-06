@@ -10,7 +10,7 @@ import XButton from '../packages/button/XButton.vue'
 export default defineComponent({
   components: { XMdEditor, XMdPreviewer, XMdGroup, XTable, XTableColumn, XButton },
   setup() {
-    const dataSource = reactive([{name:"orangeCat",weight:"100kg",miao:"miao~~~"},{name:"bigOrangeCat",weight:"200kg",miao:"miao~~~wu"},{name:"bigOrangeCat",weight:"200kg",miao:"miao~~~wu"}])
+    const dataSource = reactive([{name:"orangeCat",weight:5,miao:"miao~~~"},{name:"bigOrangeCat",weight:10,miao:"miao~~~wu"},{name:"bigOrangeCat",weight:15,miao:"miao~~~wu"}])
     return{
       dataSource
     }
@@ -19,10 +19,10 @@ export default defineComponent({
 </script>
 
 <template>
-  <x-table :data-source="dataSource">
-    <x-table-column prop="name" label="name" ></x-table-column>
-    <x-table-column prop="weight" label="weight"></x-table-column>
-    <x-table-column prop="miao" label="sound">
+  <x-table :data-source="dataSource" :stripe="true" :border="true">
+    <x-table-column prop="name" label="name" :sortable="true" ></x-table-column>
+    <x-table-column prop="weight" label="weight" :sortable="true"></x-table-column>
+    <x-table-column prop="miao" label="sound" :sortable="true">
       <template v-slot='sui_bian'>
         {{"叫声："+sui_bian.miao}}
       </template>

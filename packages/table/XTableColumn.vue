@@ -16,6 +16,10 @@ export default defineComponent({
       type:String,
       default:""
     },
+    sortable:{
+      type:Boolean,
+      default:false
+    }
   },
   setup(props,context) {
     
@@ -25,6 +29,7 @@ export default defineComponent({
       return {
         prop:props.prop,
         label:props.label,
+        sortable:props.sortable,
         render:context.slots.default
       };
     })
@@ -33,10 +38,13 @@ export default defineComponent({
     const rank = computed(()=>{
       if(parent?.slots.default){
         let slot = parent?.slots.default();
+        
         let rank = -1;
         (<any>slot).every((e:any,i:number)=>{
-          
-          if(JSON.stringify(e.props)===JSON.stringify(columnOption.value)){
+          let props = e.props,columnValue = columnOption.value
+          if((!props.label||props.label===columnValue.label)&&
+          (!props.prop||props.prop===columnValue.prop)&&
+          (!props.sortable||props.sortable===columnValue.sortable)){
             rank = i
             return false  
           }
@@ -52,10 +60,11 @@ export default defineComponent({
     onMounted(()=>{
       if(parent?.data?.option) {
         (<any>parent.data.option).splice(rank.value,1,columnOption.value)
+        
       }
     })
 
-    watch(()=>[props.prop,props.label],()=>{
+    watch(()=>[props.prop,props.label,props.sortable],()=>{
       if(parent?.data?.option) {
         (<any>parent.data.option).splice(rank.value,1,columnOption.value)
       }

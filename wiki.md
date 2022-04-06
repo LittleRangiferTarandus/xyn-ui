@@ -501,6 +501,9 @@ export default defineComponent({
 |name|value|dataType|detail|default|
 |-|-|-|-|-|
 |dataSource|-/-|array|表格的全部数据|[]|
+|border|-/-|boolean|表格是否有边框|false|
+|stripe|-/-|boolean|表格行是否为斑马纹|false|
+
 
 插槽
 |name|detail|
@@ -515,6 +518,7 @@ export default defineComponent({
 |-|-|-|-|-|
 |prop|-/-|string|该列对应的table组件中，dataSource中元素的字段|""|
 |label|-/-|string|该列的表题|""|
+|sortable|-/-|string|该列的是否可排序，数字类型则按数字大小排序，其他则按原生的sort方法默认的方式排序|false|
 
 插槽
 |name|detail|
