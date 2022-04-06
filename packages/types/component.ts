@@ -1,3 +1,4 @@
+import { type } from "os"
 import { Ref } from "vue"
 
 export interface RadioGroup{
@@ -23,7 +24,3 @@ export interface MdGroup{
   scrollItem:Ref<string>
 }
 
-
-export interface Table{
-  setOption:Function,
-}

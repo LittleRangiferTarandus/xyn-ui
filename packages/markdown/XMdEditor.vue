@@ -13,7 +13,7 @@
   </div>
 </template>
 <script lang='ts'>
-import { computed, defineComponent, inject, onMounted, ref,toRef,watch } from 'vue';
+import { computed, defineComponent, inject, ref,watch } from 'vue';
 import { MdGroup } from '../types/component';
   export default defineComponent({
     props:{

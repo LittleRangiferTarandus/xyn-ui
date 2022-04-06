@@ -20,9 +20,14 @@ export default defineComponent({
     }
   },
   data(){
-
+    type TableExpand=Function|undefined
+    let expand:TableExpand =undefined
+    type IsExpandRow=Array<boolean>
+    let isExpandRow:IsExpandRow=[]
     return{
-      option:[]
+      option:[],
+      expand,
+      isExpandRow
     }
   },
   methods:{
@@ -42,6 +47,9 @@ export default defineComponent({
           })
         }
       }
+    },
+    expandRow(index:number){
+      this.isExpandRow[index] = !this.isExpandRow[index]
     }
   },
   render:function(h: any){
@@ -50,15 +58,16 @@ export default defineComponent({
         <table class={["xyn-table",{"xyn-table-border":this.border},{".xyn-table-stripe ":this.stripe }]}>
           <thead class="xyn-table-head">
             <tr class="xyn-table-tr">
+              {this.expand?<td  class="xyn-table-td-arrow"></td>:""}
               {
                 this.option.map((item:any,indexTd:number)=>{
                   return <td class="xyn-table-td" key={indexTd+item}>{
-                    item.sortable?<>
-                      {item.label}
-                      <i class="ri-sort-asc" onClick={()=>this.sortColumn("asc",item.prop)}></i> 
-                      <i class="ri-sort-desc" onClick={()=>this.sortColumn("desc",item.prop)}></i> 
-                    </>:item.label
-                  }</td>
+                      item.sortable?<>
+                        {item.label}
+                        <i class="ri-sort-asc" onClick={()=>this.sortColumn("asc",item.prop)}></i> 
+                        <i class="ri-sort-desc" onClick={()=>this.sortColumn("desc",item.prop)}></i> 
+                      </>:item.label
+                    } </td>
                 })
               }
             </tr>
@@ -67,12 +76,28 @@ export default defineComponent({
             {
               this.dataSource.map((v:any,indexTr:number)=>{
                 let td = this.option.map((item:any,indexTd:number)=>{
-                  return <td class="xyn-table-td" key={indexTd+item}>{item.render?item.render(v):v[item.prop]}</td>
+                  return  <td class="xyn-table-td" key={indexTd+item}>{item.render?item.render(v):v[item.prop]}</td>
                 })
                 return(
-                  <tr class={['xyn-table-tr']}  key={indexTr}>
-                    {td}
-                  </tr>
+                  <>
+                    <tr class={['xyn-table-tr']}  key={indexTr}>
+                      {this.expand?<td class="xyn-table-td-arrow" onClick={()=>{this.expandRow(indexTr)}}>
+                        {this.isExpandRow[indexTr]?<i class="ri-arrow-down-s-line"></i>:<i class="ri-arrow-right-s-line"></i> }
+                      </td>:""}
+                      {td}
+                    </tr>
+                    {
+                      this.expand?<tr class={['xyn-table-expand',{'xyn-table-expand-active':this.isExpandRow[indexTr]}]}  key={indexTr+"expand"}>
+                        <td colspan={this.option.length+1}>
+                          <div>
+                            {
+                              (this.expand  as Function)(v)
+                            }
+                          </div>
+                        </td>
+                      </tr>:""
+                    }
+                  </>
                 )
               })
             }
@@ -115,7 +140,7 @@ export default defineComponent({
   .xyn-table-tr{
     border-bottom: 1px solid rgba(128, 128, 128, 0.192);
   }
-  .xyn-table-td{
+  .xyn-table-td {
     
     padding: 15px 5px;
   }
@@ -125,7 +150,31 @@ export default defineComponent({
         background-color: rgba(78, 78, 78, 0.13);
       }
     }
-    
+    .xyn-table-expand{ 
+      td{
+        div{
+          max-height: 0 ;
+          overflow: hidden;
+          width: 100%;
+          transition:  .5s;
+        }
+        height: 0 ;
+        padding: 0;
+      }
+    }
+    .xyn-table-expand-active.xyn-table-expand{
+      td{
+        div{
+          max-height:200vh;
+          transition:  5s;
+        }
+      }
+    }
+  }
+
+  .xyn-table-td-arrow{
+    width: 40px;
+    text-align: center;
   }
 }
 .xyn-table-stripe{

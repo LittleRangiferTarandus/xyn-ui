@@ -22,7 +22,7 @@ export default defineComponent({
   <x-table :data-source="dataSource" :stripe="true" :border="true">
     <x-table-column prop="name" label="name" :sortable="true" ></x-table-column>
     <x-table-column prop="weight" label="weight" :sortable="true"></x-table-column>
-    <x-table-column prop="miao" label="sound" :sortable="true">
+    <x-table-column type="expand" >
       <template v-slot='sui_bian'>
         {{"叫声："+sui_bian.miao}}
       </template>

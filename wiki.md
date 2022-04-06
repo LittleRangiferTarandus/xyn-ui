@@ -519,8 +519,10 @@ export default defineComponent({
 |prop|-/-|string|该列对应的table组件中，dataSource中元素的字段|""|
 |label|-/-|string|该列的表题|""|
 |sortable|-/-|string|该列的是否可排序，数字类型则按数字大小排序，其他则按原生的sort方法默认的方式排序|false|
+|type|expand|string|expand：表示表格是否可扩张，插槽的内容作为扩张的内容，此时prop、label、sortable的属性会被忽略；|""|
+
 
 插槽
 |name|detail|
 |-|-|
-|-/-|作用域插槽，可以在`v-slot="xxx"`（xxx为任意值）中取到对应的行元素所有值，即dataSource数组元素。要注意的是，该插槽不是响应式的，可能在热更新中不能观察到变化|
+|-/-|作用域插槽，可以在`v-slot="xxx"`（xxx为任意值）中取到对应的行元素所有值，即dataSource数组元素。要注意的是，该插槽不是响应式的，可能在热更新中不能观察到变化，修改插槽的模板后请刷新页面|
