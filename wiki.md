@@ -2,13 +2,11 @@
 
 欢迎来到Xyn-UI组件库
 
+示例中的代码默认全局注册了组件
 
-本组件库字体图标依赖于remix icon开源图标库，请见：http://www.remixicon.cn/。
-安装引入图标库：
-
-```
-npm install remixicon --save
-```
+## 关于字体图标
+本组件库字体图标依赖于`remix icon`开源图标库，请见：http://www.remixicon.cn/。
+引入图标库：
 
 ```js
 import 'remixicon/fonts/remixicon.css'
@@ -32,18 +30,17 @@ import 'remixicon/fonts/remixicon.css'
 |-|-|-|
 |close|-/-|关闭事件|
 
-for example
+举个例子
+
 ```vue
 <template>
-  <x-dialog v-model:visible="visible" ></x-dialog>
+  <xyn-dialog v-model:visible="visible" ></xyn-dialog>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import XDialog from './components/dialog/XDialog.vue'
 
 export default defineComponent({
-  components: {  XDialog },
   setup() {
     let visible = ref(true)
     return{
@@ -96,18 +93,16 @@ export default defineComponent({
 |change|现值cur|内容改变事件|
 |focus|-/-|获取的焦点事件|
 
-for example
+举个例子
 ```vue
 <template>
-  <x-input :showPassword="true" type="password" :clearable="true" v-model="input" ></x-input>
+  <xyn-input :showPassword="true" type="password" :clearable="true" v-model="input" ></xyn-input>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue' 
-import XInput from './components/input/XInput.vue'
 
 export default defineComponent({
-  components: { XInput },
   setup() {
     const input = ref("")
     return{
@@ -130,18 +125,16 @@ export default defineComponent({
 |name|parameter|detail|
 |-|-|-|
 |change|前值pre,现值cur|切换事件|
-for example
+举个例子
 ```vue
 <template>
-  <x-switch v-model="input"  ></x-switch>
+  <xyn-switch v-model="input"  ></xyn-switch>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue' 
-import XSwitch from './components/switch/XSwitch.vue'
 
 export default defineComponent({
-  components: {XSwitch  },
   setup() {
     const input = ref(true)
     return{
@@ -172,15 +165,13 @@ export default defineComponent({
 
 ```vue
 <template>
-  <x-radio v-model="input"></x-radio>
+  <xyn-radio v-model="input"></xyn-radio>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue' 
-import XRadio from './components/radio/XRadio.vue'
 
 export default defineComponent({
-  components: { XRadio  },
   setup() {
     const input = ref(true) 
     return{
@@ -206,23 +197,20 @@ export default defineComponent({
 |-|-|
 |-/-|子单选框|
 
-for example
+举个例子
 ```vue
 
 <template>
-  <x-radio-group v-model="input">
-    <x-radio label="1">喵呜</x-radio>
-    <x-radio label="2">嗷呜</x-radio>
-  </x-radio-group>
+  <xyn-radio-group v-model="input">
+    <xyn-radio label="1">喵呜</xyn-radio>
+    <xyn-radio label="2">嗷呜</xyn-radio>
+  </xyn-radio-group>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue' 
-import XRadio from './components/radio/XRadio.vue'
-import XRadioGroup from './components/radio/XRadioGroup.vue'
 
 export default defineComponent({
-  components: { XRadio, XRadioGroup  },
   setup() {
     const input = ref("1") 
     return{
@@ -268,24 +256,21 @@ export default defineComponent({
 |-|-|
 |-/-|子单选框|
 
-for example
+举个例子
 ```vue
 <template>
-<x-checkbox-group v-model="hobby">
-  <x-checkbox label="1">吃饭</x-checkbox>
-  <x-checkbox label="2">睡觉</x-checkbox>
-  <x-checkbox label="3"> 撸猫猫</x-checkbox>
-</x-checkbox-group>
+<xyn-checkboxyn-group v-model="hobby">
+  <xyn-checkbox label="1">吃饭</xyn-checkbox>
+  <xyn-checkbox label="2">睡觉</xyn-checkbox>
+  <xyn-checkbox label="3"> 撸猫猫</xyn-checkbox>
+</xyn-checkboxyn-group>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue' 
-import XCheckbox from './components/checkbox/XCheckbox.vue'
-import XCheckboxGroup from './components/checkbox/XCheckboxGroup.vue'
 
 export default defineComponent({
   
-  components: {  XCheckbox, XCheckboxGroup },
   setup() {
     const hobby = reactive([])
     return{
@@ -298,7 +283,7 @@ export default defineComponent({
 ```
 
 
-## 表单和表单项form&formItem
+## 表单form
 表单
 
 属性
@@ -324,34 +309,27 @@ export default defineComponent({
 |-|-|
 |-/-|子表单控件|
 
-for example：
+举个例子：
 ```vue
 <template>
-  <x-form :formData="formData">
-    <x-form-item label="username">
-      <x-input  v-model="formData.username"></x-input>
-    </x-form-item>
-    <x-form-item label="hobby">
-      <x-checkbox-group v-model="formData.hobby">
-        <x-checkbox label="1">吃饭</x-checkbox>
-        <x-checkbox label="2">睡觉</x-checkbox>
-        <x-checkbox label="3"> 撸猫猫</x-checkbox>
-      </x-checkbox-group>
-    </x-form-item>
-  </x-form>
+  <xyn-form :formData="formData">
+    <xyn-form-item label="username">
+      <xyn-input  v-model="formData.username"></xyn-input>
+    </xyn-form-item>
+    <xyn-form-item label="hobby">
+      <xyn-checkboxyn-group v-model="formData.hobby">
+        <xyn-checkbox label="1">吃饭</xyn-checkbox>
+        <xyn-checkbox label="2">睡觉</xyn-checkbox>
+        <xyn-checkbox label="3"> 撸猫猫</xyn-checkbox>
+      </xyn-checkboxyn-group>
+    </xyn-form-item>
+  </xyn-form>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue' 
-import XCheckbox from './components/checkbox/XCheckbox.vue'
-import XCheckboxGroup from './components/checkbox/XCheckboxGroup.vue'
-import XForm from './components/form/XForm.vue'
-import XFormItem from './components/form/XFormItem.vue'
-import XInput from './components/input/XInput.vue'
 
 export default defineComponent({
-  
-  components: {  XCheckbox, XCheckboxGroup, XInput, XForm, XFormItem },
   setup() {
     const formData = reactive({
       username:"",
@@ -369,31 +347,24 @@ export default defineComponent({
 加入表单校验，校验的时机会在blur：
 ```vue
 <template>
-  <x-form :formData="formData" :rules="rules">
-    <x-form-item label="username" ruleKey="username">
-      <x-input  v-model="formData.username"></x-input>
-    </x-form-item>
-    <x-form-item label="hobby" ruleKey="hobby">
-      <x-checkbox-group v-model="formData.hobby">
-        <x-checkbox label="1">吃饭</x-checkbox>
-        <x-checkbox label="2">睡觉</x-checkbox>
-        <x-checkbox label="3"> 撸猫猫</x-checkbox>
-      </x-checkbox-group>
-    </x-form-item>
-  </x-form>
+  <xyn-form :formData="formData" :rules="rules">
+    <xyn-form-item label="username" ruleKey="username">
+      <xyn-input  v-model="formData.username"></xyn-input>
+    </xyn-form-item>
+    <xyn-form-item label="hobby" ruleKey="hobby">
+      <xyn-checkboxyn-group v-model="formData.hobby">
+        <xyn-checkbox label="1">吃饭</xyn-checkbox>
+        <xyn-checkbox label="2">睡觉</xyn-checkbox>
+        <xyn-checkbox label="3"> 撸猫猫</xyn-checkbox>
+      </xyn-checkboxyn-group>
+    </xyn-form-item>
+  </xyn-form>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue' 
-import XCheckbox from './components/checkbox/XCheckbox.vue'
-import XCheckboxGroup from './components/checkbox/XCheckboxGroup.vue'
-import XForm from './components/form/XForm.vue'
-import XFormItem from './components/form/XFormItem.vue'
-import XInput from './components/input/XInput.vue'
 
 export default defineComponent({
-  
-  components: {  XCheckbox, XCheckboxGroup, XInput, XForm, XFormItem },
   setup() {
     const formData = reactive({
       username:"",
@@ -417,3 +388,118 @@ export default defineComponent({
 </script>
 
 ```
+
+## markdown
+本组件的markdown语法高亮使用了highlight.js，请在恰当的地方（例如vue项目根目录的main.js）引入语法高亮样式
+```js
+import 'highlight.js/styles/googlecode.css' //举个例子
+```
+本组件库使用了`marked`进行markdown解析
+
+markdown样式使用了github的样式，请在恰当的地方（例如vue项目根目录的main.js）引入
+```js
+import 'github-markdown-css';
+```
+
+组件库中，编辑器`mdEditor`和预览器`mdPreviewer`可同时作为`mdGroup`的子组件使用，也可以单独使用
+```vue
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
+
+export default defineComponent({
+  setup() {
+    const text = ref("```javascript\nvar a=1\n```")
+    return{
+      text
+    }
+  },
+})
+</script>
+
+<template>
+  <xyn-md-group v-model="text">
+    <xyn-md-editor></xyn-md-editor>
+    <xyn-md-previewer></xyn-md-previewer>
+  </xyn-md-group>
+</template>
+```
+
+mdGroup
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|modelValue|-/-|string|markdown文本|""|
+插槽
+|name|detail|
+|-|-|
+|-/-|子markdown组件|
+
+mdEditor
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|modelValue|-/-|string|markdown文本|""|
+当父（或祖先）组件mdGroup存在时，modelValue将被mdGroup的modelValue覆盖
+
+mdPreviewer
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|mdValue|-/-|string|markdown文本|""|
+同理，当父（或祖先）组件mdGroup存在时，mdValue将被mdGroup的modelValue覆盖
+
+# 数据展示
+## 表格table
+
+举个例子
+```vue
+<script lang="ts">
+import { defineComponent, reactive, ref } from 'vue'
+
+export default defineComponent({
+  components: {  XTable, XTableColumn },
+  setup() {
+    const dataSource = reactive([{name:"orangeCat",weight:"100kg",miao:"miao~~~"},{name:"bigOrangeCat",weight:"200kg",miao:"miao~~~wu"}])
+    return{
+      dataSource
+    }
+  },
+})
+</script>
+
+<template>
+  <xyn-table :data-source="dataSource">
+    <xyn-table-column prop="name" label="name" ></xyn-table-column>
+    <xyn-table-column prop="weight" label="weight"></xyn-table-column>
+    <xyn-table-column prop="miao" label="sound">
+      <template v-slot='sui_bian'>
+        {{"叫声："+sui_bian.miao}}
+      </template>
+    </xyn-table-column>
+  </xyn-table>
+</template>
+```
+
+建议只在table中使用tableColumn组件
+
+table
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|dataSource|-/-|array|表格的全部数据|[]|
+插槽
+|name|detail|
+|-|-|
+|-/-|表格tableColumn子组件|
+
+
+tableColumn
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|prop|-/-|string|该列对应的table组件中，dataSource中元素的字段|""|
+|label|-/-|string|该列的表题|""|
+插槽
+|name|detail|
+|-|-|
+|-/-|作用域插槽，可以在`v-slot="xxx"`（xxx为任意值）中取到对应的行元素所有值，即dataSource数组元素。要注意的是，该插槽不是响应式的，可能在热更新中不能观察到变化|

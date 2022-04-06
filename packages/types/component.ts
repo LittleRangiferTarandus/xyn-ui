@@ -1,3 +1,5 @@
+import { Ref } from "vue"
+
 export interface RadioGroup{
   setSelect:Function,
   getSelect:Function
@@ -12,4 +14,16 @@ export interface CheckboxGroup{
 export interface Rule{
   verify:Function|RegExp,
   error:string
+}
+
+export interface MdGroup{
+  getMdValue:Function,
+  setMdValue:Function,
+  scrollRate:Ref<number>,
+  scrollItem:Ref<string>
+}
+
+
+export interface Table{
+  setOption:Function,
 }
