@@ -14,7 +14,7 @@ import 'remixicon/fonts/remixicon.css'
 
 
 
-# 提示
+# 提示组件
 ## 对话框dialog
 
 参数：
@@ -25,6 +25,7 @@ import 'remixicon/fonts/remixicon.css'
 |top|CSS属性|string|距顶部距离|default|
 |title|-/-|string|标题|提示|
 |visible|-/-|boolean|是否显示|false|
+
 事件：
 |name|parameter|detail|
 |-|-|-|
@@ -53,7 +54,7 @@ export default defineComponent({
 ```
 
 
-# 表单
+# 表单组件
 ## 按钮
 
 参数：
@@ -66,6 +67,7 @@ export default defineComponent({
 |disabled|-/-|boolean|是否禁用|false|
 |icon|-/-|string|图标类名|""|
 |size|mini/small/default|尺寸|middle|
+
 事件：
 |name|parameter|detail|
 |-|-|-|
@@ -125,6 +127,7 @@ export default defineComponent({
 |name|parameter|detail|
 |-|-|-|
 |change|前值pre,现值cur|切换事件|
+
 举个例子
 ```vue
 <template>
@@ -148,6 +151,7 @@ export default defineComponent({
 
 ## 单选按钮radio
 
+**radio**
 |name|value|dataType|detail|default|
 |-|-|-|-|-|
 |modelValue|-/-|boolean|值|false|
@@ -182,7 +186,8 @@ export default defineComponent({
 </script>
 ```
 
-## 单选按钮组radioGroup
+单选按钮组**radioGroup**
+
 |name|value|dataType|detail|default|
 |-|-|-|-|-|
 |modelValue|子radio的label|string|值|""|
@@ -241,7 +246,8 @@ export default defineComponent({
 |-/-|选项内容|
 
 
-## 多选按钮组checkboxGroup
+多选按钮组**checkboxGroup**
+
 |name|value|dataType|detail|default|
 |-|-|-|-|-|
 |modelValue|子checkbox的label数组|string[] |值|[]|
@@ -284,7 +290,7 @@ export default defineComponent({
 
 
 ## 表单form
-表单
+表单**form**
 
 属性
 |name|value|dataType|detail|default|
@@ -297,13 +303,14 @@ export default defineComponent({
 |-|-|
 |-/-|子表单项|
 
-表单项
+表单项**formItem**
 
 属性
 |name|value|dataType|detail|default|
 |-|-|-|-|-|
 |label|-/-|string|label文本|""|
 |ruleKey|-/-|string|根据该项在formData和rules中进行表单校验|""|
+
 插槽
 |name|detail|
 |-|-|
@@ -424,28 +431,34 @@ export default defineComponent({
 </template>
 ```
 
-mdGroup
+**mdGroup**
+
 属性
 |name|value|dataType|detail|default|
 |-|-|-|-|-|
 |modelValue|-/-|string|markdown文本|""|
+
 插槽
 |name|detail|
 |-|-|
 |-/-|子markdown组件|
 
-mdEditor
+**mdEditor**
+
 属性
 |name|value|dataType|detail|default|
 |-|-|-|-|-|
 |modelValue|-/-|string|markdown文本|""|
+
 当父（或祖先）组件mdGroup存在时，modelValue将被mdGroup的modelValue覆盖
 
-mdPreviewer
+**mdPreviewer**
+
 属性
 |name|value|dataType|detail|default|
 |-|-|-|-|-|
 |mdValue|-/-|string|markdown文本|""|
+
 同理，当父（或祖先）组件mdGroup存在时，mdValue将被mdGroup的modelValue覆盖
 
 # 数据展示
@@ -482,23 +495,27 @@ export default defineComponent({
 
 建议只在table中使用tableColumn组件
 
-table
+**table**
+
 属性
 |name|value|dataType|detail|default|
 |-|-|-|-|-|
 |dataSource|-/-|array|表格的全部数据|[]|
+
 插槽
 |name|detail|
 |-|-|
 |-/-|表格tableColumn子组件|
 
 
-tableColumn
+**tableColumn**
+
 属性
 |name|value|dataType|detail|default|
 |-|-|-|-|-|
 |prop|-/-|string|该列对应的table组件中，dataSource中元素的字段|""|
 |label|-/-|string|该列的表题|""|
+
 插槽
 |name|detail|
 |-|-|
