@@ -8,6 +8,11 @@ import XInput from './input/XInput.vue'
 import XRadio from './radio/XRadio.vue'
 import XRadioGroup from './radio/XRadioGroup.vue'
 import XSwitch from './switch/XSwitch.vue'
+import XMdGroup from './markdown/XMdGroup.vue'
+import XMdEditor from './markdown/XMdEditor.vue'
+import XMdPreviewer from './markdown/XMdPreviewer.vue'
+import XTable from './table/XTable.vue'
+
 
 const components=[
   XButton,
@@ -19,7 +24,11 @@ const components=[
   XInput,
   XRadio,
   XRadioGroup,
-  XSwitch
+  XSwitch,
+  XMdEditor,
+  XMdGroup,
+  XMdPreviewer,
+  XTable
 ]
 
 const install = function(vue){

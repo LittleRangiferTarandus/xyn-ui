@@ -4,6 +4,11 @@
 
 示例中的代码默认全局注册了组件
 
+导入CSS样式：
+```js
+import 'xyn-ui/dist/style.css'
+```
+
 ## 关于字体图标
 本组件库字体图标依赖于`remix icon`开源图标库，请见：http://www.remixicon.cn/。
 引入图标库：
@@ -503,6 +508,8 @@ export default defineComponent({
 |dataSource|-/-|array|表格的全部数据|[]|
 |border|-/-|boolean|表格是否有边框|false|
 |stripe|-/-|boolean|表格行是否为斑马纹|false|
+|selectType|""/radio/checkbox|string|表格是否可选，radio则是单选模式，checkbox则是多选模式|""|
+|selectBoxShow|-/-|boolean|表格是否显示展示框|false|
 
 
 插槽

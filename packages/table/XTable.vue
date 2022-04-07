@@ -2,6 +2,8 @@
 
 <script lang="tsx">
 import { defineComponent } from 'vue'
+import TableBodyVue from './TableBody.vue'
+import TableHeadVue from './TableHead.vue'
 
 export default defineComponent({
   name:"XynTable",
@@ -17,17 +19,27 @@ export default defineComponent({
     border:{
       type:Boolean,
       default:false
+    },
+    selectType:{
+      type:String,
+      default:""
+    },
+    selectBoxShow:{
+      type:Boolean,
+      default:false
     }
+
   },
   data(){
     type TableExpand=Function|undefined
     let expand:TableExpand =undefined
-    type IsExpandRow=Array<boolean>
-    let isExpandRow:IsExpandRow=[]
+    let isExpandRow:Array<boolean>=[]
+    let isSelectRow:Array<boolean>=[]
     return{
       option:[],
       expand,
-      isExpandRow
+      isExpandRow,
+      isSelectRow
     }
   },
   methods:{
@@ -50,58 +62,29 @@ export default defineComponent({
     },
     expandRow(index:number){
       this.isExpandRow[index] = !this.isExpandRow[index]
+    },
+    selectRow(index:number){
+
+      if(this.selectType==="radio"){
+        if(!this.isSelectRow[index]){
+          let arr:boolean[] = new Array(this.option.length)
+          arr[index]=true
+          this.isSelectRow=arr
+        }else{
+          this.isSelectRow[index]=false
+        }
+
+      }else if (this.selectType==="checkbox"){
+        this.isSelectRow[index] = !this.isSelectRow[index]
+      }
     }
   },
   render:function(h: any){
     return(
       <>
-        <table class={["xyn-table",{"xyn-table-border":this.border},{".xyn-table-stripe ":this.stripe }]}>
-          <thead class="xyn-table-head">
-            <tr class="xyn-table-tr">
-              {this.expand?<td  class="xyn-table-td-arrow"></td>:""}
-              {
-                this.option.map((item:any,indexTd:number)=>{
-                  return <td class="xyn-table-td" key={indexTd+item}>{
-                      item.sortable?<>
-                        {item.label}
-                        <i class="ri-sort-asc" onClick={()=>this.sortColumn("asc",item.prop)}></i> 
-                        <i class="ri-sort-desc" onClick={()=>this.sortColumn("desc",item.prop)}></i> 
-                      </>:item.label
-                    } </td>
-                })
-              }
-            </tr>
-          </thead>
-          <tbody class="xyn-table-body">
-            {
-              this.dataSource.map((v:any,indexTr:number)=>{
-                let td = this.option.map((item:any,indexTd:number)=>{
-                  return  <td class="xyn-table-td" key={indexTd+item}>{item.render?item.render(v):v[item.prop]}</td>
-                })
-                return(
-                  <>
-                    <tr class={['xyn-table-tr']}  key={indexTr}>
-                      {this.expand?<td class="xyn-table-td-arrow" onClick={()=>{this.expandRow(indexTr)}}>
-                        {this.isExpandRow[indexTr]?<i class="ri-arrow-down-s-line"></i>:<i class="ri-arrow-right-s-line"></i> }
-                      </td>:""}
-                      {td}
-                    </tr>
-                    {
-                      this.expand?<tr class={['xyn-table-expand',{'xyn-table-expand-active':this.isExpandRow[indexTr]}]}  key={indexTr+"expand"}>
-                        <td colspan={this.option.length+1}>
-                          <div>
-                            {
-                              (this.expand  as Function)(v)
-                            }
-                          </div>
-                        </td>
-                      </tr>:""
-                    }
-                  </>
-                )
-              })
-            }
-          </tbody>
+        <table class={["xyn-table",{"xyn-table-border":this.border}]}>
+          <TableHeadVue></TableHeadVue>
+          <TableBodyVue></TableBodyVue>
         </table>
         <div class="xyn-table-column">
           {          
@@ -123,20 +106,7 @@ export default defineComponent({
   width: 100%;
   box-sizing: border-box;
   border-collapse:collapse;
-  .xyn-table-head{
-    font-weight: bold;
-    .xyn-table-td *{
-      vertical-align :middle;
-    }
-    i{
-      margin: 5px ;
-      box-sizing: border-box;
-      border: #40a0ff00 solid 1px;
-      &:hover{
-        border-color: #409eff ;
-      }
-    }
-  }
+
   .xyn-table-tr{
     border-bottom: 1px solid rgba(128, 128, 128, 0.192);
   }
@@ -144,38 +114,7 @@ export default defineComponent({
     
     padding: 15px 5px;
   }
-  .xyn-table-body{
-    .xyn-table-tr{
-      &:hover{
-        background-color: rgba(78, 78, 78, 0.13);
-      }
-    }
-    .xyn-table-expand{ 
-      td{
-        div{
-          max-height: 0 ;
-          overflow: hidden;
-          width: 100%;
-          transition:  .5s;
-        }
-        height: 0 ;
-        padding: 0;
-      }
-    }
-    .xyn-table-expand-active.xyn-table-expand{
-      td{
-        div{
-          max-height:200vh;
-          transition:  5s;
-        }
-      }
-    }
-  }
 
-  .xyn-table-td-arrow{
-    width: 40px;
-    text-align: center;
-  }
 }
 .xyn-table-stripe{
   .xyn-table-body{

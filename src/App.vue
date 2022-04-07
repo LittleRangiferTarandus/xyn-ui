@@ -19,8 +19,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <x-table :data-source="dataSource" :stripe="true" :border="true">
-    <x-table-column prop="name" label="name" :sortable="true" ></x-table-column>
+  <x-table :data-source="dataSource" :stripe="true"  selectType="radio" :selectBoxShow="true">
+    <x-table-column prop="name" label="name"  ></x-table-column>
     <x-table-column prop="weight" label="weight" :sortable="true"></x-table-column>
     <x-table-column type="expand" >
       <template v-slot='sui_bian'>
