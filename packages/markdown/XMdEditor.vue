@@ -16,6 +16,7 @@
 import { computed, defineComponent, inject, ref,watch } from 'vue';
 import { MdGroup } from '../types/component';
   export default defineComponent({
+    name:"XynMdEditor",
     props:{
       modelValue:{
         type:String,

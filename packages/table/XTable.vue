@@ -4,6 +4,7 @@
 import { defineComponent } from 'vue'
 import TableBodyVue from './TableBody.vue'
 import TableHeadVue from './TableHead.vue'
+import TableSummaryVue from './TableSummary.vue'
 
 export default defineComponent({
   name:"XynTable",
@@ -27,12 +28,19 @@ export default defineComponent({
     selectBoxShow:{
       type:Boolean,
       default:false
+    },
+    summary:{
+      type:Boolean,
+      default:false
+    },
+    summaryFunction:{
+      type:Function,
+      default:undefined
     }
 
   },
   data(){
-    type TableExpand=Function|undefined
-    let expand:TableExpand =undefined
+    let expand:Function|undefined =undefined
     let isExpandRow:Array<boolean>=[]
     let isSelectRow:Array<boolean>=[]
     return{
@@ -42,6 +50,7 @@ export default defineComponent({
       isSelectRow
     }
   },
+  emits:["rowClick"],
   methods:{
     sortColumn(type:string,prop:string){
       if((this.dataSource[0] as any)[prop] instanceof Number){
@@ -85,6 +94,11 @@ export default defineComponent({
         <table class={["xyn-table",{"xyn-table-border":this.border}]}>
           <TableHeadVue></TableHeadVue>
           <TableBodyVue></TableBodyVue>
+          {
+            this.summary?
+            <TableSummaryVue dataSource={this.dataSource} option={this.option} summaryFunction={this.summaryFunction}></TableSummaryVue>:
+            ""
+          }
         </table>
         <div class="xyn-table-column">
           {          

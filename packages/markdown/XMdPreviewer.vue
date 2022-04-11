@@ -11,6 +11,7 @@ import { MdGroup } from '../types/component'
 import { md2html } from './md2html'
 import hljs from 'highlight.js'
 export default defineComponent({
+  name:"XynMdPreviewer",
   props:{
     mdValue:{
       type:String,

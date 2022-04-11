@@ -23,7 +23,9 @@ export default defineComponent({
                 return(
                   <>
                     <tr class={['xyn-table-tr',{'xyn-table-select-active':$data.isSelectRow[indexTr]},{'xyn-table-tr-stripe':indexTr&1}]}  
-                    key={indexTr}>
+                    key={indexTr}
+                    onClick={()=>{parent.$emit("rowClick",v,indexTr)}}
+                    >
                       {
                         $props.selectBoxShow&&
                         ($props.selectType==="checkbox"||

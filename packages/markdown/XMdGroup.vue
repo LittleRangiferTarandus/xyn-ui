@@ -8,6 +8,7 @@
 import {  defineComponent, provide, ref } from 'vue'
 
 export default defineComponent({
+  name:"XynMdGroup",
   props:{
     modelValue:{
       type:String,

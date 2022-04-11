@@ -472,7 +472,7 @@ export default defineComponent({
 举个例子
 ```vue
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, reactive } from 'vue'
 
 export default defineComponent({
   components: {  XTable, XTableColumn },
@@ -500,6 +500,123 @@ export default defineComponent({
 
 建议只在table中使用tableColumn组件
 
+可展开的表格：
+```vue
+<script lang="ts">
+import { defineComponent, reactive } from 'vue'
+
+export default defineComponent({
+  components: {  XTable, XTableColumn },
+  setup() {
+    const dataSource = reactive([{name:"orangeCat",weight:"100kg",miao:"miao~~~"},{name:"bigOrangeCat",weight:"200kg",miao:"miao~~~wu"}])
+    return{
+      dataSource
+    }
+  },
+})
+</script>
+
+<template>
+  <xyn-table :data-source="dataSource">
+    <xyn-table-column prop="name" label="name" ></xyn-table-column>
+    <xyn-table-column prop="weight" label="weight"></xyn-table-column>
+    <xyn-table-column type="expand">
+      <template v-slot='sui_bian'>
+        {{"叫声："+sui_bian.miao}}
+      </template>
+    </xyn-table-column>
+  </xyn-table>
+</template>
+```
+
+带有合计栏的表格
+```vue
+<script lang="ts">
+import { defineComponent, reactive } from 'vue'
+
+export default defineComponent({
+  components: { XMdEditor, XMdPreviewer, XMdGroup, XTable, XTableColumn, XButton },
+  setup() {
+    const dataSource = reactive([{name:"orangeCat",weight:5},{name:"bigOrangeCat",weight:10},{name:"bigOrangeCat",weight:15}])
+
+    return{
+      dataSource
+    }
+  },
+})
+</script>
+
+<template>
+  <xyn-table :data-source="dataSource" :summary="true" >
+    <xyn-table-column prop="name" label="name"  ></xyn-table-column>
+    <xyn-table-column prop="weight" label="weight" :sortable="true"></xyn-table-column>
+  </xyn-table>
+</template>
+```
+
+自定义合计函数
+```vue
+<script lang="ts">
+import { defineComponent, reactive  } from 'vue'
+
+export default defineComponent({
+  components: { XMdEditor, XMdPreviewer, XMdGroup, XTable, XTableColumn, XButton },
+  setup() {
+    const dataSource = reactive([{name:"orangeCat",weight:5},{name:"bigOrangeCat",weight:10},{name:"bigOrangeCat",weight:15}])
+    const summaryFunction = (prop:string,data:any[])=>{
+      if(prop==="name"){
+        return "总和"
+      }
+      if(prop==="weight"){
+        return data.reduce(function(prev, curr){
+            return prev + curr;
+        });
+      }
+      
+    }
+    return{
+      dataSource,summaryFunction
+    }
+  },
+})
+</script>
+
+<template>
+  <xyn-table :data-source="dataSource" :summary="true" :summaryFunction="summaryFunction">
+    <xyn-table-column prop="name" label="name"  ></xyn-table-column>
+    <xyn-table-column prop="weight" label="weight" :sortable="true"></xyn-table-column>
+  </xyn-table>
+</template>
+```
+
+添加行点击事件
+```vue
+<script lang="ts">
+import { defineComponent, reactive  } from 'vue'
+
+export default defineComponent({
+  components: { XMdEditor, XMdPreviewer, XMdGroup, XTable, XTableColumn, XButton },
+  setup() {
+    const dataSource = reactive([{name:"orangeCat",weight:5},{name:"bigOrangeCat",weight:10},{name:"bigOrangeCat",weight:15}])
+    const rowClick=(v:any,i:number)=>{
+        console.log(v,i);
+        
+    }
+    return{
+      dataSource,rowClick
+    }
+  },
+})
+</script>
+
+<template>
+  <xyn-table :data-source="dataSource"  @rowClick="rowClick">
+    <xyn-table-column prop="name" label="name"  ></xyn-table-column>
+    <xyn-table-column prop="weight" label="weight" :sortable="true"></xyn-table-column>
+  </xyn-table>
+</template>
+```
+
 **table**
 
 属性
@@ -510,13 +627,18 @@ export default defineComponent({
 |stripe|-/-|boolean|表格行是否为斑马纹|false|
 |selectType|""/radio/checkbox|string|表格是否可选，radio则是单选模式，checkbox则是多选模式|""|
 |selectBoxShow|-/-|boolean|表格是否显示展示框|false|
-
+|summary|-/-|boolean|表格是否显示合计栏|false|
+|summaryFunction|-/-|function,undefined|(prop:string,data:any[])=>any，参数：合计栏的列名和该列的数据，返回在合计栏展示的内容|undefined|
 
 插槽
 |name|detail|
 |-|-|
 |-/-|表格tableColumn子组件|
 
+事件：
+|name|parameter|detail|
+|-|-|-|
+|rowClick|该行dataSourcs的数组和行号|tableBody的点击行事件|
 
 **tableColumn**
 
