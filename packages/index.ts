@@ -13,6 +13,7 @@ import XMdEditor from './markdown/XMdEditor.vue'
 import XMdPreviewer from './markdown/XMdPreviewer.vue'
 import XTable from './table/XTable.vue'
 import XTableColumn from './table/XTableColumn.vue'
+import XVirtualList from './virtualList/XVirtualList.vue'
 
 
 const components=[
@@ -30,7 +31,8 @@ const components=[
   XMdGroup,
   XMdPreviewer,
   XTable,
-  XTableColumn
+  XTableColumn,
+  XVirtualList
 ]
 
 const install = function(vue){

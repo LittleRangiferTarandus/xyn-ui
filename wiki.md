@@ -60,7 +60,7 @@ export default defineComponent({
 
 
 # 表单组件
-## 按钮
+## 按钮Button
 
 参数：
 
@@ -467,7 +467,7 @@ export default defineComponent({
 同理，当父（或祖先）组件mdGroup存在时，mdValue将被mdGroup的modelValue覆盖
 
 # 数据展示
-## 表格table
+## 表格Table
 
 举个例子
 ```vue
@@ -655,3 +655,27 @@ export default defineComponent({
 |name|detail|
 |-|-|
 |-/-|作用域插槽，可以在`v-slot="xxx"`（xxx为任意值）中取到对应的行元素所有值，即dataSource数组元素。要注意的是，该插槽不是响应式的，可能在热更新中不能观察到变化，修改插槽的模板后请刷新页面|
+
+
+## 虚拟列表VirtualList
+
+虚拟列表通常用于长数据“按需加载”，仅仅渲染可视区域的数据，减少性能消耗
+
+
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|getData|-/-|function,undefined|虚拟列表当前已有数据渲染到底部（滚动到底部）时，加载数据的回调函数|undefined|
+|estimateItemHeight|-/-|number|虚拟列表每一项的默认高度，单位px|50|
+|resource|-/-|array|虚拟列表的数据|[]|
+|showHeight|-/-|number|可视区域高度，单位px|400|
+|updateDelay|-/-|number|滚动列表后，更新所渲染数据的函数为节流函数，此项为节流延迟，单位ms|250|
+|isEnd|-/-|boolean|虚拟列表是否到末尾，`isEnd`和`isLoading`为排斥或关系，不满足则不渲染虚拟列表底部元素|false|
+|isLoading|-/-|boolean|虚拟列表是否正在加载，`isEnd`和`isLoading`为排斥或关系，不满足则不渲染虚拟列表底部元素|false|
+
+
+插槽
+|name|detail|
+|-|-|
+|-/-|作用域插槽，可以在`v-slot="xxx"`（xxx为任意值）中取到对应的行元素的值，即resource数组元素。要注意的是，该插槽不是响应式的，可能在热更新中不能观察到变化，修改插槽的模板后请刷新页面|
+|end|虚拟列表底部元素的作用域插槽，可以在`v-slot:end="xxx"`（xxx为任意值）中取到`{isEnd,isLoading}`对象。要注意的是，该插槽不是响应式的，可能在热更新中不能观察到变化，修改插槽的模板后请刷新页面|
