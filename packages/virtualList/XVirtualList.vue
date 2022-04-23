@@ -4,7 +4,7 @@
 import { computed, defineComponent, reactive, ref, Ref, toRef } from 'vue'
 
 export default defineComponent({
-  name:'XynVirtualList',
+  name:'XYNVirtualList',
   props:{
     getData:{
       type:Function,
@@ -38,21 +38,23 @@ export default defineComponent({
   setup(props,context) {
     let slot = context.slots.default?context.slots.default:undefined
     let endSlot = context.slots.end?context.slots.end:undefined
-    let contentHeight = ref((props as any).showHeight*1.5)
 
-    let getData:Function |undefined = (props as any).getData 
+ 
+    let contentHeight = ref(props.estimateItemHeight*10)
+
+    let getData:Function |undefined = props.getData 
     
-    let resource = toRef((props as any),"resource")
+    let resource = toRef(props,"resource")
     let listLength = computed(()=>{
       return resource.value.length
     })
     let scrollWrapper = ref()
     let scrollContent = ref()
     let pageList = ref(resource.value.slice(0,10))
-    let timer:any = null
+    let timer: NodeJS.Timeout|null = null
 
     
-    let itemsHeight :number[]= []
+    let itemsHeight: number[] = []
     let updateHeight=()=>{
       let items = scrollContent.value.getElementsByClassName("xyn-virtual-list-item")
       let tempContentHeight = 0
@@ -62,10 +64,10 @@ export default defineComponent({
         }
         tempContentHeight+=items[i].offsetHeight
       } 
-      contentHeight.value=tempContentHeight
+      contentHeight.value=Math.max(contentHeight.value,tempContentHeight)
     }
     let startIndex = 0,endIndex=0
-    let visible:boolean[]=[]
+    let visible: boolean[]=[]
     let onScroll = ()=>{
       if(!timer){
         timer=setTimeout(()=>{
@@ -77,21 +79,28 @@ export default defineComponent({
           let scrollTop:number = scrollWrapper.value.scrollTop
           updateHeight()
           let sumHeight = 0,end=0,start = 0
-          while(sumHeight<scrollTop+(props as any).showHeight){
-            sumHeight+=end<itemsHeight.length?itemsHeight[end]:(props as any).estimateItemHeight
+          while(sumHeight<scrollTop+props.showHeight){
+            sumHeight+=start<itemsHeight.length?itemsHeight[end]:props.estimateItemHeight
+            
             if(sumHeight<scrollTop){
-              visible[end]=false
+              if(end-10>=0){
+                visible[end-10]=false
+              }
+              
               start++
             }else{
-              visible[end]=true
+              if(end-10>=0){
+                visible[end-10]=true
+              }
             }
             end++
           }
-          startIndex=start
-          endIndex=end
-          pageList.value = resource.value.slice(start,end+1)
+          startIndex=Math.max(0,start-10)
+          endIndex=Math.ceil(end/10)*10+10
+          
+          pageList.value = resource.value.slice(startIndex,endIndex)
           timer=null
-        },(props as any).updateDelay)
+        },props.updateDelay)
       }
     } 
     return{ 
@@ -106,46 +115,46 @@ export default defineComponent({
       endSlot
     }
   },
-  render(h:any){
-    let self:any=this
+  render(h: any){
     let headerHeight = 0 
-    for(let i=0;i<self.visible.length;i++){
-      if(!self.visible[i]){
-        headerHeight+=self.itemsHeight[i]
+    for(let i=0;i<this.visible.length;i++){
+      if(!this.visible[i]){
+        headerHeight+=this.itemsHeight[i]
       }else{
         break
       }
     }
+    console.log(this.visible);
     return(
       <div
         ref="scrollWrapper"
         class="xyn-virtual-list-wrapper" 
-        style={{height: self.showHeight+"px" }}
-        onScroll={self.onScroll}
+        style={{height: this.showHeight+"px" }}
+        onScroll={this.onScroll}
       >
         <div class="xyn-virtual-list-content"  ref="scrollContent"
-        style={{height: self.contentHeight+"px"}}>
+        style={{height: this.contentHeight+"px"}}>
           <div class="xyn-virtual-list-item" style={{height: headerHeight+"px" }} ></div>
           {
-            self.pageList.map((v:any,indexData:number)=>{
+            this.pageList.map((v:any,indexData:number)=>{
               return (
                 <>
                   {
-                    self.slot?
+                    this.slot?
                     <div class="xyn-virtual-list-item" key={indexData}>
                     {
-                      self.slot(v)
+                      this.slot(v)
                     }
-                    </div>:<div class="xyn-virtual-list-item"  key={indexData} style={{height: self.estimateItemHeight+"px"}}>{v}</div>
+                    </div>:<div class="xyn-virtual-list-item"  key={indexData} style={{height: this.estimateItemHeight+"px"}}>{v}</div>
                   }
                 </>
               )
             })
           }
           {
-            (self.isEnd&&!self.isLoading)||(!self.isEnd&&self.isLoading)?//排斥或
-            self.endSlot?self.endSlot({isEnd:self.isEnd,isLoading:self.isLoading}):
-            <div class="xyn-virtual-list-end" style={{height: self.estimateItemHeight+"px" }} >{self.isEnd?"暂无更多":"请稍等"}</div>:""
+            (this.isEnd&&!this.isLoading)||(!this.isEnd&&this.isLoading)?
+            this.endSlot?this.endSlot({isEnd:this.isEnd,isLoading:this.isLoading}):
+            <div class="xyn-virtual-list-end" style={{height: this.estimateItemHeight+"px" }} >{this.isEnd?"暂无更多":"请稍等"}</div>:""
           }
         </div>
       </div>
