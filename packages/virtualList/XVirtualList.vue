@@ -1,7 +1,8 @@
 
 
 <script lang="tsx">
-import { computed, defineComponent, reactive, ref, Ref, toRef } from 'vue'
+ 
+import { computed, defineComponent, watch, ref, Ref, toRef } from 'vue'
 
 export default defineComponent({
   name:'XYNVirtualList',
@@ -36,11 +37,11 @@ export default defineComponent({
     }
   },
   setup(props,context) {
-    let slot = context.slots.default?context.slots.default:undefined
-    let endSlot = context.slots.end?context.slots.end:undefined
+    let slot = ref(context.slots.default?context.slots.default:undefined)
+    let endSlot = ref(context.slots.end?context.slots.end:undefined)
 
  
-    let contentHeight = ref(props.estimateItemHeight*10)
+
 
     let getData:Function |undefined = props.getData 
     
@@ -50,21 +51,23 @@ export default defineComponent({
     })
     let scrollWrapper = ref()
     let scrollContent = ref()
-    let pageList = ref(resource.value.slice(0,10))
-    let timer: NodeJS.Timeout|null = null
+    const contentItem:Ref<any[]>=ref([])
+    const contentItemCollection = (el:any) => {
+      if(el){
+        contentItem.value.push(el)
+      }
+    }
+    let pageList = ref(resource.value.slice(0,Math.ceil(props.showHeight/props.estimateItemHeight)+10))
+    let timer: any = null
 
     
     let itemsHeight: number[] = []
     let updateHeight=()=>{
-      let items = scrollContent.value.getElementsByClassName("xyn-virtual-list-item")
-      let tempContentHeight = 0
+      let items = contentItem.value
       for(let i = 0;i<items.length;i++){
-        if(i!==0){
-          itemsHeight[startIndex+i-1] = items[i].offsetHeight
-        }
-        tempContentHeight+=items[i].offsetHeight
-      } 
-      contentHeight.value=Math.max(contentHeight.value,tempContentHeight)
+        itemsHeight[startIndex+i] = items[i].offsetHeight
+      }
+      
     }
     let startIndex = 0,endIndex=0
     let visible: boolean[]=[]
@@ -77,10 +80,11 @@ export default defineComponent({
             }
           }
           let scrollTop:number = scrollWrapper.value.scrollTop
+
           updateHeight()
           let sumHeight = 0,end=0,start = 0
-          while(sumHeight<scrollTop+props.showHeight){
-            sumHeight+=start<itemsHeight.length?itemsHeight[end]:props.estimateItemHeight
+          while(sumHeight<=scrollTop+props.showHeight){
+            sumHeight+=end<itemsHeight.length?itemsHeight[end]:props.estimateItemHeight
             
             if(sumHeight<scrollTop){
               if(end-10>=0){
@@ -96,10 +100,10 @@ export default defineComponent({
             end++
           }
           startIndex=Math.max(0,start-10)
-          endIndex=Math.ceil(end/10)*10+10
+          endIndex=end+10
           
           pageList.value = resource.value.slice(startIndex,endIndex)
-          timer=null
+          timer=null 
         },props.updateDelay)
       }
     } 
@@ -109,22 +113,22 @@ export default defineComponent({
       scrollWrapper,
       slot,
       scrollContent,
-      contentHeight,
       visible,
       itemsHeight,
-      endSlot
+      endSlot, 
+      contentItemCollection
     }
   },
   render(h: any){
     let headerHeight = 0 
     for(let i=0;i<this.visible.length;i++){
-      if(!this.visible[i]){
+      if(this.visible[i]===false){
         headerHeight+=this.itemsHeight[i]
       }else{
         break
       }
     }
-    console.log(this.visible);
+    
     return(
       <div
         ref="scrollWrapper"
@@ -133,19 +137,21 @@ export default defineComponent({
         onScroll={this.onScroll}
       >
         <div class="xyn-virtual-list-content"  ref="scrollContent"
-        style={{height: this.contentHeight+"px"}}>
-          <div class="xyn-virtual-list-item" style={{height: headerHeight+"px" }} ></div>
+        style={{minHeight: this.showHeight*2+"px",paddingTop: headerHeight+"px"}}> 
           {
             this.pageList.map((v:any,indexData:number)=>{
               return (
                 <>
                   {
                     this.slot?
-                    <div class="xyn-virtual-list-item" key={indexData}>
+                    <div class="xyn-virtual-list-item" key={indexData} ref={this.contentItemCollection}>
                     {
                       this.slot(v)
                     }
-                    </div>:<div class="xyn-virtual-list-item"  key={indexData} style={{height: this.estimateItemHeight+"px"}}>{v}</div>
+                    </div>:
+                    <div class="xyn-virtual-list-item"  key={indexData} style={{height: this.estimateItemHeight+"px"}} ref={this.contentItemCollection}>
+                      {v}
+                    </div>
                   }
                 </>
               )

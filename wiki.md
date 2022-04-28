@@ -475,7 +475,6 @@ export default defineComponent({
 import { defineComponent, reactive } from 'vue'
 
 export default defineComponent({
-  components: {  XTable, XTableColumn },
   setup() {
     const dataSource = reactive([{name:"orangeCat",weight:"100kg",miao:"miao~~~"},{name:"bigOrangeCat",weight:"200kg",miao:"miao~~~wu"}])
     return{
@@ -506,7 +505,6 @@ export default defineComponent({
 import { defineComponent, reactive } from 'vue'
 
 export default defineComponent({
-  components: {  XTable, XTableColumn },
   setup() {
     const dataSource = reactive([{name:"orangeCat",weight:"100kg",miao:"miao~~~"},{name:"bigOrangeCat",weight:"200kg",miao:"miao~~~wu"}])
     return{
@@ -535,7 +533,6 @@ export default defineComponent({
 import { defineComponent, reactive } from 'vue'
 
 export default defineComponent({
-  components: { XMdEditor, XMdPreviewer, XMdGroup, XTable, XTableColumn, XButton },
   setup() {
     const dataSource = reactive([{name:"orangeCat",weight:5},{name:"bigOrangeCat",weight:10},{name:"bigOrangeCat",weight:15}])
 
@@ -560,7 +557,6 @@ export default defineComponent({
 import { defineComponent, reactive  } from 'vue'
 
 export default defineComponent({
-  components: { XMdEditor, XMdPreviewer, XMdGroup, XTable, XTableColumn, XButton },
   setup() {
     const dataSource = reactive([{name:"orangeCat",weight:5},{name:"bigOrangeCat",weight:10},{name:"bigOrangeCat",weight:15}])
     const summaryFunction = (prop:string,data:any[])=>{
@@ -595,7 +591,6 @@ export default defineComponent({
 import { defineComponent, reactive  } from 'vue'
 
 export default defineComponent({
-  components: { XMdEditor, XMdPreviewer, XMdGroup, XTable, XTableColumn, XButton },
   setup() {
     const dataSource = reactive([{name:"orangeCat",weight:5},{name:"bigOrangeCat",weight:10},{name:"bigOrangeCat",weight:15}])
     const rowClick=(v:any,i:number)=>{
@@ -659,8 +654,36 @@ export default defineComponent({
 
 ## 虚拟列表VirtualList
 
-虚拟列表通常用于长数据“按需加载”，仅仅渲染可视区域的数据，减少性能消耗
+虚拟列表通常用于长数据“按需加载”，仅仅渲染可视区域的数据，减少性能消耗.
 
+举个栗子：
+```vue
+<script lang="ts">
+import { defineComponent, reactive  } from 'vue'
+
+export default defineComponent({
+  setup() {
+    const dataSource = reactive([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26])
+
+    return{
+      dataSource
+    }
+  },
+})
+</script>
+
+<template>
+  <x-virtual-list :estimateItemHeight="50" :resource="dataSource" :showHeight="500">
+    <template v-slot="data" >
+      <div :style='{height:data*10+"px"}'>
+      {{data}}
+      </div>
+    </template>
+  </x-virtual-list>
+</template>
+
+```
+estimateItemHeight指的是虚拟列表每一项的默认高度，当渲染行元素的默认插槽存在时，渲染后，再读取行元素实际高度
 
 属性
 |name|value|dataType|detail|default|
