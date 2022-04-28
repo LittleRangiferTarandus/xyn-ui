@@ -673,13 +673,13 @@ export default defineComponent({
 </script>
 
 <template>
-  <x-virtual-list :estimateItemHeight="50" :resource="dataSource" :showHeight="500">
+  <xyn-virtual-list :estimateItemHeight="50" :resource="dataSource" :showHeight="500">
     <template v-slot="data" >
       <div :style='{height:data*10+"px"}'>
       {{data}}
       </div>
     </template>
-  </x-virtual-list>
+  </xyn-virtual-list>
 </template>
 
 ```

@@ -37,8 +37,8 @@ export default defineComponent({
     }
   },
   setup(props,context) {
-    let slot = ref(context.slots.default?context.slots.default:undefined)
-    let endSlot = ref(context.slots.end?context.slots.end:undefined)
+    let slot = context.slots.default?context.slots.default:undefined
+    let endSlot = context.slots.end?context.slots.end:undefined
 
  
 
