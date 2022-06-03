@@ -22,6 +22,7 @@ export default defineComponent({
 </script>
  
 <style lang="less" scoped>
+
 .xyn-checkbox{
     color: #606266;
     font-weight: 500;

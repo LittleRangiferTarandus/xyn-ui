@@ -108,6 +108,7 @@ export default defineComponent({
 
 
 <style lang="less" scoped>
+
 .xyn-table-summary{
   background-color: rgba(37, 66, 96, 0.122);
   .xyn-table-td *{

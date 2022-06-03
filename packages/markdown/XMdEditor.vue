@@ -14,7 +14,7 @@
 </template>
 <script lang='ts'>
 import { computed, defineComponent, inject, ref,watch } from 'vue';
-import { MdGroup } from '../types/component';
+import { MdGroup } from '../../types/component';
   export default defineComponent({
     name:"XynMdEditor",
     props:{
@@ -99,7 +99,9 @@ import { MdGroup } from '../types/component';
   })
 </script>
 <style lang="less" scoped>
-
+@primaryColor:var(--xyn-primary-color);
+@primaryBorder:var(--xyn-primary-light-color);
+@primaryBackGround:var(--xyn-primary-more-light-color);
 .xyn-md-editor{
   width: 100%;
 }
@@ -114,7 +116,7 @@ import { MdGroup } from '../types/component';
   border: 1px solid rgba(179, 177, 177, 0.288);
   &:hover{
     outline: none;
-    border-color: #409eff;
+    border-color: @primaryColor;
   }
 }
 .xyn-md-editor-tool{

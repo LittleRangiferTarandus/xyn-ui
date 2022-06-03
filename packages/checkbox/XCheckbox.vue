@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { defineComponent, inject, ref, watch } from 'vue'
-import { CheckboxGroup } from '../types/component'
+import { CheckboxGroup } from '../../types/component'
 
 export default defineComponent({
   name:"XynCheckbox",
@@ -62,6 +62,9 @@ export default defineComponent({
 
 
 <style lang="less" scoped>
+@primaryColor:var(--xyn-primary-color);
+@primaryBorder:var(--xyn-primary-light-color);
+@primaryBackGround:var(--xyn-primary-more-light-color);
 .xyn-checkbox{
     color: #606266;
     font-weight: 500;
@@ -83,7 +86,7 @@ export default defineComponent({
       .xyn-checkbox_inner{
         display: inline-block;
         position: relative;
-        border: 1px solid #dcdfe6;
+        border: 1px solid @primaryBorder;
         border-radius: 2px;
         box-sizing: border-box;
         width: 14px;
@@ -129,15 +132,15 @@ export default defineComponent({
   .xyn-checkbox.is-checked{
     .xyn-checkbox_input{
       .xyn-checkbox_inner{
-        background-color: #409eff;
-        border-color: #409eff;
+        background-color: @primaryColor;
+        border-color: @primaryColor;
       }
       &:after{
         transform: rotate(45deg) scaleY(1);
       }
     }
     .xyn-checkbox_label{
-      color: #409eff;
+      color: @primaryColor;
     }
   }
 </style>

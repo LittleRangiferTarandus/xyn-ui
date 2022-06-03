@@ -39,6 +39,9 @@ export default defineComponent({
 
 
 <style lang="less" scoped>
+@primaryColor:var(--xyn-primary-color);
+@primaryBorder:var(--xyn-primary-light-color);
+@primaryBackGround:var(--xyn-primary-more-light-color);
 .xyn-table-head{
   font-weight: bold;
   .xyn-table-td *{
@@ -49,7 +52,7 @@ export default defineComponent({
     box-sizing: border-box;
     border: #40a0ff00 solid 1px;
     &:hover{
-      border-color: #409eff ;
+      border-color: @primaryColor ;
     }
   }
   .xyn-table-tr{

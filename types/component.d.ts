@@ -1,4 +1,4 @@
-import { type } from "os"
+
 import { Ref } from "vue"
 
 export interface RadioGroup{
@@ -22,5 +22,10 @@ export interface MdGroup{
   setMdValue:Function,
   scrollRate:Ref<number>,
   scrollItem:Ref<string>
+}
+
+export interface CarouselImg{
+  url:string,
+  id:number|string
 }
 

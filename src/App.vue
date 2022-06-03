@@ -1,28 +1,36 @@
 <script lang="ts">
-import { defineComponent, reactive  } from 'vue'
-import XVirtualList from '../packages/virtualList/XVirtualList.vue'
-
+import { defineComponent, ref  } from 'vue'
+import axios from 'axios'
 export default defineComponent({
-  components: {XVirtualList },
   setup() {
-    const dataSource = reactive([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26])
-
+    const func = (fileFormData:FormData)=>{
+      axios.post("http://xxxx",fileFormData,{
+        headers:{
+          'Content-Type':'mutipart/form-data'
+        }
+      }).then(res=>{
+        loading.value=false
+        disabled.value=false
+      },err=>{
+        loading.value=false
+        disabled.value=false
+      })
+    }
+    const disabled = ref(false)
+    const loading=ref(false)
     return{
-      dataSource
+      func,disabled,loading
     }
   },
 })
 </script>
 
 <template>
-  <x-virtual-list :estimateItemHeight="50" :resource="dataSource" :showHeight="500">
-    <template v-slot="data" >
-      <div :style='{height:data*10+"px"}'>
-      {{data}}
-      </div>
-    </template>
-  </x-virtual-list>
+  <xyn-upload 
+    :submit-function="func" 
+    v-model:disabled="disabled"  
+    v-model:pushLoading="loading"
+    fileName="avatar" 
+    :auto-upload="true"
+  ></xyn-upload>
 </template>
-
-<style> 
-</style>

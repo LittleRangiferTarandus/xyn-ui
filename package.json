@@ -3,7 +3,9 @@
   "private": false,
   "version": "0.0.7",
   "files": [
-    "dist"
+    "dist",
+    "types",
+    "theme"
   ],
   "main": "./dist/xyn-ui-umd.js",
   "module": "./dist/xyn-ui-es.js",
@@ -15,6 +17,7 @@
   "dependencies": {
     "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
     "@vue/babel-preset-jsx": "^1.2.4",
+    "axios": "^0.27.2",
     "github-markdown-css": "^5.1.0",
     "github-syntax-light": "^0.5.0",
     "highlight.js": "^11.5.0",
@@ -27,6 +30,7 @@
     "xyn-ui": "^0.0.0"
   },
   "devDependencies": {
+    "@types/less": "^3.0.3",
     "@types/marked": "^4.0.2",
     "@types/node": "^17.0.23",
     "@vitejs/plugin-vue": "^2.2.0",

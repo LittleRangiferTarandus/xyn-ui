@@ -65,6 +65,9 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
+@primaryColor:var(--xyn-primary-color);
+@primaryBorder:var(--xyn-primary-light-color);
+@primaryBackGround:var(--xyn-primary-more-light-color);
   .xyn-switch{
     display: inline-block;
     align-items: center;
@@ -101,8 +104,8 @@ export default defineComponent({
   // 选中样式
   .is-checked {
     .xyn-switch_core{
-      border-color: #409eff;
-      background-color: #409eff;
+      border-color: @primaryColor;
+      background-color: @primaryColor;
       .xyn-switch_button {
         transform: translateX(20px);
       }

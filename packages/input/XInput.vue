@@ -87,6 +87,9 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
+@primaryColor:var(--xyn-primary-color);
+@primaryBorder:var(--xyn-primary-light-color);
+@primaryBackGround:var(--xyn-primary-more-light-color);
   .xyn-input{
     width: 100%;
     position: relative;
@@ -96,7 +99,7 @@ export default defineComponent({
       -webkit-appearance: none;
       background-color: #fff;
       background-image: none;
-      border: 1px solid #dcdfe6;
+      border: 1px solid @primaryBorder;
       border-radius: 4px;
       box-sizing: border-box;
       color: #606266;
@@ -111,12 +114,12 @@ export default defineComponent({
 
       &:focus{
         outline: none;
-        border-color: #409eff;
+        border-color: @primaryColor;
       }
       // input禁用样式
       &.is-disabled{
-        background-color: #f5f7fa;
-        border-color: #e4e7ed;
+        background-color: @primaryBackGround;
+        border-color: @primaryBorder;
         color: #c0c4cc;
         cursor:not-allowed;
       }

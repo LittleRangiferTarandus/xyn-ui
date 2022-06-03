@@ -66,7 +66,9 @@ export default defineComponent({
 
 
 <style lang="less" scoped>
-
+@primaryColor:var(--xyn-primary-color);
+@primaryBorder:var(--xyn-primary-light-color);
+@primaryBackGround:var(--xyn-primary-more-light-color);
   .xyn-table-tr{
     border-bottom: 1px solid rgba(128, 128, 128, 0.192);
   }
@@ -116,7 +118,7 @@ export default defineComponent({
 
 .xyn-table-body-stripe.xyn-table-body{
   .xyn-table-tr-stripe{
-    background-color: rgba(212, 210, 214, 0.219);
+    background-color:@primaryBackGround;
   }
 }
 

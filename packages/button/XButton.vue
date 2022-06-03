@@ -3,7 +3,7 @@
       :class="[`xyn-button-type-${type}`,`xyn-button-shape-${shape}`,`xyn-button-size-${size}`,{'is-plain':plain,'is-disabled':disabled}]"
       :disabled="disabled"
       @click="handleClick">
-      <i v-if="icon" :class="[icon ,{'iconed':icon}]" class="ri-lg"></i>
+      <i v-if="icon" :class="[icon ,{'iconed':icon}]" ></i>
       <!-- 如果没传入文本插槽，则不显示span内容 -->
       <span v-if="$slots.default"><slot></slot></span>
   </button>
@@ -50,8 +50,10 @@ export default defineComponent({
 })
 </script>
 <style lang="less" scoped>
+
 .xyn-button {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     line-height: 1;
     white-space: nowrap;
     cursor: pointer;
@@ -74,20 +76,20 @@ export default defineComponent({
     font-size: 14px;
     border-radius: 4px;
     &:hover {
-        color:#409eff;
-        border-color:#c6e2ff;
-        background-color:#ecf5ff;
+        color:var(--xyn-primary-color);
+        border-color:var(--xyn-primary-light-color);
+        background-color:var(--xyn-primary-more-light-color);
     }
 
 }
   
 .xyn-button-type-primary{
   color:#fff;
-  background-color: #409eff;
-  border-color: #409eff;
+  background-color: var(--xyn-primary-color);
+  border-color: var(--xyn-primary-color);
   &:hover{
-    background: #66b1ff;
-    background-color: #66b1ff;
+    background: var(--xyn-primary-light-color);
+    background-color: var(--xyn-primary-light-color);
     color: #fff;
     }
   }
@@ -135,16 +137,16 @@ export default defineComponent({
 .xyn-button.is-plain{
   &:hover{
     background: #fff;
-    border-color: #489eff;
-    color: #409eff;
+    border-color: var(--xyn-primary-light-color);
+    color: var(--xyn-primary-color);
   }
 }
 .xyn-button-type-primary.is-plain{
-  color: #409eff;
+  color: var(--xyn-primary-color);
   background: #ecf5ff;
   &:hover{
-    background: #409eff;
-    border-color: #409eff;
+    background: var(--xyn-primary-color);
+    border-color: var(--xyn-primary-color);
     color: #fff;
   }
 }
@@ -213,12 +215,12 @@ export default defineComponent({
 }
 .xyn-button-type-primary.is-disabled{
   color:#fff;
-  background-color: #409eff;
-  border-color: #409eff;
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
   &:hover{
   color:#fff;
-  background-color: #409eff;
-  border-color: #409eff;
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
     }
   }
 .xyn-button-type-success.is-disabled{
@@ -263,9 +265,9 @@ export default defineComponent({
   }
 //size
 .xyn-button-size-mini{
-    transform:scale(60%);
+    transform:scale(70%);
 }
 .xyn-button-size-small{
-    transform:scale(75%);
+    transform:scale(85%);
 }
 </style>

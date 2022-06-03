@@ -48,7 +48,7 @@ export default defineComponent({
           render:context.slots.default
         };
       })
-      //begin 把column的数据添加到table的option里面，此段代码是为了热重载过程中出现
+      //把column的数据添加到table的option里面，此段代码是为了热重载过程中出现
       //column已经push了但是又重新push的诡异bug
       const rank = computed(()=>{
         if(parent?.slots.default){

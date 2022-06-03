@@ -26,5 +26,14 @@ export default defineConfig({
       }
     }
   },
+  css: {
+    // css预处理器
+    preprocessorOptions: {
+      less: {
+        strictMath: false,
+      },
+    },
+    
+},
   
 })

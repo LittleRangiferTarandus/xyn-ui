@@ -5,4 +5,9 @@ import XynUI from '../packages'
 import 'remixicon/fonts/remixicon.css'
 import 'highlight.js/styles/googlecode.css' 
 import 'github-markdown-css';
+
+import '../theme/theme.css'
+
+XynUI.transColor("warm")
+
 createApp(App).use(XynUI).mount('#app')

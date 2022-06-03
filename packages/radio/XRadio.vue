@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { defineComponent, inject, ref, watch } from 'vue'
-import {RadioGroup} from '../types/component'
+import {RadioGroup} from '../../types/component'
 export default defineComponent({
     name:"XynRadio",
     props: {
@@ -56,6 +56,9 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
+@primaryColor:var(--xyn-primary-color);
+@primaryBorder:var(--xyn-primary-light-color);
+@primaryBackGround:var(--xyn-primary-more-light-color);
   .xyn-radio{
     color: #606266;
     font-weight: 500;
@@ -67,6 +70,7 @@ export default defineComponent({
     outline: none;
     font-size: 14px;
     margin-right: 30px;
+    user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -79,7 +83,7 @@ export default defineComponent({
       position: relative;
       vertical-align: middle;
       .xyn-radio_inner{
-        border: 1px solid #dcdfe6;
+        border: 1px solid @primaryBorder;
         border-radius: 100%;
         width: 14px;
         height: 14px;
@@ -122,15 +126,15 @@ export default defineComponent({
   .xyn-radio.is-checked{
     .xyn-radio_input{
       .xyn-radio_inner{
-        border-color: #409eff;
-        background-color: #409eff;
+        border-color: @primaryColor;
+        background-color: @primaryColor;
         &:after{
           transform: translate(-50%,-50%) scale(1);
         }
       }
     }
     .xyn-radio_label{
-      color:#409eff;
+      color:@primaryColor;
     }
   }
 </style>
