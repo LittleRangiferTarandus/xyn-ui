@@ -29,3 +29,4 @@ export interface CarouselImg{
   id:number|string
 }
 
+

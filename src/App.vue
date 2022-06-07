@@ -1,36 +1,17 @@
+<template>
+  <x-statistic-graph>
+    <x-bar-chart :dataX="[1,324,54]" :dataY="['a','b','c']"  ></x-bar-chart>
+  </x-statistic-graph>
+</template>
 <script lang="ts">
-import { defineComponent, ref  } from 'vue'
-import axios from 'axios'
+import { defineComponent } from 'vue'
+import XBarChart from '../packages/statisticGraph/XBarChart.vue'
+import XStatisticGraph from '../packages/statisticGraph/XStatisticGraph.vue'
+
 export default defineComponent({
+  components: { XStatisticGraph, XBarChart },
   setup() {
-    const func = (fileFormData:FormData)=>{
-      axios.post("http://xxxx",fileFormData,{
-        headers:{
-          'Content-Type':'mutipart/form-data'
-        }
-      }).then(res=>{
-        loading.value=false
-        disabled.value=false
-      },err=>{
-        loading.value=false
-        disabled.value=false
-      })
-    }
-    const disabled = ref(false)
-    const loading=ref(false)
-    return{
-      func,disabled,loading
-    }
+    
   },
 })
 </script>
-
-<template>
-  <xyn-upload 
-    :submit-function="func" 
-    v-model:disabled="disabled"  
-    v-model:pushLoading="loading"
-    fileName="avatar" 
-    :auto-upload="true"
-  ></xyn-upload>
-</template>
