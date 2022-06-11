@@ -1,6 +1,6 @@
 <template>
   <x-statistic-graph>
-    <x-bar-chart :dataX="[1,324,54]" :dataY="['a','b','c']"  ></x-bar-chart>
+    <x-bar-chart :dataY="[[-10,324,-54],[-10,324,-54],[-10,324,-54],[-10,324,-54]]" :dataX="[['a','b','c'],['a','b','c'],['a','b','c'],['a','b','c']]"  ></x-bar-chart>
   </x-statistic-graph>
 </template>
 <script lang="ts">
@@ -11,7 +11,6 @@ import XStatisticGraph from '../packages/statisticGraph/XStatisticGraph.vue'
 export default defineComponent({
   components: { XStatisticGraph, XBarChart },
   setup() {
-    
-  },
+  },//<x-bar-chart :dataX="[[-10,324,-54],[-10,324,-54]]" :dataY="[['a','b','c'],['a','b','c']]"  ></x-bar-chart>//<x-bar-chart :dataX="[-10,324,-54]" :dataY="['a','b','c']"  ></x-bar-chart>
 })
 </script>

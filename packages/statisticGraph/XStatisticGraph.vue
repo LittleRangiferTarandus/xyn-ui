@@ -1,5 +1,5 @@
 <template>
-  <div class="xyn-statistic-graph">
+  <div class="xyn-statistic-graph" ref="graph">
     <canvas ref="canvas" class="xyn-statistic-graph-canvas" height="500" width="800"></canvas>
     <slot></slot>
   </div>
@@ -26,16 +26,14 @@ export default defineComponent({
     
   
   mounted(){
-    this.graph.context2d = this.$refs.canvas.getContext('2d')
-    this.graph.contextSize={height:this.$refs.canvas.offsetHeight,width:this.$refs.canvas.offsetWidth}
-    this.graph.graphSize={
-      height:this.graph.contextSize.height-this.graph.padding.top-this.graph.padding.bottom,
-      width:this.graph.contextSize.width-this.graph.padding.left-this.graph.padding.right
-    }
-    this.graph.innerSize = {height:this.graph.graphSize.height*0.9,width : this.graph.graphSize.width*0.9}
-    this.graph.pointOf00 = [this.graph.padding.left,this.graph.graphSize.height+this.graph.padding.top]
-    console.log("??");
-    
+    (this.$refs.canvas  as any).height=(this.$refs.graph  as any).offsetHeight;
+    (this.$refs.canvas  as any).width=(this.$refs.graph  as any).offsetWidth;
+    this.graph.context2d = (this.$refs.canvas  as any).getContext('2d')
+    this.graph.contextSize={height:(this.$refs.canvas  as any).height,width:(this.$refs.canvas  as any).width}
+
+    this.graph.innerSize = {height:this.graph.contextSize.height-this.graph.padding.left-this.graph.padding.right,
+      width : this.graph.contextSize.width-this.graph.padding.top-this.graph.padding.bottom}
+    this.graph.pointOf00 = [this.graph.padding.left,this.graph.innerSize.height+this.graph.padding.top]
     
   }
 })

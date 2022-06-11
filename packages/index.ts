@@ -17,6 +17,7 @@ import XVirtualList from './virtualList/XVirtualList.vue'
 import XUpload from './upload/XUpload.vue'
 import {transColor} from './transColor'
 import XStatisticGraph from './statisticGraph/XStatisticGraph.vue'
+import XBarChart from './statisticGraph/XBarChart.vue'
 const components=[
   XButton,
   XCheckbox,
@@ -35,7 +36,8 @@ const components=[
   XTableColumn,
   XVirtualList,
   XUpload,
-  XStatisticGraph
+  XStatisticGraph,
+  XBarChart,
 ]
 
 const install = function(vue){

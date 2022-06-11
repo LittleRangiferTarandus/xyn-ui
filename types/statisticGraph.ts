@@ -31,3 +31,10 @@ export interface GraphData{
   pointOf00:coordinate|undefined,
   padding:{left:number,right:number,top:number,bottom:number}
 }
+
+export interface GraphOption {
+  classAxis:"x"|"y",
+  drawAxis:boolean,
+  verify:boolean,
+  updateFunction?:((arg0: Function)=>void)|undefined
+}

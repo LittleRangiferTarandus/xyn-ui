@@ -43,8 +43,8 @@ export const drawBar=(ctx,start:coordinate,width:number,height:number,randomColo
   ctx.stroke()
 }
 
-export const drawText=(ctx,start:coordinate,text:string,font:font,randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
-  console.log(start);
+export const drawText=(ctx,start:coordinate,text:string,font:font,correct:[number,number]=[0,0],randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
+  //console.log(start);
   
   if(randomColor){
     color=[Math.round(Math.random()*255),Math.round(Math.random()*255),Math.round(Math.random()*255)]
@@ -56,6 +56,6 @@ export const drawText=(ctx,start:coordinate,text:string,font:font,randomColor:bo
   ctx.moveTo(...start)
  
   
-  ctx.fillText(text,start[0]-ctx.measureText(text).width/2,start[1]+(font.size?font.size*1.1:22))
+  ctx.fillText(text,start[0]-ctx.measureText(text).width/2+correct[0],start[1]+correct[1])
   ctx.stroke()
 }
