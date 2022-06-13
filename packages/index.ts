@@ -18,6 +18,8 @@ import XUpload from './upload/XUpload.vue'
 import {transColor} from './transColor'
 import XStatisticGraph from './statisticGraph/XStatisticGraph.vue'
 import XBarChart from './statisticGraph/XBarChart.vue'
+import XBaseChart from './statisticGraph/XBaseChart.vue'
+import XChartLabel from './statisticGraph/XChartLabel.vue'
 const components=[
   XButton,
   XCheckbox,
@@ -38,9 +40,11 @@ const components=[
   XUpload,
   XStatisticGraph,
   XBarChart,
+  XBaseChart,
+  XChartLabel
 ]
 
-const install = function(vue){
+const install = function(vue:any){
   components.forEach(element => {
     
     vue.component(element.name,element)

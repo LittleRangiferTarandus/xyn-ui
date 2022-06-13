@@ -1,29 +1,50 @@
-<template>
-  <div class="xyn-statistic-graph" ref="graph">
-    <canvas ref="canvas" class="xyn-statistic-graph-canvas" height="500" width="800"></canvas>
-    <slot></slot>
-  </div>
-</template>
 
-<script lang="ts">
+
+<script lang="tsx">
 
 import { defineComponent, } from 'vue'
 import {   GraphData} from '../../types/statisticGraph'
-
-export default defineComponent({
+import drawGraph from './drawGraph'
+const statisticGraph = defineComponent({
   name:"BetaXynStatisticGraph",
   data:()=>{
     const graph:GraphData={context2d:undefined,
       contextSize:undefined,
-      graphSize:undefined,
       innerSize:undefined,
       pointOf00:undefined,
       padding:{left:100,right:50,top:50,bottom:100}}
     return{
-      graph
+      graph,
+      label:{}
     }
   },
     
+  render(h:any){
+    let slotList = this.$slots.default?this.$slots.default():[]
+    if(slotList){
+      slotList.forEach((v:any,i)=>{
+        if(v.props){
+          if(!v.props.symbol){
+            v.props.symbol = Date.now()+"-"+i
+          }
+         
+        }else{
+          
+          v.props = {symbol:Date.now()+"-"+i}
+        }
+      })
+      
+    }
+    
+    return(
+      <div class="xyn-statistic-graph" ref="graph">
+          <canvas ref="canvas" class="xyn-statistic-graph-canvas" height="500" width="800"></canvas>
+          {
+            slotList?slotList:[]
+          }
+      </div>
+    )
+  },
   
   mounted(){
     (this.$refs.canvas  as any).height=(this.$refs.graph  as any).offsetHeight;
@@ -35,13 +56,22 @@ export default defineComponent({
       width : this.graph.contextSize.width-this.graph.padding.top-this.graph.padding.bottom}
     this.graph.pointOf00 = [this.graph.padding.left,this.graph.innerSize.height+this.graph.padding.top]
     
+    
+  },
+  methods:{
+    clear(){
+      (this.$refs.canvas  as any).width=(this.$refs.canvas  as any).width
+    }
   }
 })
+statisticGraph.drawTool = drawGraph
+export default statisticGraph
 </script>
 
 <style lang="less" scoped>
 .xyn-statistic-graph{
   min-width: 500px;
   min-height: 400px;
+  position: relative;
 }
 </style>

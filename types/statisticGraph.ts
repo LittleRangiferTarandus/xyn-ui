@@ -1,3 +1,5 @@
+
+
 export type coordinate = [number,number]
 export type rgbColor = [number,number,number]
 export type font = {
@@ -17,6 +19,7 @@ export interface DataDecription  {
 export interface DataDecriptionSet {
   x:DataDecription,
   y:DataDecription
+  error?:DataDecription
 }
 
 export enum Axis{
@@ -26,7 +29,6 @@ export enum Axis{
 export interface GraphData{
   context2d:any,
   contextSize:{width:number,height:number}|undefined,
-  graphSize:{width:number,height:number}|undefined,
   innerSize:{width:number,height:number}|undefined,
   pointOf00:coordinate|undefined,
   padding:{left:number,right:number,top:number,bottom:number}
@@ -36,5 +38,7 @@ export interface GraphOption {
   classAxis:"x"|"y",
   drawAxis:boolean,
   verify:boolean,
-  updateFunction?:((arg0: Function)=>void)|undefined
 }
+
+export type labelElement = {color:string,label:string}
+export type labelSet = labelElement[]

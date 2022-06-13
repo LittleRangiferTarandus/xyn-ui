@@ -854,3 +854,68 @@ export default defineComponent({
 |playDelay|-/-|number|轮播延迟，单位：ms|2000|
 |arrowVisible|-/-|boolean|是否显示左右切换按钮|true|
 |indicatorVisible|-/-|boolean|是否显示底部切换按钮|true|
+
+## 统计图组件StatisticGraph
+
+>Beta测试内容
+
+条形图如下所示
+```vue
+<template>
+  <beta-xyn-statistic-graph class="graph">
+    <beta-xyn-chart-label></beta-xyn-chart-label>
+    <beta-xyn-bar-chart :dataX="[-10,324,-54]" :dataY="['a','b','c']"  ></beta-xyn-bar-chart>
+  </beta-xyn-statistic-graph>
+</template>
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+})
+</script>
+<style lang="less" scoped>
+.graph{
+  width: 700px;
+  height: 700px;
+}
+</style>
+```
+
+
+**SstatisticGraph**
+
+`beta-xyn-statistic-graph`是统计图的parent组件，`beta-xyn-chart-label`（图例）、`beta-xyn-bar-chart`（条形图）等必须作为`beta-xyn-statistic-graph`的子组件而存在。
+
+`beta-xyn-statistic-graph`实例对象的clear方法可用于清空图像
+
+**BaseChart**
+
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|dataX|-/-|any[]|x轴变量|[]|
+|dataY|-/-|any[]|y轴变量|[]|
+|option|-/-|{classAxis:"x"\|"y",<br>drawAxis:boolean}|包括类别轴、是否显示坐标轴。|classAxis:"y",drawAxis:true|
+|symbol|-/-|string|该图表的唯一标识，会自动生成，不建议手动配置|""|
+
+一个`beta-xyn-statistic-graph`下面可以含有多个`beta-xyn-base-chart`（含派生组件），行为表现为，在同一个画布上画出重叠的图
+
+`beta-xyn-base-chart`实例对象（含派生组件）的update方法可用于数据变更后的异步更新，但是新的图像如果没有恰好覆盖原图像的现象（原图为空不会出现这种现象），会影响展示，如有需要请先用`beta-xyn-statistic-graph`实例对象的clear方法清空图像。
+
+>`beta-xyn-bar-chart`组件继承自`beta-xyn-base-chart`组件，如果需要个性化的统计图，笔给你，你可以自己画。默认导入`beta-xyn-statistic-graph`，`drawTool`属性可以获得一些画图工具。`beta-xyn-base-chart`源码见GitHub。具体说明施工中......。
+
+**BarChart**
+
+该组件为`beta-xyn-statistic-graph`的派生组件，用于绘制条形图
+
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|dataX|-/-|string[],string[][],number[],number[][]|x轴变量，二维数组则为多组数据|[]|
+|dataY|-/-|string[],string[][],number[],number[][]|y轴变量，二维数组则为多组数据|[]|
+|dataError|-/-|number[],number[][]|误差线，二维数组则为多组数据|[]|
+|option|-/-|{classAxis:"x"\|"y",<br>drawAxis:boolean}|包括类别轴、是否显示坐标轴。|classAxis:"y",drawAxis:true|
+
+**ChartLabel**
+
+该组件用于绘制图例
