@@ -9,7 +9,7 @@
   ],
   "main": "./dist/xyn-ui-umd.js",
   "module": "./dist/xyn-ui-es.js",
-  "typings":"./types/index.d.ts",
+  "typings": "./types/index.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -22,6 +22,7 @@
     "github-markdown-css": "^5.1.0",
     "github-syntax-light": "^0.5.0",
     "highlight.js": "^11.5.0",
+    "html2canvas": "^1.4.1",
     "less": "^4.1.2",
     "marked": "^4.0.12",
     "normalize.css": "^8.0.1",
@@ -49,5 +50,4 @@
     },
     "./dist/*": "./dist/*"
   }
-  
 }

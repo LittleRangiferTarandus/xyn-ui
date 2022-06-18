@@ -3,7 +3,7 @@
     :style="{
       right:0,
       top:0,
-      gridTemplateRows:'repeat('+Object.keys(labelSet).length+',30px)'
+      transform: `scale(${scale}%,${scale}%)`
     }"
     ref="label"
   >
@@ -25,6 +25,12 @@ import { watch,defineComponent, getCurrentInstance, reactive, ref, onMounted } f
 
 export default defineComponent({
   name:"BetaXynChartLabel",
+  props:{
+    scale:{
+      default:100,
+      type:Number
+    }
+  },
   setup(props) {
     const label = ref({})
     let thisInstance :any= getCurrentInstance()
@@ -51,6 +57,7 @@ export default defineComponent({
 <style lang="less" scoped>
 
 .xyn-chart-label{
+  transform-origin: 100% 0;
   border: 1px black solid;
   display: grid;
   position: absolute;

@@ -2,7 +2,7 @@
   <button class="xyn-button" 
       :class="[`xyn-button-type-${type}`,`xyn-button-shape-${shape}`,`xyn-button-size-${size}`,{'is-plain':plain,'is-disabled':disabled}]"
       :disabled="disabled"
-      @click="handleClick">
+      >
       <i v-if="icon" :class="[icon ,{'iconed':icon}]" ></i>
       <!-- 如果没传入文本插槽，则不显示span内容 -->
       <span v-if="$slots.default"><slot></slot></span>
@@ -40,12 +40,6 @@ export default defineComponent({
         },
     },
     setup(props,context) {
-        const handleClick = (e:any)=>{
-            context.emit("click",e)
-        }
-        return{
-            handleClick
-        }
     },
 })
 </script>

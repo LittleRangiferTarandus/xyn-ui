@@ -94,10 +94,6 @@ export default defineComponent({
 |icon|-/-|string|图标类名|""|
 |size|mini/small/default|尺寸|middle|
 
-事件：
-|name|parameter|detail|
-|-|-|-|
-|click|点击事件event|点击事件|
 
 
 
@@ -860,6 +856,38 @@ export default defineComponent({
 >Beta测试内容
 
 条形图如下所示
+
+
+**SstatisticGraph**
+
+`beta-xyn-statistic-graph`是统计图的parent组件，`beta-xyn-chart-label`（图例）、`beta-xyn-bar-chart`（条形图）等必须作为`beta-xyn-statistic-graph`的子组件而存在。
+
+`beta-xyn-statistic-graph`实例对象的clear方法可用于清空图像，downloadGraph可以用于下载图像（png格式）
+
+**BaseChart**
+
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|dataX|-/-|any[]|x轴变量|[]|
+|dataY|-/-|any[]|y轴变量|[]|
+|option|-/-|{classAxis:Axis,<br>drawAxis:boolean,<br>outerAxis:boolean,<br>showAxisLabel:[boolean,boolean],<br>showLabel:boolean<br>errorBarWidth:number,<br>unit:string,<br>arrowAixs:boolean}|classAxis：类别轴,<br>drawAxis：是否绘制坐标轴,<br>outerAxis：坐标轴是否位于统计图左、下边,<br>showAxisLabel：是否显示坐标轴刻度/类别名称，第一个变量为x轴，第二个为y轴,<br>showLabel：是否显示图例<br>errorBarWidth:误差线宽度,<br>unit：数值轴单位,<br>arrowAixs：是否使用箭头线绘制坐标轴||
+|symbol|-/-|string|该图表的唯一标识，会自动生成，不建议手动配置|""|
+
+一个`beta-xyn-statistic-graph`下面可以含有多个`beta-xyn-base-chart`（含派生组件），行为表现为，在同一个画布上画出重叠的图
+
+`beta-xyn-base-chart`实例对象（含派生组件）的update方法可用于数据变更后的异步更新，但是新的图像如果没有恰好覆盖原图像的现象（原图为空不会出现这种现象），会影响展示，如有需要请先用`beta-xyn-statistic-graph`实例对象的clear方法清空图像。
+
+>`beta-xyn-bar-chart`组件继承自`beta-xyn-base-chart`组件，如果需要个性化的统计图，笔给你，你可以自己画。默认导入`beta-xyn-statistic-graph`，`drawTool`属性可以获得一些画图工具。`beta-xyn-base-chart`源码见GitHub。具体说明施工中......。
+
+**ChartLabel**
+
+该组件用于绘制图例
+
+**BarChart**
+
+该组件为`beta-xyn-statistic-graph`的派生组件，用于绘制条形图
+
 ```vue
 <template>
   <beta-xyn-statistic-graph class="graph">
@@ -882,40 +910,99 @@ export default defineComponent({
 ```
 
 
-**SstatisticGraph**
-
-`beta-xyn-statistic-graph`是统计图的parent组件，`beta-xyn-chart-label`（图例）、`beta-xyn-bar-chart`（条形图）等必须作为`beta-xyn-statistic-graph`的子组件而存在。
-
-`beta-xyn-statistic-graph`实例对象的clear方法可用于清空图像
-
-**BaseChart**
-
-属性
-|name|value|dataType|detail|default|
-|-|-|-|-|-|
-|dataX|-/-|any[]|x轴变量|[]|
-|dataY|-/-|any[]|y轴变量|[]|
-|option|-/-|{classAxis:"x"\|"y",<br>drawAxis:boolean}|包括类别轴、是否显示坐标轴。|classAxis:"y",drawAxis:true|
-|symbol|-/-|string|该图表的唯一标识，会自动生成，不建议手动配置|""|
-
-一个`beta-xyn-statistic-graph`下面可以含有多个`beta-xyn-base-chart`（含派生组件），行为表现为，在同一个画布上画出重叠的图
-
-`beta-xyn-base-chart`实例对象（含派生组件）的update方法可用于数据变更后的异步更新，但是新的图像如果没有恰好覆盖原图像的现象（原图为空不会出现这种现象），会影响展示，如有需要请先用`beta-xyn-statistic-graph`实例对象的clear方法清空图像。
-
->`beta-xyn-bar-chart`组件继承自`beta-xyn-base-chart`组件，如果需要个性化的统计图，笔给你，你可以自己画。默认导入`beta-xyn-statistic-graph`，`drawTool`属性可以获得一些画图工具。`beta-xyn-base-chart`源码见GitHub。具体说明施工中......。
-
-**BarChart**
-
-该组件为`beta-xyn-statistic-graph`的派生组件，用于绘制条形图
-
 属性
 |name|value|dataType|detail|default|
 |-|-|-|-|-|
 |dataX|-/-|string[],string[][],number[],number[][]|x轴变量，二维数组则为多组数据|[]|
 |dataY|-/-|string[],string[][],number[],number[][]|y轴变量，二维数组则为多组数据|[]|
 |dataError|-/-|number[],number[][]|误差线，二维数组则为多组数据|[]|
-|option|-/-|{classAxis:"x"\|"y",<br>drawAxis:boolean}|包括类别轴、是否显示坐标轴。|classAxis:"y",drawAxis:true|
 
-**ChartLabel**
+**ScatterBinChart**
 
-该组件用于绘制图例
+该组件为`beta-xyn-statistic-graph`的派生组件，用于绘制散点箱型图
+
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|dataX|-/-|string[],string[][],number[][],number[][][]|x轴变量，三维数组则为多组数据（*）|[]|
+|dataY|-/-|string[],string[][],number[][],number[][][]|y轴变量，三维数组则为多组数据（*）|[]|
+|dataError|-/-|[number[],number[]],[number[],number[]][]|误差线（**）
+|option|-/-|{drawTrendLine:boolean,</br>offsetRate:number,</br>groupColor:rgbColor[],</br>groupLabel:string[],<br>groupBound:boolean}</br>同时，继承了`beta-xyn-statistic-graph`的option属性|drawTrendLine：是否显示趋势线</br>offsetRate：散点偏离率，越靠近0，偏离越小</br>groupColor：每个数据类别的颜色</br>groupLabel：每个数据类别的图例<br>groupBound：分类绘制</br>|
+
+>（*）如果要绘制分组的数据，请开启分类绘制，此时，分类轴只可以为1维数组，数值轴数据只能是3维数组。请把相应的`dataX`/`dataY`设置为3维数组，例如`dataY`为`[[[1,2],[3,4]],[[5,6],[7,8]],[[9,10],[11,12]]]`，其中，`[1,2]`、`[5,6]`、`[9,10]`为同一组数据，绘制时颜色为`groupColor[0]`，图例名称为`groupLabel[0]`。
+
+>（**）`[number[],number[]]`这两个数组都表示误差，用于绘制箱形图，例如第一个数组表示SEM，第二个数组表示SD。`dataError`如为`[number[],number[]][]`表示多组数据，此时`dataError[0]`对应`dataY[0]`的误差（不妨假设`dataY`表示值）。
+
+举个例子：
+
+```vue
+<template>
+    <beta-xyn-statistic-graph class="graph" ref="graph" title="High Anxiety">
+    <beta-xyn-chart-label></beta-xyn-chart-label>
+    <beta-xyn-chart-title 
+      titleX="Sensory Uncertainty"
+      titleY="UN-EX RT Difference
+      (Superise)"
+    ></beta-xyn-chart-title>
+    <beta-xyn-scatter-bin-chart 
+    :dataY="[
+      [[35.32018442,22.56299304,-47.51908747,55.43458851],
+      [-51.71085339,-53.4011397,-5.111108539,20.88542841],
+      [38.96234278,55.95897738,37.86154651,103.3367694],
+    ],
+    
+    [
+      [-10.50243747,17.58613009,60.30036601,59.84460357],
+      [41.51499867,7.426721655,30.75770385,34.01836427],
+      [-41.26532478,-6.427828052,-38.20164339,98.56478512],
+    ],
+    
+    [
+      [127.1385653,-4.069762956,54.89233982,48.1717766],
+      [-10.46341803,-43.40095689,89.6270597,50.03504831],
+      [34.94366247,-24.5078009,16.83234926,117.2118747]
+    ]]"
+
+    :dataX="['Low Noise','Middle Noise','High Noise']"  
+
+    :dataError="[
+      [[7.599900968,8.953866718,10.98897727],[37.23175894,	43.86480937,	53.8347742  ]],
+      [[7.599900968,8.953866718,10.98897727],[37.23175894,	43.86480937,	53.8347742    ]],
+      [[7.599900968,8.953866718,10.98897727],[37.23175894,	43.86480937,	53.8347742    ]]
+    ]"
+
+    :optionSet="{
+      outerAxis:true,
+      drawAxis:true,
+      showAxisLabel:[true,true],
+      showLabel:true,
+      offsetRate:0.3,
+      errorBarWidth:15,
+      unit:'ms',
+      drawTrendLine:true,
+      groupColor:[[224, 165, 130],[155, 201, 186],[129,37, 205]],
+      groupLabel:['A','B','C'],
+      groupBound:true
+    }"
+    ></beta-xyn-scatter-bin-chart>
+  </beta-xyn-statistic-graph>
+  <xyn-button @click.stop="download">下载</xyn-button>
+</template>
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
+
+export default defineComponent({
+  setup(){
+    const graph = ref()
+    const download = ()=>{
+      graph.value.downloadGraph()
+      
+    }
+    return{
+      graph,download
+    }
+  }
+})
+</script>
+
+```

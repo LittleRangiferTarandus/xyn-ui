@@ -20,6 +20,8 @@ import XStatisticGraph from './statisticGraph/XStatisticGraph.vue'
 import XBarChart from './statisticGraph/XBarChart.vue'
 import XBaseChart from './statisticGraph/XBaseChart.vue'
 import XChartLabel from './statisticGraph/XChartLabel.vue'
+import XScatterBinChart from './statisticGraph/XScatterBinChart.vue'
+import XChartTitle from './statisticGraph/XChartTitle.vue'
 const components=[
   XButton,
   XCheckbox,
@@ -41,7 +43,9 @@ const components=[
   XStatisticGraph,
   XBarChart,
   XBaseChart,
-  XChartLabel
+  XChartLabel,
+  XScatterBinChart,
+  XChartTitle
 ]
 
 const install = function(vue:any){

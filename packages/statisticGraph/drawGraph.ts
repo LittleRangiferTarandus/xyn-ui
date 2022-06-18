@@ -1,13 +1,20 @@
-import { coordinate,  rgbColor ,font, Axis} from "../../types/statisticGraph"
+import { coordinate,  rgbColor ,font, Axis} from "./statisticGraph"
 
 export const drawLine=(ctx,start:coordinate,end:coordinate,randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
   if(randomColor){
     color=[Math.round(Math.random()*255),Math.round(Math.random()*255),Math.round(Math.random()*255)]
   }
-  ctx.fillStyle = `rgb(${color[0]},${color[1]},${color[2]})`
+  
+  ctx.beginPath()
+  //console.log(start,end);
+  ctx.lineWidth = 1
+  ctx.strokeStyle = `rgb(${color[0]},${color[1]},${color[2]})`
   ctx.moveTo(...start)
   ctx.lineTo(...end)
+  
+  
   ctx.stroke()
+  ctx.beginPath()
   return `rgb(${color[0]},${color[1]},${color[2]})`
 }
 
@@ -15,6 +22,8 @@ export const drawArrowLine=(ctx,start:coordinate,end:coordinate,randomColor:bool
   if(randomColor){
     color=[Math.round(Math.random()*255),Math.round(Math.random()*255),Math.round(Math.random()*255)]
   }
+  ctx.beginPath()
+  ctx.strokeWidth = 1
   ctx.fillStyle = `rgb(${color[0]},${color[1]},${color[2]})`
 
   ctx.moveTo(...start)
@@ -35,13 +44,17 @@ export const drawArrowLine=(ctx,start:coordinate,end:coordinate,randomColor:bool
   return `rgb(${color[0]},${color[1]},${color[2]})`
 }
 
-export const drawBar=(ctx,start:coordinate,width:number,height:number,randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
+export const drawBar=(ctx,start:coordinate,width:number,height:number,direction:Axis,randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
   if(randomColor){
     color=[Math.round(Math.random()*255),Math.round(Math.random()*255),Math.round(Math.random()*255)]
   }
   ctx.fillStyle = `rgb(${color[0]},${color[1]},${color[2]})`
-  ctx.moveTo(...start)
-  ctx.fillRect(...start,width,height)
+  if(direction===Axis.x){
+    ctx.fillRect(start[0],start[1]-0.5*width,height,width)
+
+  }else if(direction===Axis.y){
+    ctx.fillRect(start[0]-0.5*width,start[1]-height,width,height)
+  }
   ctx.stroke()
   return `rgb(${color[0]},${color[1]},${color[2]})`
 }
@@ -95,7 +108,69 @@ export const drawErrorBar=(ctx,start:coordinate,width:number,length:number,direc
   return `rgb(${color[0]},${color[1]},${color[2]})`
 }
 
+
+export const drawCircle=(ctx,start:coordinate,radium:number,radianRange:[number,number],randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
+  if(randomColor){
+    color=[Math.round(Math.random()*255),Math.round(Math.random()*255),Math.round(Math.random()*255)]
+  }
+  ctx.fillStyle = `rgb(${color[0]},${color[1]},${color[2]})`
+  ctx.beginPath()
+  ctx.arc(...start,radium,...radianRange)
+  ctx.fill()
+  ctx.beginPath()
+  return `rgb(${color[0]},${color[1]},${color[2]})`
+}
+
+
+
+export const drawErrorBin=(ctx,start:coordinate,width:number,length:[number,number],direction:Axis,randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
+  if(randomColor){
+    color=[Math.round(Math.random()*255),Math.round(Math.random()*255),Math.round(Math.random()*255)]
+  }
+  
+  const drawBinFun = (start:coordinate,width:number,height:number)=>{
+    
+    ctx.beginPath()
+    ctx.moveTo(start[0]-0.5*width,start[1]-0.5*height)
+    ctx.lineTo(start[0]-0.5*width,start[1]+0.5*height)
+    ctx.stroke()
+    ctx.moveTo(start[0]+0.5*width,start[1]-0.5*height)
+    ctx.lineTo(start[0]+0.5*width,start[1]+0.5*height)
+    ctx.stroke()
+
+    ctx.moveTo(start[0]-0.5*width,start[1]-0.5*height)
+    ctx.lineTo(start[0]+0.5*width,start[1]-0.5*height)
+    ctx.stroke()
+    ctx.moveTo(start[0]-0.5*width,start[1]+0.5*height)
+    ctx.lineTo(start[0]+0.5*width,start[1]+0.5*height)
+    ctx.stroke()
+    
+    ctx.beginPath()
+  }
+  ctx.fillStyle = `rgb(${color[0]},${color[1]},${color[2]})`
+  if(direction===Axis.y){
+    
+    ctx.beginPath()
+    ctx.moveTo(start[0]-0.5*width,start[1])
+    ctx.lineTo(start[0]+0.5*width,start[1])
+    ctx.stroke()
+
+    drawBinFun(start,width,length[0])
+    drawBinFun(start,width,length[1])
+  }else if(direction===Axis.x){
+    
+    ctx.beginPath()
+    ctx.moveTo(start[0],start[1]-0.5*width)
+    ctx.lineTo(start[0],start[1]+0.5*width)
+    ctx.stroke()
+
+    drawBinFun(start,length[0],width)
+    drawBinFun(start,length[1],width)
+  }
+  return `rgb(${color[0]},${color[1]},${color[2]})`
+}
+
 const drawTool = {
-  drawLine,drawArrowLine,drawText,drawBar,drawErrorBar
+  drawLine,drawArrowLine,drawText,drawBar,drawErrorBar,drawCircle,drawErrorBin 
 }
 export default drawTool
