@@ -23,6 +23,10 @@ export default defineComponent({
     font:{
       default:()=>[{},{}],
       type:Object as PropType<[font,font]>
+    },
+        symbol:{
+      type:String,
+      default:""
     }
   },
   name:"BetaXynChartTitle",

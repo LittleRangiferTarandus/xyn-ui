@@ -3,11 +3,11 @@
 </template>
 <script lang="ts">
 import { defineComponent, PropType} from 'vue'
-import { Axis, DecriptionSet,  rgbColor, GraphOption, BarGraphOption} from './statisticGraph'
-import { drawBar, drawCircle, drawErrorBar, drawErrorBin, drawLine, drawText} from './drawGraph'
-import { DescriptionStatistic, descriptionStatisticOfMultiDimensionMatrix, getDimension, linearRegression } from './statistic'
-import XBaseChartVue from './XBaseChart.vue'
-import { coordinate } from './statisticGraph'
+import { Axis, DecriptionSet,  rgbColor, GraphOption, BarGraphOption} from '../statisticGraph'
+import { drawBar, drawCircle, drawErrorBar, drawErrorBin, drawLine, drawText} from '../drawGraph'
+import { DescriptionStatistic, descriptionStatisticOfMultiDimensionMatrix, getDimension, linearRegression } from '../statistic'
+import XBaseChartVue from './XCategoryContinueBaseChart.vue'
+import { coordinate } from '../statisticGraph'
 
 
 export default defineComponent({
@@ -28,16 +28,6 @@ export default defineComponent({
     },
     optionSet:{
       default:()=>({
-        classAxis:"x",
-        drawAxis:true,
-        outerAxis:false,
-        title:["",""],
-        offsetRate:0.2,
-        errorBarWidth:30,
-        drawTrendLine:true,
-        groupColor:[],
-        groupLabel:[],
-        group:true
       }),
       type:Object as PropType<BarGraphOption>
     },
@@ -70,15 +60,15 @@ export default defineComponent({
       drawAxis: true,
       outerAxis: false,
       showAxisLabel: [true, true],
-      showLabel: true,
+      showLegend: true,
       errorBarWidth: 0,
       unit: '',
       group: false,
-      arrowAixs: false,
+      arrowAixs: true,
       labelFont: [{}, {}],
       drawTrendLine: false,
       groupColor: [],
-      groupLabel: [],
+      groupLegend: [],
       groupBound: false,
       valueRange: undefined,
       drawErrorBar: false,
@@ -94,7 +84,7 @@ export default defineComponent({
 
   watch:{
     'labelSet.length'(){
-      if(!this.option.showLabel){
+      if(!this.option.showLegend){
         
         return
       }
@@ -164,7 +154,7 @@ export default defineComponent({
         }
       }
       
-      if(this.dataError){
+      if(this.dataError.length){
         let dimension = getDimension(this.dataError)
         
         if((option.classAxis===Axis.x?
@@ -273,10 +263,10 @@ export default defineComponent({
             v.forEach((e,index)=>{
 
             let color:rgbColor=
-              option.groupBound?
+              option.groupBound&&option.groupColor.length?
               option.groupColor[index]:
               option.eachColor?
-              option.eachColor[i]:
+              option.eachColor[i*classNumber+index]:
               option.defaultColor
 
               let barHeight =(range[1]-range[0])===0?
@@ -291,7 +281,7 @@ export default defineComponent({
                 +positionDiff.x*(i+1)
                 +i*groupWidth
                 +(index+1)*groupPositionDiff
-                +index*barWidth,
+                +(index+0.5)*barWidth,
                 axisXY.xAxisY
               ]:[
                 axisXY.yAxisX,
@@ -310,7 +300,7 @@ export default defineComponent({
             
             
             if(option.groupBound){
-              labelSet[index]=({color:`rgb(${color[0]},${color[1]},${color[2]})`,label:(option.groupLabel as string[])[index]})
+              labelSet[index]=({color:`rgb(${color[0]},${color[1]},${color[2]})`,label:(option.groupLegend as string[])[index]})
             }else{
               labelSet.push({color:`rgb(${color[0]},${color[1]},${color[2]})`,label:(dataClass as string[][])[i][index]})
             }
@@ -484,7 +474,9 @@ export default defineComponent({
         let groupPositionDiff=groupWidth/(classNumber*3+1)
         let barWidth = groupPositionDiff*2;
         let x:number[][] = [],y:number[][]=[];
-        (<number[][][]>dataValue).forEach((v:number[][],i:number)=>{
+        //console.log(dataDecription.dataValue.dataDecriptions);
+        
+        (<number[][]>dataValue).forEach((v:number[],i:number)=>{
           
           v.forEach((e,index)=>{
             if(!x[index]){
@@ -499,25 +491,23 @@ export default defineComponent({
                 +positionDiff.x*(i+1)
                 +i*groupWidth
                 +(index+1)*groupPositionDiff
-                +index*barWidth:
+                +(index+0.5)*barWidth:
               pointOf00[1]
                 -positionDiff.y*(i+1)
                 -i*groupWidth
                 -(index+1)*groupPositionDiff
-                -index*barWidth
+                -(index+0.5)*barWidth
 
             let y_=classAxis===Axis.x?
               axisXY.xAxisY-
               ((range[1]-range[0])===0?
               0:
-              ((<DescriptionStatistic[]> dataDecription.dataValue.dataDecriptions)
-              [i*classNumber+index].mean/(range[1]-range[0])*innerLength)):
+              ((e-range[0])/(range[1]-range[0])*innerLength)):
               
               axisXY.yAxisX+
               ((range[1]-range[0])===0?
               0:
-              ((<DescriptionStatistic[]> dataDecription.dataValue.dataDecriptions)
-              [i*classNumber+index].mean/(range[1]-range[0])*innerLength))
+              ((e-range[0])/(range[1]-range[0])*innerLength))
 
             x[index].push(x_)
               
@@ -577,7 +567,6 @@ export default defineComponent({
       return positionDiffOfClassAxisOfGroup
     },
     drawGroupLabel(){
-
       let positionDiffOfClassAxisOfGroup= this.getPositionDiffOfClassAxisOfGroup()
       
       const {option,dataY,dataX,pointOf00,context2d,outerAxisXY,axisXY} = this
@@ -609,7 +598,7 @@ export default defineComponent({
           
           drawText(context2d,
             point,
-            v,option.labelFont[0],[0,20])
+            v,option.labelFont[0],classAxis===Axis.x?[0,20]:[-20,0])
 
         })
       

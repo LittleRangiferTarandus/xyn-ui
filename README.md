@@ -855,8 +855,6 @@ export default defineComponent({
 
 >Beta测试内容
 
-条形图如下所示
-
 
 **SstatisticGraph**
 
@@ -864,15 +862,42 @@ export default defineComponent({
 
 `beta-xyn-statistic-graph`实例对象的clear方法可用于清空图像，downloadGraph可以用于下载图像（png格式）
 
-**BaseChart**
+**ChartLegend**
+
+该组件用于绘制图例
+
+
+**ChartTitle**
+
+该组件用于绘制左、下边的标题
+
+**CategoryContinueBaseChart**
+分类-连续类型数据统计图的“基组件”，即为`beta-xyn-category-continue-base-chart`
 
 属性
 |name|value|dataType|detail|default|
 |-|-|-|-|-|
 |dataX|-/-|any[]|x轴变量|[]|
 |dataY|-/-|any[]|y轴变量|[]|
-|option|-/-|{classAxis:Axis,<br>drawAxis:boolean,<br>outerAxis:boolean,<br>showAxisLabel:[boolean,boolean],<br>showLabel:boolean<br>errorBarWidth:number,<br>unit:string,<br>arrowAixs:boolean}|classAxis：类别轴,<br>drawAxis：是否绘制坐标轴,<br>outerAxis：坐标轴是否位于统计图左、下边,<br>showAxisLabel：是否显示坐标轴刻度/类别名称，第一个变量为x轴，第二个为y轴,<br>showLabel：是否显示图例<br>errorBarWidth:误差线宽度,<br>unit：数值轴单位,<br>arrowAixs：是否使用箭头线绘制坐标轴||
-|symbol|-/-|string|该图表的唯一标识，会自动生成，不建议手动配置|""|
+|optionSet|-/-|见下|
+|symbol|-/-|string|该图表的唯一标识，会自动生成|""|
+
+`optionSet`属性
+>`optionSet`属性默认为空，被监听到变化后会合并到组件`option`的`data`中，下面的默认值都是指`option`
+
+|attribute|type|default|detail|
+|-|-|-|-|
+|classAxis|Axis|Axis.x|类别轴，`Axis`：枚举类型，值为字符串`"x"`或`"y"`|
+|drawAxis|boolean|true|是否绘制坐标轴|
+|outerAxis|boolean|false|坐标轴是否位于统计图左、下边|
+|showAxisLabel|[boolean,boolean]|[true, true]|是否显示坐标轴刻度，分别为x轴、y轴，如果不绘制坐标轴，也不会绘制刻度|
+|showLegend|boolean|true|是否显示图例|
+|unit|string|""|数值轴单位，如果不绘制坐标轴，也不会绘制单位|
+|arrowAixs|boolean|true|是否使用箭头线绘制坐标轴|
+|labelFont|font|[{}, {}]|坐标轴刻度字体，分别为x轴、y轴，`font={size:number,family:string}`，字体大小和字型|
+|valueRange|[number,number]\|undefined|undefined|数值轴范围，不指定将根据输入数据计算|
+|defaultColor|rgbColor|随机|默认绘图颜色，`rgbColor=[number,number,number]`，RGB颜色|
+
 
 一个`beta-xyn-statistic-graph`下面可以含有多个`beta-xyn-base-chart`（含派生组件），行为表现为，在同一个画布上画出重叠的图
 
@@ -880,18 +905,16 @@ export default defineComponent({
 
 >`beta-xyn-bar-chart`组件继承自`beta-xyn-base-chart`组件，如果需要个性化的统计图，笔给你，你可以自己画。默认导入`beta-xyn-statistic-graph`，`drawTool`属性可以获得一些画图工具。`beta-xyn-base-chart`源码见GitHub。具体说明施工中......。
 
-**ChartLabel**
 
-该组件用于绘制图例
 
 **BarChart**
 
-该组件为`beta-xyn-statistic-graph`的派生组件，用于绘制条形图
+该组件为CategoryContinueBaseChart的派生组件，用于绘制条形图，举个例子
 
 ```vue
 <template>
   <beta-xyn-statistic-graph class="graph">
-    <beta-xyn-chart-label></beta-xyn-chart-label>
+    <beta-xyn-chart-legend></beta-xyn-chart-legend>
     <beta-xyn-bar-chart :dataX="[-10,324,-54]" :dataY="['a','b','c']"  ></beta-xyn-bar-chart>
   </beta-xyn-statistic-graph>
 </template>
@@ -916,59 +939,62 @@ export default defineComponent({
 |dataX|-/-|string[],string[][],number[],number[][]|x轴变量，二维数组则为多组数据|[]|
 |dataY|-/-|string[],string[][],number[],number[][]|y轴变量，二维数组则为多组数据|[]|
 |dataError|-/-|number[],number[][]|误差线，二维数组则为多组数据|[]|
+|optionSet|见下|
+
+>（*）如果要绘制分组的数据，请开启分类绘制，此时，分类轴只可以为1维数组，数值轴和`dataError`数据只能是2维数组。请把相应的`dataX`/`dataY`设置为3维数组，例如`dataY`为`[[1,2],[3,4],[5,6]]`，其中，1,3,5为同一组数据，绘制时颜色为`groupColor[0]`，图例名称为`groupLegend[0]`。`dataX`、`dataY`、`dataError`在不开启分类绘制时，维度要一致
+
+`optionSet`属性
+>`optionSet`属性默认为空，被监听到变化后会合并到组件`option`的`data`中，下面的默认值都是指`option`，继承自CategoryContinueBaseChart的`option`，继承的字段略去
+
+|attribute|type|default|detail|
+|-|-|-|-|
+|drawTrendLine|boolean|false|是否绘制趋势线|
+|groupColor|rgbColor[]|[]|当按组绘图时，每组颜色|
+|groupLegend|string[]|[]|当按组绘图时，每组图例|
+|groupBound|boolean|false|开启分组画图|
+|drawErrorBar|boolean|false|绘制误差线|
+|errorBarWidth|number|0|误差线宽度|
+|eachColor|rgbColor[]\|undefined|undefined|每个柱的颜色，优于`defaultColor`，但在分组绘图时`groupColor`最为优先|
 
 **ScatterBinChart**
 
-该组件为`beta-xyn-statistic-graph`的派生组件，用于绘制散点箱型图
-
-属性
-|name|value|dataType|detail|default|
-|-|-|-|-|-|
-|dataX|-/-|string[],string[][],number[][],number[][][]|x轴变量，三维数组则为多组数据（*）|[]|
-|dataY|-/-|string[],string[][],number[][],number[][][]|y轴变量，三维数组则为多组数据（*）|[]|
-|dataError|-/-|[number[],number[]],[number[],number[]][]|误差线（**）
-|option|-/-|{drawTrendLine:boolean,</br>offsetRate:number,</br>groupColor:rgbColor[],</br>groupLabel:string[],<br>groupBound:boolean}</br>同时，继承了`beta-xyn-statistic-graph`的option属性|drawTrendLine：是否显示趋势线</br>offsetRate：散点偏离率，越靠近0，偏离越小</br>groupColor：每个数据类别的颜色</br>groupLabel：每个数据类别的图例<br>groupBound：分类绘制</br>|
-
->（*）如果要绘制分组的数据，请开启分类绘制，此时，分类轴只可以为1维数组，数值轴数据只能是3维数组。请把相应的`dataX`/`dataY`设置为3维数组，例如`dataY`为`[[[1,2],[3,4]],[[5,6],[7,8]],[[9,10],[11,12]]]`，其中，`[1,2]`、`[5,6]`、`[9,10]`为同一组数据，绘制时颜色为`groupColor[0]`，图例名称为`groupLabel[0]`。
-
->（**）`[number[],number[]]`这两个数组都表示误差，用于绘制箱形图，例如第一个数组表示SEM，第二个数组表示SD。`dataError`如为`[number[],number[]][]`表示多组数据，此时`dataError[0]`对应`dataY[0]`的误差（不妨假设`dataY`表示值）。
+该组件为BarChart的派生组件，用于绘制散点箱型图
 
 举个例子：
 
 ```vue
 <template>
-    <beta-xyn-statistic-graph class="graph" ref="graph" title="High Anxiety">
-    <beta-xyn-chart-label></beta-xyn-chart-label>
+    <beta-xyn-statistic-graph class="graph" ref="graph" title="TITLE">
+    <beta-xyn-chart-legend></beta-xyn-chart-legend>
     <beta-xyn-chart-title 
-      titleX="Sensory Uncertainty"
-      titleY="UN-EX RT Difference
-      (Superise)"
+      titleX="XXX"
+      titleY="YYY"
     ></beta-xyn-chart-title>
     <beta-xyn-scatter-bin-chart 
     :dataY="[
-      [[35.32018442,22.56299304,-47.51908747,55.43458851],
-      [-51.71085339,-53.4011397,-5.111108539,20.88542841],
-      [38.96234278,55.95897738,37.86154651,103.3367694],
+      [[35,22,-47,55],
+      [-51,-53.4011397,-5,20],
+      [38,55,37,10],
     ],
     
     [
-      [-10.50243747,17.58613009,60.30036601,59.84460357],
-      [41.51499867,7.426721655,30.75770385,34.01836427],
-      [-41.26532478,-6.427828052,-38.20164339,98.56478512],
+      [-10.50243747,17,60.30036601,59],
+      [41.51499867,7,30.75770385,34.01836427],
+      [-41.26532478,-6,-38,98.56478512],
     ],
     
     [
-      [127.1385653,-4.069762956,54.89233982,48.1717766],
-      [-10.46341803,-43.40095689,89.6270597,50.03504831],
+      [127,-1,54.89233982,48.1717766],
+      [-10.46341803,-43,8,50.03504831],
       [34.94366247,-24.5078009,16.83234926,117.2118747]
     ]]"
 
-    :dataX="['Low Noise','Middle Noise','High Noise']"  
+    :dataX="['A','B','C']"  
 
     :dataError="[
-      [[7.599900968,8.953866718,10.98897727],[37.23175894,	43.86480937,	53.8347742  ]],
-      [[7.599900968,8.953866718,10.98897727],[37.23175894,	43.86480937,	53.8347742    ]],
-      [[7.599900968,8.953866718,10.98897727],[37.23175894,	43.86480937,	53.8347742    ]]
+      [[7,8,10],[10,20,10]],
+      [[7,8,10],[10,20,10]],
+      [[7,8,10],[10,20,10]]
     ]"
 
     :optionSet="{
@@ -978,7 +1004,7 @@ export default defineComponent({
       showLabel:true,
       offsetRate:0.3,
       errorBarWidth:15,
-      unit:'ms',
+      unit:'单位',
       drawTrendLine:true,
       groupColor:[[224, 165, 130],[155, 201, 186],[129,37, 205]],
       groupLabel:['A','B','C'],
@@ -1006,3 +1032,25 @@ export default defineComponent({
 </script>
 
 ```
+
+
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|dataX|-/-|string[],string[][],number[][],number[][][]|x轴变量，三维数组则为多组数据（*）|[]|
+|dataY|-/-|string[],string[][],number[][],number[][][]|y轴变量，三维数组则为多组数据（*）|[]|
+|dataError|-/-|[number[],number[]],[number[],number[]][]|误差线（**）
+|option|见下|
+
+>（*）如果要绘制分组的数据，请开启分类绘制，此时，分类轴只可以为1维数组，数值轴数据和`dataError`只能是3维数组。请把相应的`dataX`/`dataY`设置为3维数组，例如`dataY`为`[[[1,2],[3,4]],[[5,6],[7,8]],[[9,10],[11,12]]]`，其中，`[1,2]`、`[5,6]`、`[9,10]`为同一组数据，绘制时颜色为`groupColor[0]`，图例名称为`groupLabel[0]`。
+
+>（**）`[number[],number[]]`这两个数组都表示误差，用于绘制箱形图，例如第一个数组表示SEM，第二个数组表示SD。`dataError`如为`[number[],number[]][]`表示多组数据，此时`dataError[0]`对应`dataY[0]`的误差（不妨假设`dataY`表示值）。
+
+
+`optionSet`属性
+>`optionSet`属性默认为空，被监听到变化后会合并到组件`option`的`data`中，下面的默认值都是指`option`，继承自BarChart的`option`，继承的字段略去
+
+|attribute|type|default|detail|
+|-|-|-|-|
+|offsetRate|number|0|散点偏离程度，越接近0越不偏离|
+|dotRadium|number|1|散点半径|

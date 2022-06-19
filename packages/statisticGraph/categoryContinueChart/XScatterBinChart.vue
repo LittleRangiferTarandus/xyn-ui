@@ -3,11 +3,11 @@
 </template>
 <script lang="ts">
 import { defineComponent, PropType} from 'vue'
-import { Axis, DecriptionSet, ScatterBinGraphOption,  rgbColor} from './statisticGraph'
-import { drawCircle, drawErrorBin, drawLine, drawText} from './drawGraph'
-import { DescriptionStatistic, descriptionStatisticOfMultiDimensionMatrix, getDimension, linearRegression } from './statistic'
+import { Axis, DecriptionSet, ScatterBinGraphOption,  rgbColor} from '../statisticGraph'
+import { drawCircle, drawErrorBin, drawLine, drawText} from '../drawGraph'
+import { DescriptionStatistic, descriptionStatisticOfMultiDimensionMatrix, getDimension, linearRegression } from '../statistic'
 
-import { coordinate } from './statisticGraph'
+import { coordinate } from '../statisticGraph'
 import XBarChartVue from './XBarChart.vue'
 
 
@@ -29,16 +29,6 @@ export default defineComponent({
     },
     optionSet:{
       default:()=>({
-        classAxis:"y",
-        drawAxis:true,
-        outerAxis:false,
-        title:["",""],
-        offsetRate:0.2,
-        errorBarWidth:30,
-        drawTrendLine:true,
-        groupColor:[],
-        groupLabel:[],
-        group:true
       }),
       type:Object as PropType<ScatterBinGraphOption>
     },
@@ -70,19 +60,19 @@ export default defineComponent({
       drawTrendLine: false,
       offsetRate: 0,
       groupColor: [],
-      groupLabel: [],
+      groupLegend: [],
       classAxis: Axis.x,
-      drawAxis: false,
+      drawAxis: true,
       outerAxis: false,
       showAxisLabel: [true, true],
-      showLabel: false,
+      showLegend: false,
       errorBarWidth: 0,
       unit: '',
       group: true,
       groupBound: false,
       arrowAixs: false,
       labelFont: [{}, {}],
-      dotRadium: 0,
+      dotRadium: 1,
       valueRange: undefined,
       drawErrorBar: false,
       defaultColor: [0,0,0]
@@ -97,7 +87,7 @@ export default defineComponent({
 
   watch:{
     'labelSet.length'(){
-      if(!this.option.showLabel){
+      if(!this.option.showLegend){
         
         return
       }
@@ -269,7 +259,7 @@ export default defineComponent({
               
             
             })
-            labelSet.push({color:`rgb(${color[0]},${color[1]},${color[2]})`,label:(option.groupLabel as string[])[i]})
+            labelSet.push({color:`rgb(${color[0]},${color[1]},${color[2]})`,label:(option.groupLegend as string[])[i]})
             
           })
 
@@ -306,7 +296,7 @@ export default defineComponent({
                 +positionDiff.x*(i+1)
                 +i*groupWidth
                 +(index+1)*groupPositionDiff
-                +index*barWidth+offset[0],
+                +(index+0.5)*barWidth+offset[0],
                 axisXY.xAxisY-offset[1]
               ]:[
                 axisXY.yAxisX+offset[0],
@@ -326,7 +316,7 @@ export default defineComponent({
             })
             
             if(groupBound){
-              labelSet[index]=({color:`rgb(${color[0]},${color[1]},${color[2]})`,label:(option.groupLabel as string[])[index]})
+              labelSet[index]=({color:`rgb(${color[0]},${color[1]},${color[2]})`,label:(option.groupLegend as string[])[index]})
             }else{
               labelSet.push({color:`rgb(${color[0]},${color[1]},${color[2]})`,label:(dataClass as string[][])[i][index]})
             }
@@ -410,7 +400,7 @@ export default defineComponent({
                   +positionDiff.x*(i+1)
                   +i*groupWidth
                   +(index+1)*groupPositionDiff
-                  +(index)*barWidth,
+                  +(index+0.5)*barWidth,
                   axisXY.xAxisY-barHeight
               ]:[
                 axisXY.yAxisX+barHeight,
@@ -503,12 +493,12 @@ export default defineComponent({
                 +positionDiff.x*(i+1)
                 +i*groupWidth
                 +(index+1)*groupPositionDiff
-                +index*barWidth:
+                +(index+0.5)*barWidth:
               pointOf00[1]
                 -positionDiff.y*(i+1)
                 -i*groupWidth
                 -(index+1)*groupPositionDiff
-                -index*barWidth
+                -(index+0.5)*barWidth
 
             let y_=classAxis===Axis.x?
               axisXY.xAxisY-

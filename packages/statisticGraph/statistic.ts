@@ -109,8 +109,9 @@ export const  linearRegression=(x:number[],y:number[])=>{
   let beta1=up/(down-n*meanX**2)
   let beta0=0
   for(let i=0;i<n;i++){
-    beta0=y[i]-beta1*x[i]
+    beta0+=y[i]-beta1*x[i]
   }
+  beta0/=n
   const linear=(x:number)=>{
     return beta0+x*beta1
   }
@@ -119,4 +120,24 @@ export const  linearRegression=(x:number[],y:number[])=>{
   }
   
   return linear
+}
+
+export const formatNumber=(n:number)=>{
+  let nStr =( n+"").split("")
+  let toZero = false
+  for(let i =0;i<nStr.length;i++){
+    if(!toZero&&nStr[i]!=="0"&&nStr[i]!=="."){
+      toZero=true
+      i+=2
+    }
+    if(i>=nStr.length){
+      break
+    }
+    if(toZero&&nStr[i]!=="0"&&nStr[i]!=="."){
+      nStr[i]="0"
+    }
+  }
+  
+  
+  return JSON.parse(nStr.join(""))
 }

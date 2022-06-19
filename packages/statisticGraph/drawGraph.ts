@@ -113,11 +113,13 @@ export const drawCircle=(ctx,start:coordinate,radium:number,radianRange:[number,
   if(randomColor){
     color=[Math.round(Math.random()*255),Math.round(Math.random()*255),Math.round(Math.random()*255)]
   }
+  ctx.beginPath();
   ctx.fillStyle = `rgb(${color[0]},${color[1]},${color[2]})`
-  ctx.beginPath()
+  
+  
   ctx.arc(...start,radium,...radianRange)
   ctx.fill()
-  ctx.beginPath()
+  ctx.beginPath();
   return `rgb(${color[0]},${color[1]},${color[2]})`
 }
 
@@ -170,7 +172,30 @@ export const drawErrorBin=(ctx,start:coordinate,width:number,length:[number,numb
   return `rgb(${color[0]},${color[1]},${color[2]})`
 }
 
+export const drawFunction=(ctx,x:number[],y:number[],randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
+  if(randomColor){
+    color=[Math.round(Math.random()*255),Math.round(Math.random()*255),Math.round(Math.random()*255)]
+  }
+  
+  ctx.beginPath()
+  //console.log(start,end);
+  ctx.lineWidth = 1
+  ctx.strokeStyle = `rgb(${color[0]},${color[1]},${color[2]})`
+  ctx.moveTo(x[0],y[0])
+  x.forEach((v,i)=>{
+    ctx.lineTo(v,y[i])
+
+  })
+  
+  
+  ctx.stroke()
+  ctx.beginPath()
+  return `rgb(${color[0]},${color[1]},${color[2]})`
+}
+
+
+
 const drawTool = {
-  drawLine,drawArrowLine,drawText,drawBar,drawErrorBar,drawCircle,drawErrorBin 
+  drawLine,drawArrowLine,drawText,drawBar,drawErrorBar,drawCircle,drawErrorBin,drawFunction
 }
 export default drawTool

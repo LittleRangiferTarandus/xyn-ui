@@ -47,9 +47,7 @@ const statisticGraph = defineComponent({
     if(slotList){
       slotList.forEach((v:any,i)=>{
         if(v.props){
-          if(!v.props.symbol){
-            v.props.symbol = Date.now()+"-"+i
-          }
+          v.props.symbol = Date.now()+"-"+i
          
         }
       })

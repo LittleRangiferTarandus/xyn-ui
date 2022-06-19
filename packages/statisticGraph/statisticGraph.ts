@@ -46,14 +46,14 @@ export interface GraphOption {
   drawAxis:boolean,
   outerAxis:boolean,
   showAxisLabel:[boolean,boolean],
-  showLabel:boolean
-  errorBarWidth:number,
+  showLegend:boolean
   unit:string,
   group:boolean,
   arrowAixs:boolean,
   labelFont:[font,font],
   valueRange:[number,number]|undefined,
   defaultColor:rgbColor,
+  groupBound:boolean//因为刻度是由基类统一绘制的
 }
 export interface ScatterBinGraphOption extends BarGraphOption{
   offsetRate:number,
@@ -62,10 +62,35 @@ export interface ScatterBinGraphOption extends BarGraphOption{
 export interface BarGraphOption extends GraphOption{
   drawTrendLine:boolean,
   groupColor:rgbColor[],
-  groupLabel:string[],
+  groupLegend:string[],
+  errorBarWidth:number,
   groupBound:boolean,
   drawErrorBar:boolean,
   eachColor?:rgbColor[]
 }
+export interface ContinueContinueGraphOption {
+  drawAxis:boolean,
+  outerAxis:boolean,
+  showAxisLabel:[boolean,boolean],
+  showLegend:boolean
+  unit:string,
+  arrowAxis:boolean,
+  labelFont:[font,font],
+  range:[[number,number],[number,number]]|undefined,
+  color:rgbColor|rgbColor[],
+  drawErrorRange:boolean,
+  scale?:[number,number],
+  legend:string[]|string
+}
+export interface ScatterGraphOption extends ContinueContinueGraphOption{
+  dotRadium:number,
+  drawTrendLine:boolean
+}
 export type labelElement = {color:string,label:string}
 export type labelSet = labelElement[]
+
+export interface ContinueContiunueDecriptionSet {
+  dataValueX:DescriptionStatisticOfMultiDimensionMatrix,
+  dataValueY:DescriptionStatisticOfMultiDimensionMatrix,
+  dataError:DescriptionStatisticOfMultiDimensionMatrix
+}

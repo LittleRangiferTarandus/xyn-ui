@@ -3,11 +3,12 @@
 </template>
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { Axis, coordinate, DecriptionSet, GraphOption,labelSet, rgbColor} from './statisticGraph'
-import { drawArrowLine, drawLine, drawText } from './drawGraph'
+import { Axis, coordinate, DecriptionSet, GraphOption,labelSet, rgbColor} from '../statisticGraph'
+import { drawArrowLine, drawLine, drawText } from '../drawGraph'
+import { formatNumber } from '../statistic'
 
 export default defineComponent({
-  name:"BetaXynBaseChart",
+  name:"BetaXynCategoryContinueBaseChart",
   props:{
     dataY:{
       default:[],
@@ -18,14 +19,7 @@ export default defineComponent({
       type:Array as PropType<any[]>
     },
     optionSet:{
-      default:()=>({
-        classAxis:"y",
-        drawAxis:true,
-        outerAxis:false,
-        unit:"",
-        showAxisLabel:[true,true],
-        showLabel:true,
-      }),
+      default:()=>({}),
       type:Object as PropType<GraphOption>
     },
     
@@ -66,17 +60,17 @@ export default defineComponent({
     }
     let option:GraphOption={
       classAxis: Axis.x,
-      drawAxis: false,
+      drawAxis: true,
       outerAxis: false,
       showAxisLabel: [true, true],
-      showLabel: true,
-      errorBarWidth: 0,
+      showLegend: true,
       unit: '',
       group: true,
       arrowAixs: true,
       labelFont: [{}, {}],
       valueRange: undefined,
-      defaultColor: [Math.round(Math.random()*255),Math.round(Math.random()*255),Math.round(Math.random()*255)]
+      defaultColor: [Math.round(Math.random()*255), Math.round(Math.random()*255), Math.round(Math.random()*255)],
+      groupBound: false
     }
     let range:Array<number>=[0,0]
     let axisXY:{xAxisY:number,yAxisX:number}={xAxisY:0,yAxisX:0}
@@ -110,7 +104,7 @@ export default defineComponent({
   watch:{
     'labelSet.length'(){
       
-      if(!this.option.showLabel){
+      if(!this.option.showLegend){
         
         return
       }
@@ -118,7 +112,7 @@ export default defineComponent({
       let total = this.dataDecription.dataValue.dimension===1?this.dataX.length:(this.dataX[0] as any[]).length*this.dataX.length
 
       
-      if(this.labelSet.length===total&&this.option.showLabel){
+      if(this.labelSet.length===total&&this.option.showLegend){
         if((this.$parent as any)){
           (this.$parent as any).label[this.symbol]=this.labelSet
           
@@ -259,23 +253,10 @@ export default defineComponent({
       const {innerSize,dataDecription,context2d,positionDiff,axisXY,pointOf00,range,padding,dataX,option,dataY,outerAxisXY}=this
       const {width:innerWidth,height:innerHeight} = innerSize
       
-      
+      let positionGapLength = option.classAxis===Axis.x?innerHeight:innerWidth
 
-      let valueDiff=(range[1]-range[0])/10
-      let strValueDiff =( valueDiff+"").split("")
-      let toZero = false
-      for(let i =0;i<strValueDiff.length;i++){
-        if(!toZero&&strValueDiff[i]!=="0"&&strValueDiff[i]!=="."){
-          toZero=true
-          i+=2
-        }
-        if(toZero&&strValueDiff[i]!=="0"&&strValueDiff[i]!=="."){
-          strValueDiff[i]="0"
-        }
-      }
-      
-      
-      valueDiff = JSON.parse(strValueDiff.join(""))
+      let valueDiff=formatNumber((range[1]-range[0])/10),
+        positionGap =  ((range[1]-range[0]===0)?0:(Math.abs(valueDiff/(range[1]-range[0]))*positionGapLength))
       if(option.classAxis===Axis.x){
         if(option.showAxisLabel[0]){
           
@@ -292,7 +273,7 @@ export default defineComponent({
                 ,option.outerAxis?outerAxisXY.xAxisY:axisXY.xAxisY],v,option.labelFont[0],[0,20])
             })
           }else {
-            if((this as any).drawGroupLabel instanceof Function){
+            if((this as any).drawGroupLabel instanceof Function&&this.option.groupBound){
               (this as any).drawGroupLabel()
             }else{
                 
@@ -330,8 +311,8 @@ export default defineComponent({
           ,[-20,0])
 
           let tempIndex=1 , tempHeight=zeroPosition
-          while(tempHeight>padding.top+positionDiff.y){
-            tempHeight-=positionDiff.y
+          while(tempHeight>padding.top+positionGap){
+            tempHeight-=positionGap
             drawText(context2d,[option.outerAxis?outerAxisXY.yAxisX:axisXY.yAxisX,tempHeight],Math.round(valueDiff*tempIndex*100)/100+"",
             option.labelFont[1]
             ,[-20,0])
@@ -340,8 +321,8 @@ export default defineComponent({
           }
           
           tempIndex=1,tempHeight=zeroPosition
-          while(tempHeight+positionDiff.y<pointOf00[1]){
-            tempHeight+=positionDiff.y
+          while(tempHeight+positionGap<pointOf00[1]){
+            tempHeight+=positionGap
             drawText(context2d,[option.outerAxis?outerAxisXY.yAxisX:axisXY.yAxisX,tempHeight],-Math.round(valueDiff*tempIndex*100)/100+"",
             option.labelFont[1]
             ,[-20,0])
@@ -352,9 +333,6 @@ export default defineComponent({
       }else if(option.classAxis===Axis.y){
         
         if(option.showAxisLabel[1]){
-          
-          //draw class label
-          //console.log(props.dataY,positionDiff,props.dataY.length,innerHeight);
           
           
           if(!option.group){
@@ -388,20 +366,20 @@ export default defineComponent({
         }
         
         if(option.showAxisLabel[0]){
-          let zeroPosition = (range[1]-range[0])===0?0:(Math.abs(range[0]/(range[1]-range[0]))*innerWidth)
-          drawText(context2d,[pointOf00[0]+zeroPosition,option.outerAxis?outerAxisXY.xAxisY:axisXY.xAxisY],"0",option.labelFont[1],[0,20])
+          let zeroPosition = pointOf00[0]+(range[1]-range[0])===0?0:(Math.abs(range[0]/(range[1]-range[0]))*innerWidth)
+          drawText(context2d,[zeroPosition,option.outerAxis?outerAxisXY.xAxisY:axisXY.xAxisY],"0",option.labelFont[1],[0,20])
 
           let tempIndex=1,tempWidth=zeroPosition
-          while(tempWidth<padding.left+innerWidth-positionDiff.x){
+          while(tempWidth<padding.left+innerWidth-positionGap){
             
-            tempWidth+=positionDiff.x
+            tempWidth+=positionGap
             drawText(context2d,[tempWidth,option.outerAxis?outerAxisXY.xAxisY:axisXY.xAxisY],Math.round(valueDiff*tempIndex*100)/100+"",option.labelFont[1],[0,20])
             tempIndex++
 
           }
           tempIndex=1,tempWidth=zeroPosition
-          while(tempWidth>=padding.left+positionDiff.x){
-            tempWidth-=positionDiff.x
+          while(tempWidth>=padding.left+positionGap){
+            tempWidth-=positionGap
             drawText(context2d,[tempWidth,option.outerAxis?outerAxisXY.xAxisY:axisXY.xAxisY],-Math.round(valueDiff*tempIndex*100)/100+"",option.labelFont[1],[0,20])
             tempIndex++
 

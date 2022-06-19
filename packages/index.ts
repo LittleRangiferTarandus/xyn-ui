@@ -17,11 +17,14 @@ import XVirtualList from './virtualList/XVirtualList.vue'
 import XUpload from './upload/XUpload.vue'
 import {transColor} from './transColor'
 import XStatisticGraph from './statisticGraph/XStatisticGraph.vue'
-import XBarChart from './statisticGraph/XBarChart.vue'
-import XBaseChart from './statisticGraph/XBaseChart.vue'
-import XChartLabel from './statisticGraph/XChartLabel.vue'
-import XScatterBinChart from './statisticGraph/XScatterBinChart.vue'
+import XBarChart from './statisticGraph/categoryContinueChart/XBarChart.vue'
+import XCategoryContinueBaseChart from './statisticGraph/categoryContinueChart/XCategoryContinueBaseChart.vue'
+import XChartLegend from './statisticGraph/XChartLegend.vue'
+import XScatterBinChart from './statisticGraph/categoryContinueChart/XScatterBinChart.vue'
 import XChartTitle from './statisticGraph/XChartTitle.vue'
+import XCCBC from './statisticGraph/continueContinueChart/XContinueContinueBaseChart.vue'
+import XScatterChart from './statisticGraph/continueContinueChart/XScatterChart.vue'
+import XSLineChart from './statisticGraph/continueContinueChart/XLineChart.vue'
 const components=[
   XButton,
   XCheckbox,
@@ -42,10 +45,13 @@ const components=[
   XUpload,
   XStatisticGraph,
   XBarChart,
-  XBaseChart,
-  XChartLabel,
+  XCategoryContinueBaseChart,
+  XChartLegend,
   XScatterBinChart,
-  XChartTitle
+  XChartTitle,
+  XCCBC,
+  XScatterChart,
+  XSLineChart
 ]
 
 const install = function(vue:any){
