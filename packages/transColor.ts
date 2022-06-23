@@ -1,4 +1,4 @@
-import { rgbColor } from "../types/component"
+import { rgbColor } from "./types/component"
 
 const setColor = (rgb:rgbColor)=>{
   let light:rgbColor=[0,0,0]

@@ -6,9 +6,10 @@
 import { defineComponent, PropType} from 'vue'
 import { drawFunction, } from '../drawGraph'
 import { descriptionStatisticOfMultiDimensionMatrix, formatNumber, getDimension, linearRegression } from '../statistic'
-import {  rgbColor, ScatterGraphOption} from '../statisticGraph'
+import {  LineGraphOption,  ScatterGraphOption} from '../statisticGraph'
 
 import XScatterChartVue from './XScatterChart.vue'
+import { rgbColor} from '../../types/component'
 
 
 
@@ -23,19 +24,18 @@ export default defineComponent({
   extends:XScatterChartVue,
   data(){
 
-    let option:ScatterGraphOption={
+    let option:LineGraphOption={
       drawAxis: false,
       outerAxis: false,
       showAxisLabel: [true, true],
-      showLabel: true,
+      showLegend: true,
       unit: '',
       labelFont: [{}, {}],
       color: [Math.round(Math.random()*255), Math.round(Math.random()*255), Math.round(Math.random()*255)],
       range: undefined,
       drawErrorRange: false,
-      dotRadium: 1,
       arrowAxis: false,
-      drawTrendLine: false,
+      legend: ''
     }
 
     return{

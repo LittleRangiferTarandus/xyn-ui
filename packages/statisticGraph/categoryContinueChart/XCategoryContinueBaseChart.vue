@@ -3,9 +3,10 @@
 </template>
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { Axis, coordinate, DecriptionSet, GraphOption,labelSet, rgbColor} from '../statisticGraph'
+import { Axis, coordinate, DecriptionSet, GraphOption,labelSet} from '../statisticGraph'
 import { drawArrowLine, drawLine, drawText } from '../drawGraph'
 import { formatNumber } from '../statistic'
+
 
 export default defineComponent({
   name:"BetaXynCategoryContinueBaseChart",

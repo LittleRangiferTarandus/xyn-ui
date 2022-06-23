@@ -18,6 +18,11 @@
 import XynUI from 'xyn-ui'
 ```
 
+按需导入：
+```js
+import {XynButton} from 'xyn-ui'
+```
+
 ## style
 
 请全局导入CSS：
@@ -26,7 +31,11 @@ import 'xyn-ui/dist/style.css'
 import 'xyn-ui/theme/theme.css'
 ```
 
-导入XynUI后，XynUI.transColor()可以切换主题，目前仅支持主题暖色调和冷色调，可传入"warm"或者"cold"进行设置
+按需导入transColor函数来切换主题：
+```js
+import {transColor} from 'xyn-ui'
+```
+目前仅支持主题暖色调和冷色调，可传入"warm"或者"cold"进行设置
 
 
 ## 关于字体图标
@@ -883,7 +892,7 @@ export default defineComponent({
 |symbol|-/-|string|该图表的唯一标识，会自动生成|""|
 
 `optionSet`属性
->`optionSet`属性默认为空，被监听到变化后会合并到组件`option`的`data`中，下面的默认值都是指`option`
+>`optionSet`属性默认为空，被监听到变化后会合并到组件`option`的`data`中，下面的默认值都是指`option`，下同略过
 
 |attribute|type|default|detail|
 |-|-|-|-|
@@ -944,7 +953,7 @@ export default defineComponent({
 >（*）如果要绘制分组的数据，请开启分类绘制，此时，分类轴只可以为1维数组，数值轴和`dataError`数据只能是2维数组。请把相应的`dataX`/`dataY`设置为3维数组，例如`dataY`为`[[1,2],[3,4],[5,6]]`，其中，1,3,5为同一组数据，绘制时颜色为`groupColor[0]`，图例名称为`groupLegend[0]`。`dataX`、`dataY`、`dataError`在不开启分类绘制时，维度要一致
 
 `optionSet`属性
->`optionSet`属性默认为空，被监听到变化后会合并到组件`option`的`data`中，下面的默认值都是指`option`，继承自CategoryContinueBaseChart的`option`，继承的字段略去
+>继承自CategoryContinueBaseChart的`option`，继承的字段略去
 
 |attribute|type|default|detail|
 |-|-|-|-|
@@ -1040,7 +1049,7 @@ export default defineComponent({
 |dataX|-/-|string[],string[][],number[][],number[][][]|x轴变量，三维数组则为多组数据（*）|[]|
 |dataY|-/-|string[],string[][],number[][],number[][][]|y轴变量，三维数组则为多组数据（*）|[]|
 |dataError|-/-|[number[],number[]],[number[],number[]][]|误差线（**）
-|option|见下|
+|optionSet|见下|
 
 >（*）如果要绘制分组的数据，请开启分类绘制，此时，分类轴只可以为1维数组，数值轴数据和`dataError`只能是3维数组。请把相应的`dataX`/`dataY`设置为3维数组，例如`dataY`为`[[[1,2],[3,4]],[[5,6],[7,8]],[[9,10],[11,12]]]`，其中，`[1,2]`、`[5,6]`、`[9,10]`为同一组数据，绘制时颜色为`groupColor[0]`，图例名称为`groupLabel[0]`。
 
@@ -1048,9 +1057,72 @@ export default defineComponent({
 
 
 `optionSet`属性
->`optionSet`属性默认为空，被监听到变化后会合并到组件`option`的`data`中，下面的默认值都是指`option`，继承自BarChart的`option`，继承的字段略去
+>继承自BarChart的`option`，继承的字段略去
 
 |attribute|type|default|detail|
 |-|-|-|-|
 |offsetRate|number|0|散点偏离程度，越接近0越不偏离|
 |dotRadium|number|1|散点半径|
+
+**ContinueContinueBaseChart**
+连续-连续类型数据统计图的“基组件”，即为`beta-xyn-continue-continue-base-chart`
+
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|dataX|-/-|number[],number[][]|x轴变量，二维数组则为多组数据（*）|[]|
+|dataY|-/-|number[],number[][]|y轴变量，二维数组则为多组数据（*）|[]|
+|optionSet|见下|
+
+
+
+`optionSet`属性
+
+|attribute|type|default|detail|
+|-|-|-|-|
+|classAxis|Axis|Axis.x|类别轴，`Axis`：枚举类型，值为字符串`"x"`或`"y"`|
+|drawAxis|boolean|true|是否绘制坐标轴|
+|outerAxis|boolean|false|坐标轴是否位于统计图左、下边|
+|showAxisLabel|[boolean,boolean]|[true, true]|是否显示坐标轴刻度，分别为x轴、y轴，如果不绘制坐标轴，也不会绘制刻度|
+|showLegend|boolean|true|是否显示图例|
+|unit|string|""|数值轴单位，如果不绘制坐标轴，也不会绘制单位|
+|arrowAixs|boolean|true|是否使用箭头线绘制坐标轴|
+|labelFont|font|[{}, {}]|坐标轴刻度字体，分别为x轴、y轴，`font={size:number,family:string}`，字体大小和字型|
+|range|[[number,number],[number,number]\]<br>\|undefined|undefined|数值轴范围，分别为x轴、y轴，不指定将根据输入数据计算|
+|color|rgbColor\|rgbColor[]|随机|绘图颜色，若为`rgbColor`数组则为多组数据时每组颜色，`rgbColor=[number,number,number]`，RGB颜色|
+|scale|[number,number]\|undefined|undefined|坐标轴刻度大小，分别为x轴、y轴，不填则自动计算刻度|
+|legend|string[]\|string|""|图例，为字符串数组则为多组数据每组图例|
+
+**ScatterChart**
+继承自ContinueContinueBaseChart，绘制散点图
+
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|optionSet|见下|
+
+
+`optionSet`属性
+>继承自ContinueContinueBaseChart的`option`
+
+|attribute|type|default|detail|
+|-|-|-|-|
+|dotRadium|number|1|散点半径|
+|drawTrendLine|boolean|false|是否绘制趋势线|
+
+**LineChart**
+继承自ScatterChart，绘制线型图
+
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|dataError|-/-|number[],number[][]|误差变量，二维数组则为多组数据|[]|
+|optionSet|见下|
+
+`optionSet`属性
+>继承自ContinueContinueBaseChart的`option`
+
+|attribute|type|default|detail|
+|-|-|-|-|
+|drawErrorRange|boolean|false|是否绘制误差范围（尚未实装）|
+

@@ -13,4 +13,3 @@ babel.config.js
 index.html
 *.json
 vite.config.ts
-*.md

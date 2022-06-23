@@ -3,13 +3,14 @@
 </template>
 <script lang="ts">
 import { defineComponent, PropType} from 'vue'
-import { Axis, DecriptionSet, ScatterBinGraphOption,  rgbColor} from '../statisticGraph'
+import { Axis, DecriptionSet, ScatterBinGraphOption} from '../statisticGraph'
 import { drawCircle, drawErrorBin, drawLine, drawText} from '../drawGraph'
 import { DescriptionStatistic, descriptionStatisticOfMultiDimensionMatrix, getDimension, linearRegression } from '../statistic'
 
 import { coordinate } from '../statisticGraph'
 import XBarChartVue from './XBarChart.vue'
 
+import { rgbColor} from '../../types/component'
 
 export default defineComponent({
   name:"BetaXynScatterBinChart",

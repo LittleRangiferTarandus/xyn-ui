@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import { onUnmounted, PropType, ref, watch } from 'vue'
-import {CarouselImg} from '../../types/component'
+import {CarouselImg} from '../types/component'
 export default {
   props: {
     sliders: {

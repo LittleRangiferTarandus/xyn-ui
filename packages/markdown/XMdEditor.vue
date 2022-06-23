@@ -14,7 +14,7 @@
 </template>
 <script lang='ts'>
 import { computed, defineComponent, inject, ref,watch } from 'vue';
-import { MdGroup } from '../../types/component';
+import { MdGroup } from '../types/component';
   export default defineComponent({
     name:"XynMdEditor",
     props:{

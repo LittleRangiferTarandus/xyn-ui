@@ -3,11 +3,12 @@
   
 </template>
 <script lang="ts">
-import { defineComponent, PropType} from 'vue'
-import { drawArrowLine, drawCircle, drawLine, drawText } from '../drawGraph'
-import { descriptionStatisticOfMultiDimensionMatrix, formatNumber, getDimension, linearRegression } from '../statistic'
-import { Axis, ContinueContinueGraphOption, ContinueContiunueDecriptionSet, coordinate, DecriptionSet, GraphOption,labelSet, rgbColor, ScatterGraphOption} from '../statisticGraph'
+import { defineComponent} from 'vue'
+import { drawCircle, drawLine } from '../drawGraph'
+import { descriptionStatisticOfMultiDimensionMatrix, getDimension, linearRegression } from '../statistic'
+import { coordinate, ScatterGraphOption} from '../statisticGraph'
 import XContinueContinueBaseChartVue from './XContinueContinueBaseChart.vue'
+import { rgbColor} from '../../types/component'
 
 
 
@@ -25,7 +26,6 @@ export default defineComponent({
       labelFont: [{}, {}],
       color: [Math.round(Math.random()*255), Math.round(Math.random()*255), Math.round(Math.random()*255)],
       range: undefined,
-      drawErrorRange: false,
       dotRadium: 1,
       arrowAxis: false,
       drawTrendLine: false,
@@ -56,11 +56,11 @@ export default defineComponent({
     
       const {dataDecription}=this
       let errorMax =0
-      if(this.option.drawErrorRange){
-        errorMax=dataDecription?.dataError?.max?
-        dataDecription.dataError.max/2:
-        dataDecription.dataValueY.maxStd/2
-      }
+      // if(this.option.drawErrorRange){
+      //   errorMax=dataDecription?.dataError?.max?
+      //   dataDecription.dataError.max/2:
+      //   dataDecription.dataValueY.maxStd/2
+      // }
       
       this.range=[(dataDecription.dataValueX.min>=0)?
           [0,(dataDecription.dataValueX.max)*1.1]:

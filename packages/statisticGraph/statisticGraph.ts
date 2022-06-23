@@ -1,8 +1,7 @@
 import { DescriptionStatisticOfMultiDimensionMatrix } from "./statistic"
-
+import {rgbColor } from '../types/component'
 
 export type coordinate = [number,number]
-export type rgbColor = [number,number,number]
 export type font = {
   size?:number,
   family?:string,
@@ -78,13 +77,16 @@ export interface ContinueContinueGraphOption {
   labelFont:[font,font],
   range:[[number,number],[number,number]]|undefined,
   color:rgbColor|rgbColor[],
-  drawErrorRange:boolean,
   scale?:[number,number],
   legend:string[]|string
 }
 export interface ScatterGraphOption extends ContinueContinueGraphOption{
   dotRadium:number,
   drawTrendLine:boolean
+}
+export interface LineGraphOption extends ContinueContinueGraphOption{
+  
+  drawErrorRange:boolean,
 }
 export type labelElement = {color:string,label:string}
 export type labelSet = labelElement[]

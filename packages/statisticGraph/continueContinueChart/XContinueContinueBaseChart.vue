@@ -6,7 +6,7 @@
 import { defineComponent, PropType} from 'vue'
 import { drawArrowLine, drawLine, drawText } from '../drawGraph'
 import { formatNumber } from '../statistic'
-import { Axis, ContinueContinueGraphOption, ContinueContiunueDecriptionSet, coordinate, DecriptionSet, GraphOption,labelSet, rgbColor} from '../statisticGraph'
+import { Axis, ContinueContinueGraphOption, ContinueContiunueDecriptionSet, coordinate, DecriptionSet, GraphOption,labelSet} from '../statisticGraph'
 
 
 
@@ -81,7 +81,6 @@ export default defineComponent({
       labelFont: [{}, {}],
       color: [Math.round(Math.random()*255), Math.round(Math.random()*255), Math.round(Math.random()*255)],
       range: undefined,
-      drawErrorRange: false,
       legend: []
     }
     let range:[[number,number],[number,number]]=[[0,0],[0,0]]

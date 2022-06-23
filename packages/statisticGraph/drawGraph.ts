@@ -1,6 +1,7 @@
-import { coordinate,  rgbColor ,font, Axis} from "./statisticGraph"
+import { coordinate ,font, Axis} from "./statisticGraph"
+import { rgbColor} from '../types/component'
 
-export const drawLine=(ctx,start:coordinate,end:coordinate,randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
+export const drawLine=(ctx: { beginPath: () => void; lineWidth: number; strokeStyle: string; moveTo: (arg0: number,arg1: number) => void; lineTo: (arg0: number,arg1: number) => void; stroke: () => void },start:coordinate,end:coordinate,randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
   if(randomColor){
     color=[Math.round(Math.random()*255),Math.round(Math.random()*255),Math.round(Math.random()*255)]
   }
@@ -18,7 +19,7 @@ export const drawLine=(ctx,start:coordinate,end:coordinate,randomColor:boolean=f
   return `rgb(${color[0]},${color[1]},${color[2]})`
 }
 
-export const drawArrowLine=(ctx,start:coordinate,end:coordinate,randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
+export const drawArrowLine=(ctx: { beginPath: () => void; strokeWidth: number; fillStyle: string; moveTo: (arg0: number,arg1: number) => void; lineTo: (arg0: number,arg1: number) => void; stroke: () => void },start:coordinate,end:coordinate,randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
   if(randomColor){
     color=[Math.round(Math.random()*255),Math.round(Math.random()*255),Math.round(Math.random()*255)]
   }
@@ -44,7 +45,7 @@ export const drawArrowLine=(ctx,start:coordinate,end:coordinate,randomColor:bool
   return `rgb(${color[0]},${color[1]},${color[2]})`
 }
 
-export const drawBar=(ctx,start:coordinate,width:number,height:number,direction:Axis,randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
+export const drawBar=(ctx: { fillStyle: string; fillRect: (arg0: number, arg1: number, arg2: number, arg3: number) => void; stroke: () => void },start:coordinate,width:number,height:number,direction:Axis,randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
   if(randomColor){
     color=[Math.round(Math.random()*255),Math.round(Math.random()*255),Math.round(Math.random()*255)]
   }
@@ -59,7 +60,7 @@ export const drawBar=(ctx,start:coordinate,width:number,height:number,direction:
   return `rgb(${color[0]},${color[1]},${color[2]})`
 }
 
-export const drawText=(ctx,start:coordinate,text:string,font:font,correct:[number,number]=[0,0],randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
+export const drawText=(ctx: { fillStyle: string; font: string; moveTo: (arg0: number,arg1: number) => void; fillText: (arg0: string, arg1: number, arg2: number) => void; measureText: (arg0: string) => { (): any; new(): any; width: number }; stroke: () => void },start:coordinate,text:string,font:font,correct:[number,number]=[0,0],randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
   //console.log(start);
   
   if(randomColor){
@@ -78,7 +79,7 @@ export const drawText=(ctx,start:coordinate,text:string,font:font,correct:[numbe
   return `rgb(${color[0]},${color[1]},${color[2]})`
 }
 
-export const drawErrorBar=(ctx,start:coordinate,width:number,length:number,direction:Axis,randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
+export const drawErrorBar=(ctx: { fillStyle: string; moveTo: (arg0: number, arg1: number) => void; lineTo: (arg0: number, arg1: number) => void; stroke: () => void },start:coordinate,width:number,length:number,direction:Axis,randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
   if(randomColor){
     color=[Math.round(Math.random()*255),Math.round(Math.random()*255),Math.round(Math.random()*255)]
   }
@@ -109,7 +110,7 @@ export const drawErrorBar=(ctx,start:coordinate,width:number,length:number,direc
 }
 
 
-export const drawCircle=(ctx,start:coordinate,radium:number,radianRange:[number,number],randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
+export const drawCircle=(ctx: { beginPath: () => void; fillStyle: string; arc: (arg0: number, arg1: number, arg2: number,arg3: number,arg4: number) => void; fill: () => void },start:coordinate,radium:number,radianRange:[number,number],randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
   if(randomColor){
     color=[Math.round(Math.random()*255),Math.round(Math.random()*255),Math.round(Math.random()*255)]
   }
@@ -125,7 +126,7 @@ export const drawCircle=(ctx,start:coordinate,radium:number,radianRange:[number,
 
 
 
-export const drawErrorBin=(ctx,start:coordinate,width:number,length:[number,number],direction:Axis,randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
+export const drawErrorBin=(ctx: { beginPath: () => void; moveTo: (arg0: number, arg1: number) => void; lineTo: (arg0: number, arg1: number) => void; stroke: () => void; fillStyle: string },start:coordinate,width:number,length:[number,number],direction:Axis,randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
   if(randomColor){
     color=[Math.round(Math.random()*255),Math.round(Math.random()*255),Math.round(Math.random()*255)]
   }
@@ -172,7 +173,7 @@ export const drawErrorBin=(ctx,start:coordinate,width:number,length:[number,numb
   return `rgb(${color[0]},${color[1]},${color[2]})`
 }
 
-export const drawFunction=(ctx,x:number[],y:number[],randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
+export const drawFunction=(ctx: { beginPath: () => void; lineWidth: number; strokeStyle: string; moveTo: (arg0: number, arg1: number) => void; lineTo: (arg0: number, arg1: number) => void; stroke: () => void },x:number[],y:number[],randomColor:boolean=false,color:rgbColor=[0,0,0])=>{
   if(randomColor){
     color=[Math.round(Math.random()*255),Math.round(Math.random()*255),Math.round(Math.random()*255)]
   }

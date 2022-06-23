@@ -30,3 +30,5 @@ export interface CarouselImg{
 }
 
 
+
+export  type rgbColor = [number,number,number]

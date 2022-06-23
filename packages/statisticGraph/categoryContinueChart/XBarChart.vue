@@ -3,12 +3,12 @@
 </template>
 <script lang="ts">
 import { defineComponent, PropType} from 'vue'
-import { Axis, DecriptionSet,  rgbColor, GraphOption, BarGraphOption} from '../statisticGraph'
-import { drawBar, drawCircle, drawErrorBar, drawErrorBin, drawLine, drawText} from '../drawGraph'
-import { DescriptionStatistic, descriptionStatisticOfMultiDimensionMatrix, getDimension, linearRegression } from '../statistic'
+import { Axis, DecriptionSet, BarGraphOption} from '../statisticGraph'
+import { drawBar, drawErrorBar, drawLine, drawText} from '../drawGraph'
+import { descriptionStatisticOfMultiDimensionMatrix, getDimension, linearRegression } from '../statistic'
 import XBaseChartVue from './XCategoryContinueBaseChart.vue'
 import { coordinate } from '../statisticGraph'
-
+import { rgbColor} from '../../types/component'
 
 export default defineComponent({
   name:"BetaXynBarChart",

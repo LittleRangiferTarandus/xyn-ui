@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { defineComponent, inject, onMounted, ref } from 'vue'
-import { Rule } from '../../types/component'
+import { Rule } from '../types/component'
 
 export default defineComponent({
   name:"XynFormItem",

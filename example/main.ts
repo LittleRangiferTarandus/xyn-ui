@@ -8,6 +8,5 @@ import 'github-markdown-css';
 
 import '../theme/theme.css'
 
-XynUI.transColor("warm")
 
 createApp(App).use(XynUI).mount('#app')

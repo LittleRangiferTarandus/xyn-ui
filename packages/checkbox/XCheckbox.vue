@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { defineComponent, inject, ref, watch } from 'vue'
-import { CheckboxGroup } from '../../types/component'
+import { CheckboxGroup } from '../types/component'
 
 export default defineComponent({
   name:"XynCheckbox",

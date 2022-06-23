@@ -1,7 +1,7 @@
 {
   "name": "xyn-ui",
   "private": false,
-  "version": "0.0.11",
+  "version": "0.0.16",
   "files": [
     "dist",
     "types",
@@ -9,7 +9,7 @@
   ],
   "main": "./dist/xyn-ui-umd.js",
   "module": "./dist/xyn-ui-es.js",
-  "typings": "./types/index.d.ts",
+  "typings": "./dist/types/index.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -38,9 +38,11 @@
     "@vitejs/plugin-vue": "^2.2.0",
     "@vitejs/plugin-vue-jsx": "^1.3.9",
     "@vue/babel-plugin-jsx": "^1.1.1",
+    "rollup-plugin-typescript2": "^0.32.1",
     "ts-morph": "^14.0.0",
-    "typescript": "^4.5.4",
+    "typescript": "^4.7.4",
     "vite": "^2.9.1",
+    "vite-plugin-dts": "^1.2.0",
     "vue-tsc": "^0.29.8"
   },
   "exports": {
@@ -48,6 +50,8 @@
       "import": "./dist/xyn-ui-es.js",
       "require": "./dist/xyn-ui-umd.js"
     },
-    "./dist/*": "./dist/*"
+    "./dist/*": "./dist/*",
+    "./theme/*": "./theme/*",
+    "./types/*": "./types/*"
   }
 }
