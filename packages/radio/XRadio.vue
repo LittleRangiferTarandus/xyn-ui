@@ -1,5 +1,8 @@
 <template>
-<label class="xyn-radio" :class="{'is-checked': currentValue}" >
+<label class="xyn-radio" :class="{'is-checked':groupValue!==undefined?groupValue:currentValue==='on'}" 
+  @click="radioClickHandle"
+
+>
     <span class="xyn-radio_input">
     <span class="xyn-radio_inner"></span>
         <input
@@ -17,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, ref, watch } from 'vue'
+import { computed, defineComponent, inject, ref, watch } from 'vue'
 import {RadioGroup} from '../types/component'
 export default defineComponent({
     name:"XynRadio",
@@ -27,8 +30,8 @@ export default defineComponent({
         defualt: ''
       },
       modelValue: {
-        type:Boolean,
-        default: false
+        type:String,
+        default: "off"
       },
       name: {
         type: String,
@@ -38,18 +41,27 @@ export default defineComponent({
     setup(props,context) {
       const currentValue = ref (props.modelValue)
       const radioGroup:RadioGroup|undefined = inject("RadioGroup")
+
+      let groupValue 
+
       if(radioGroup){
-        currentValue.value=radioGroup.getSelect()===props.label
-        context.emit("update:modelValue",currentValue)
+        groupValue=computed(()=>{
+          return radioGroup.getSelect()===props.label
+        })
       }
-      watch(currentValue,()=>{
-        radioGroup?.setSelect(props.label)
+
+
+      const radioClickHandle=()=>{
+        console.log(currentValue.value);
+        
+        if(radioGroup){
+          radioGroup.setSelect(props.label)
+        }
         context.emit("update:modelValue",currentValue)
         context.emit("change",!currentValue,currentValue)
-      })
-
+      }
       return{
-        radioGroup,currentValue
+        radioGroup,currentValue,groupValue,radioClickHandle
       }
     }
 })

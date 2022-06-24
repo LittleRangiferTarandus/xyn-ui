@@ -25,6 +25,9 @@ import XynChartTitle from './statisticGraph/XChartTitle.vue'
 import XynContinueContinueBaseChart from './statisticGraph/continueContinueChart/XContinueContinueBaseChart.vue'
 import XynScatterChart from './statisticGraph/continueContinueChart/XScatterChart.vue'
 import XynLineChart from './statisticGraph/continueContinueChart/XLineChart.vue'
+import XynMenu from './menu/XynMenu.vue'
+import XynMenuItem from './menu/XynMenuItem.vue'
+import XynMenuItemGroup from './menu/XynMenuItemGroup.vue'
 import { App,Plugin } from 'vue'
 const components=[
   XynButton,
@@ -53,7 +56,9 @@ const components=[
   XynContinueContinueBaseChart,
   XynScatterChart,
   XynLineChart,
-  
+  XynMenu,
+  XynMenuItem,
+  XynMenuItemGroup
 ]
 
 export {
@@ -83,7 +88,10 @@ export {
   XynContinueContinueBaseChart,
   XynScatterChart,
   XynLineChart,
-  transColor
+  transColor,
+  XynMenu,
+  XynMenuItem,
+  XynMenuItemGroup
 }
 
 const XynUI :Plugin = {

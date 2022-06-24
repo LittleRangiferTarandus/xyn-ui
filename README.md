@@ -23,7 +23,7 @@ import XynUI from 'xyn-ui'
 import {XynButton} from 'xyn-ui'
 ```
 
-## style
+## 样式
 
 请全局导入CSS：
 ```js
@@ -39,7 +39,7 @@ import {transColor} from 'xyn-ui'
 
 
 ## 关于字体图标
-本组件库字体图标依赖于`remix icon`开源图标库，请见：http://www.remixicon.cn/。
+本组件库字体图标依赖于`remix icon`开源图标库，请见：http://www.remixicon.cn/    。
 引入图标库：
 
 ```js
@@ -588,6 +588,133 @@ export default defineComponent({
 |autoUpload|-/-|boolean|是否自动上传，若为是则multiple项无效，并且只呈现一个选择文件的按钮|false|
 
 # 展示组件
+## 轮播图Carousel
+
+举个栗子：
+```vue
+<script lang="ts">
+import { defineComponent, reactive  } from 'vue'
+
+export default defineComponent({
+  setup() {
+    const dataSource = reactive([{url:'https://images.unsplash.com/photo-1572197491557-5b1a2c767c7b?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000',id:1},
+      {url:'https://images.unsplash.com/photo-1572197491557-5b1a2c767c7b?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000',id:2}
+      
+    ])
+
+    return{
+      dataSource
+    }
+  },
+})
+</script>
+
+<template>
+  <xyn-carousel :sliders="dataSource">
+  </xyn-carousel>
+</template>
+```
+
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|sliders|-/-|{url:string,id:string\|number}[]|轮播图的图片|[]|
+|autoplay|-/-|boolean|是否开启自动播放|true|
+|playDelay|-/-|number|轮播延迟，单位：ms|2000|
+|arrowVisible|-/-|boolean|是否显示左右切换按钮|true|
+|indicatorVisible|-/-|boolean|是否显示底部切换按钮|true|
+
+# 导航组件
+
+## 菜单
+
+举个栗子
+```vue
+<template>
+ <xyn-menu 
+  class="menu" 
+  :defaultActivated="'1'" 
+  :rowDirection="false" 
+  :stretch="false"
+  v-model="menuAct"
+ >
+  <xyn-menu-item label="1">HOME</xyn-menu-item>
+  <xyn-menu-item label="2">INFO</xyn-menu-item>
+  <xyn-menu-item-group label="3" :name="'SETTING'">
+    <xyn-menu-item label="4">View</xyn-menu-item>
+    <xyn-menu-item label="5">Data</xyn-menu-item>
+  </xyn-menu-item-group>
+  <xyn-menu-item label="6">OTHER</xyn-menu-item>
+ </xyn-menu>
+ 
+</template>
+<script lang="ts">
+import { defineComponent, ref} from 'vue'
+
+export default defineComponent({
+  setup(){
+    const menuAct = ref("")
+    return{
+      menuAct
+    }
+  }
+})
+</script>
+
+<style lang="less" scoped>
+.menu{
+  width: 200px;
+}
+</style>
+```
+**Menu**
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|modelValue|-/-|string|当前被选中的MenuItem的label，用于双向绑定|""|
+|defaultActivated|-/-|string|默认选中的菜单项MenuItem的label|""|
+|rowDirection|-/-|boolean|是否横向排列|true|
+|stretch|-/-|boolean|MenuItem/MenuItemGroup是否延申以填充空白区域|false|
+|center|-/-|boolean|MenuItem/MenuItemGroup是否居中排列|false|
+
+插槽
+|name|detail|
+|-|-|
+|-/-|菜单子组件|
+
+事件：
+|name|parameter|detail|
+|-|-|-|
+|change|前值pre，现值cur|菜单项点击事件|
+
+**MenuItem**
+>建议仅作为Menu或MenuItemGroup的子组件
+
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|label|-/-|string|用于识别不同的菜单项|""|
+|name|-/-|string|菜单项MenuItem名称，插槽为空则显示|""|
+
+插槽
+|name|detail|
+|-|-|
+|-/-|菜单项MenuItem内容|
+
+**MenuItemGroup**
+>建议仅作为Menu的子组件
+
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|name|-/-|string|菜单项组MenuItemGroup名称|""|
+
+插槽
+|name|detail|
+|-|-|
+|-/-|菜单项MenuItem|
+
+# 数据组件
 ## 表格Table
 
 举个例子
@@ -749,7 +876,7 @@ export default defineComponent({
 插槽
 |name|detail|
 |-|-|
-|-/-|表格tableColumn子组件|
+|-/-|表格子组件|
 
 事件：
 |name|parameter|detail|
@@ -824,41 +951,6 @@ estimateItemHeight指的是虚拟列表每一项的默认高度，当渲染行�
 |-/-|作用域插槽，可以在`v-slot="xxx"`（xxx为任意值）中取到对应的行元素的值，即resource数组元素。要注意的是，该插槽不是响应式的，可能在热更新中不能观察到变化，修改插槽的模板后请刷新页面|
 |end|虚拟列表底部元素的作用域插槽，可以在`v-slot:end="xxx"`（xxx为任意值）中取到`{isEnd,isLoading}`对象。要注意的是，该插槽不是响应式的，可能在热更新中不能观察到变化，修改插槽的模板后请刷新页面|
 
-## 轮播图Carousel
-
-举个栗子：
-```vue
-<script lang="ts">
-import { defineComponent, reactive  } from 'vue'
-
-export default defineComponent({
-  setup() {
-    const dataSource = reactive([{url:'https://images.unsplash.com/photo-1572197491557-5b1a2c767c7b?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000',id:1},
-      {url:'https://images.unsplash.com/photo-1572197491557-5b1a2c767c7b?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000',id:2}
-      
-    ])
-
-    return{
-      dataSource
-    }
-  },
-})
-</script>
-
-<template>
-  <xyn-carousel :sliders="dataSource">
-  </xyn-carousel>
-</template>
-```
-
-属性
-|name|value|dataType|detail|default|
-|-|-|-|-|-|
-|sliders|-/-|{url:string,id:string\|number}[]|轮播图的图片|[]|
-|autoplay|-/-|boolean|是否开启自动播放|true|
-|playDelay|-/-|number|轮播延迟，单位：ms|2000|
-|arrowVisible|-/-|boolean|是否显示左右切换按钮|true|
-|indicatorVisible|-/-|boolean|是否显示底部切换按钮|true|
 
 ## 统计图组件StatisticGraph
 
@@ -1120,7 +1212,7 @@ export default defineComponent({
 |optionSet|见下|
 
 `optionSet`属性
->继承自ContinueContinueBaseChart的`option`
+>继承自LineChart的`option`
 
 |attribute|type|default|detail|
 |-|-|-|-|

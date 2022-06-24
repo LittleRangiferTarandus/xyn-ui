@@ -29,6 +29,13 @@ export interface CarouselImg{
   id:number|string
 }
 
-
+export interface MenuGroup{
+  setActivated : (prop:string)=>void
+  getActivated : ()=>string
+  getStyle: ()=>{rowDirection:boolean,stretch:boolean}
+}
+export interface MenuTiemGroup{
+  setGroupActivated:(item:string,state:boolean)=>void
+}
 
 export  type rgbColor = [number,number,number]

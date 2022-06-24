@@ -13,7 +13,7 @@ export default defineComponent({
        modelValue:{
            type:Array,
            
-           default:""
+           default:[]
        }
     },
     setup(props,context) {
