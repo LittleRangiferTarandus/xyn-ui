@@ -197,6 +197,9 @@ export default defineComponent({
     },
     drawAxisLable(){
       const {range,pointOf00,context2d,option,outerAxisXY,axisXY,padding,positionDiff} = this
+
+      //console.log(option.labelFont);
+      
       const {width:innerWidth,height:innerHeight} =this.innerSize
       let valueDiffX=formatNumber((range[0][1]-range[0][0])/10),valueDiffY=formatNumber((range[1][1]-range[1][0])/10)
 
@@ -222,6 +225,7 @@ export default defineComponent({
       ,[-20,0])
 
       let tempIndex=1 , tempHeight=zeroPosition
+      //Y
       while(tempHeight>padding.top+positionGapY){
         
         
@@ -234,8 +238,8 @@ export default defineComponent({
       }
       
       
-      
       tempIndex=1,tempHeight=zeroPosition
+      //Y
       while(tempHeight+positionGapY<pointOf00[1]){
         
         tempHeight+=positionGapY
@@ -245,10 +249,11 @@ export default defineComponent({
         tempIndex++
 
       }
+
       zeroPosition = pointOf00[0]+ ((range[0][1]-range[0][0]===0)?0:(Math.abs(range[0][0]/(range[0][1]-range[0][0]))*innerWidth))
       if(option.outerAxis){
         drawText(context2d,[zeroPosition,option.outerAxis?outerAxisXY.xAxisY:axisXY.xAxisY],"0",
-        option.labelFont[1]
+        option.labelFont[0]
         ,[0,20])
       }
 
@@ -279,22 +284,27 @@ export default defineComponent({
     },
     drawUnit(){
       const {context2d,option,outerAxisXY,axisXY,padding} = this
-      drawText(context2d,
+      if(option.unit[1]){
+        drawText(context2d,
         [
           option.outerAxis?outerAxisXY.yAxisX:axisXY.yAxisX,
           padding.top
         ],
-        option.unit,
+        option.unit[1],
         option.labelFont[1],
         [20,0])
-      drawText(context2d,
+      }
+      if(option.unit[0]){
+        drawText(context2d,
         [
           option.outerAxis?outerAxisXY.xAxisY:axisXY.xAxisY,
           this.pointOf00[1]
         ],
-        option.unit,
-        option.labelFont[1],
+        option.unit[0],
+        option.labelFont[0],
         [0,20])
+      }
+      
     },
     getAxisXY (){
       const {width:innerWidth,height:innerHeight} =this.innerSize
@@ -375,10 +385,12 @@ export default defineComponent({
   created(){
     Object.keys(this.optionSet).forEach((v:string)=>{
       let attr:any = (this.optionSet as any)[v]
-      if(attr===0||attr){
+      if(attr!==undefined){
         (this.option as any)[v]=attr
       }
     })
+    //console.log(this.option,this.optionSet );
+    
   },
   
 })

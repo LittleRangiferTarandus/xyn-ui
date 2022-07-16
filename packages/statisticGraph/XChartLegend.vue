@@ -7,16 +7,44 @@
     }"
     ref="legend"
   >
-    <div v-for="(item,index) in Object.keys(labelSet)" :key="item+index" class="xyn-chart-legend-group" :class="{column:column}">
+    <div v-if="!plain">
+      <div v-for="(item,index) in Object.keys(labelSet)" :key="item+index" class="xyn-chart-legend-group" :class="{column:column}">
+        <div class="xyn-chart-legend-item" 
+          v-for="(entity,indexInner) in labelSet[item]" :key="entity+index+indexInner"
+          :class="{column:column}"
+        >
+          <div 
+            :style="{backgroundColor:entity.color}"
+            class="xyn-chart-legend-item-color"
+          ></div>
+          <span :style='{
+            
+            fontFamily:font?font.family:"",
+            fontSize:font?font.size:""
+            
+          }'>
+          {{entity.label}}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div v-else  class="xyn-chart-legend-group">
       <div class="xyn-chart-legend-item" 
-        v-for="(entity,indexInner) in labelSet[item]" :key="entity+index+indexInner"
+        v-for="(entity,indexInner) in plainLegendSet" :key="entity+indexInner"
         :class="{column:column}"
       >
         <div 
           :style="{backgroundColor:entity.color}"
           class="xyn-chart-legend-item-color"
         ></div>
-        <span>{{entity.label}}</span>
+        <span :style='{
+          
+          fontFamily:font?font.family:"",
+          fontSize:font?font.size:""
+          
+        }'>
+        {{entity.label}}
+        </span>
       </div>
     </div>
   </div>
@@ -24,7 +52,8 @@
 
 <script lang="ts">
 
-import { watch,defineComponent, getCurrentInstance, reactive, ref, onMounted } from 'vue'
+import { watch,defineComponent, getCurrentInstance, reactive, ref, onMounted, PropType, computed } from 'vue'
+import { font } from './statisticGraph'
 
 export default defineComponent({
   name:"BetaXynChartLegend",
@@ -40,14 +69,34 @@ export default defineComponent({
     symbol:{
       type:String,
       default:""
+    },  
+    font:{
+      type:Object as PropType<font>,
+      default:undefined
+    },
+    plain:{
+      type:Boolean,
+      default:false
     }
   },
   setup(props) {
     const legend = ref({})
     let thisInstance :any= getCurrentInstance()
     const labelOffsetTopLeft:[number,number] = reactive([0,0])
-    const labelSet = ref({})
+    const labelSet :any= ref({})
     
+    const plainLegendSet:any = computed(()=>{
+      let temp: any[] = []
+      Object.keys(labelSet.value).forEach((v,i)=>{
+        let legends = labelSet.value[v]
+        if(legends?.forEach){
+          legends.forEach((val: any)=>{
+            temp.push(val)
+          })
+        }
+      })
+      return temp
+    })
     
     watch(thisInstance.parent.data.label,()=>{
       labelSet.value=thisInstance.parent.data.label
@@ -59,7 +108,7 @@ export default defineComponent({
     })
 
     return{
-      labelOffsetTopLeft,legend,labelSet
+      labelOffsetTopLeft,legend,labelSet,plainLegendSet
     }
   },
 })
@@ -74,7 +123,7 @@ export default defineComponent({
   position: absolute;
   &-group{
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     &.column{
       flex-direction: column;
     }

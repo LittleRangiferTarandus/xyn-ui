@@ -97,7 +97,7 @@ export default defineComponent({
   created(){
     Object.keys(this.optionSet).forEach((v:string)=>{
       let attr:any = (this.optionSet as any)[v]
-      if(attr===0||attr){
+      if(attr!==undefined){
         (this.option as any)[v]=attr
       }
     })

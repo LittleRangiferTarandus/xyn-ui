@@ -13,11 +13,18 @@
 
 //示例中的代码默认全局注册了组件
 
+<<<<<<< HEAD
+下载：
+```
+npm i xyn-ui
+```
+=======
 安装
 ```
 npm i xyn-ui
 ```
 
+>>>>>>> e3934c8742f9af63b5bd82386d568c7cc4222f41
 ## 导入
 
 ```js
@@ -969,10 +976,22 @@ estimateItemHeight指的是虚拟列表每一项的默认高度，当渲染行�
 
 `beta-xyn-statistic-graph`实例对象的clear方法可用于清空图像，downloadGraph可以用于下载图像（png格式）
 
+下载图像是基于html2canvas的
+```
+npm i html2canvas
+```
+
 **ChartLegend**
 
-该组件用于绘制图例
+该组件用于绘制图例，默认的排列方式是同一个绘图组件的从左到右排列，不同的绘图组件（例如`beta-xyn-statistic-graph`插槽中存在两个`beta-xyn-bar-chart`）的图例进行分行
 
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|scale|-/-|number|图例尺寸缩放百分比|100|
+|column|-/-|boolean|图例是否纵向排列|false|
+|font|-/-|font|`font={size?:number,family?:string}`，字体大小和字型|{}|
+|plain|-/-|boolean|水平排列时，不同绘图组件的图例是否不分行|false|
 
 **ChartTitle**
 
@@ -1001,7 +1020,7 @@ estimateItemHeight指的是虚拟列表每一项的默认高度，当渲染行�
 |showLegend|boolean|true|是否显示图例|
 |unit|string|""|数值轴单位，如果不绘制坐标轴，也不会绘制单位|
 |arrowAixs|boolean|true|是否使用箭头线绘制坐标轴|
-|labelFont|font|[{}, {}]|坐标轴刻度字体，分别为x轴、y轴，`font={size:number,family:string}`，字体大小和字型|
+|labelFont|font|[{}, {}]|坐标轴刻度字体，分别为x轴、y轴，`font={size?:number,family?:string}`，字体大小和字型|
 |valueRange|[number,number]\|undefined|undefined|数值轴范围，不指定将根据输入数据计算|
 |defaultColor|rgbColor|随机|默认绘图颜色，`rgbColor=[number,number,number]`，RGB颜色|
 
@@ -1108,13 +1127,13 @@ export default defineComponent({
       outerAxis:true,
       drawAxis:true,
       showAxisLabel:[true,true],
-      showLabel:true,
+      showLegend:true,
       offsetRate:0.3,
       errorBarWidth:15,
       unit:'单位',
       drawTrendLine:true,
       groupColor:[[224, 165, 130],[155, 201, 186],[129,37, 205]],
-      groupLabel:['A','B','C'],
+      groupLegend:['A','B','C'],
       groupBound:true
     }"
     ></beta-xyn-scatter-bin-chart>

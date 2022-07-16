@@ -60,7 +60,7 @@ const statisticGraph = defineComponent({
         ref="graphOuter"    
       > 
         <div class="xyn-statistic-graph-title"
-          style={{fontFamily:this.font.family, fontSize:this.font.size}}
+          style={{fontFamily:this.font?this.font.family:'', fontSize:this.font?this.font.size:""}}
           v-html={this.title}
         ></div>
         <div class="xyn-statistic-graph-inner" ref="graph"
