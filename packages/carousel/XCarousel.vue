@@ -5,7 +5,7 @@
       <li
         class="xyn-carousel-item"
         :class="{ fade: curIdx === idx }"
-        v-for="(item, idx) in sliders"
+        v-for="(item, idx) in (sliders)"
         :key="item.id"
       >
         <img :src='item.url'>
@@ -27,12 +27,19 @@
 
 <script lang="ts">
 import { onUnmounted, PropType, ref, watch } from 'vue'
-import {CarouselImg} from '../types/component'
+
+
+interface CarouselImg{
+  url:string,
+  id:number|string
+}
+
 export default {
+  name:'XynCarousel',
   props: {
     sliders: {
       type: Array as PropType<CarouselImg[]>,
-      default: () => []
+      default: []
     },
     autoplay: {
       type: Boolean,
@@ -51,8 +58,7 @@ export default {
       default:true
     }
   },
-  name: 'XynCarousel',
-  setup (props) {
+  setup (props: { sliders: CarouselImg[]; playDelay: number; autoplay: boolean }) {
     const curIdx = ref(0)
 
     // 自动播放

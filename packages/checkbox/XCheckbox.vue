@@ -21,7 +21,14 @@
 
 <script lang="ts">
 import { defineComponent, inject, ref, watch } from 'vue'
-import { CheckboxGroup } from '../types/component'
+
+
+interface CheckboxGroup{
+  setSelect:Function,
+  getSelect:Function,
+  addSelect:Function
+}
+
 
 export default defineComponent({
   name:"XynCheckbox",

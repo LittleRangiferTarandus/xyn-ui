@@ -11,7 +11,11 @@
 
 <script lang="ts">
 import { defineComponent, inject, onMounted, ref } from 'vue'
-import { Rule } from '../types/component'
+
+interface Rule{
+  verify:Function|RegExp,
+  error:string
+}
 
 export default defineComponent({
   name:"XynFormItem",
@@ -41,7 +45,7 @@ export default defineComponent({
             return false
           }
         }else if (value.verify instanceof Function){
-          console.log(value.verify(formData),formData);
+          //console.log(value.verify(formData),formData);
           
           if(!value.verify(formData)){
             error.value = value.error

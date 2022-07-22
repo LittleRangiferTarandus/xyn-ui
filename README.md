@@ -439,6 +439,7 @@ export default defineComponent({
 
 ```
 
+
 ## markdown
 本组件的markdown语法高亮使用了highlight.js，请在恰当的地方（例如vue项目根目录的main.js）引入语法高亮样式
 ```js
@@ -599,6 +600,43 @@ export default defineComponent({
 |multiple|-/-|boolean|是否为多文件上传|false|
 |showFileList|-/-|boolean|是否显示文件列表|true|
 |autoUpload|-/-|boolean|是否自动上传，若为是则multiple项无效，并且只呈现一个选择文件的按钮|false|
+
+## 滑动选择Range
+举个栗子
+```vue
+<template>
+  <xyn-range :max="100" :min="5" :step="0.5"></xyn-range>
+</template>
+<script lang="ts">
+import { defineComponent } from 'vue'
+import XynRange from '../packages/range/XynRange.vue'
+
+export default defineComponent({
+  components: { XynRange },
+  setup(){
+    
+  }
+})
+</script>
+```
+
+属性
+|name|value|dataType|detail|default|
+|-|-|-|-|-|
+|max|-/-|number|最大值|100|
+|min|-/-|number|最小值|0|
+|step|-/-|number|步长，或者说刻度|1|
+|modelValue|-/-|number|组件的值，用于双向绑定|0|
+|showInterval|-/-|ShowInterval|是否显示取值区间，可取值为'pre'、'post'、'dual'；ShowInterval是枚举对象|'dual'|
+|reverse|-/-|boolean|进度条是否从右往左|false|
+
+```ts
+enum ShowInterval {
+  pre='pre',
+  post='post',
+  dual='dual'
+}
+```
 
 # 展示组件
 ## 轮播图Carousel

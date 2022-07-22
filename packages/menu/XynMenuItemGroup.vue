@@ -43,7 +43,8 @@
 
 <script lang="ts">
 import { watch, defineComponent, inject,  ref, computed, provide, reactive } from 'vue'
-import { MenuGroup } from '../types/component'
+import { MenuGroup } from './menu'
+
 
 export default defineComponent({
   name:"XynMenuItemGroup",

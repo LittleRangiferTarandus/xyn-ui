@@ -7,9 +7,17 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, inject, onMounted, Ref, ref, toRef,watch ,nextTick} from 'vue'
-import { MdGroup } from '../types/component'
+
 import { md2html } from './md2html'
 import hljs from 'highlight.js'
+
+interface MdGroup{
+  getMdValue:Function,
+  setMdValue:Function,
+  scrollRate:Ref<number>,
+  scrollItem:Ref<string>
+}
+
 export default defineComponent({
   name:"XynMdPreviewer",
   props:{

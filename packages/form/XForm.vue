@@ -1,5 +1,5 @@
 <template>
-  <div class="one-form">
+  <div class="xyn-form">
     <slot></slot>
   </div>
 </template>

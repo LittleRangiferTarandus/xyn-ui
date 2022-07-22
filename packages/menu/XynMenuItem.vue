@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { watch, defineComponent, inject,  ref, computed } from 'vue'
-import { MenuGroup, MenuTiemGroup } from '../types/component'
+import { MenuGroup, MenuItemGroup } from './menu'
 
 export default defineComponent({
   name:"XynMenuItem",
@@ -54,7 +54,7 @@ export default defineComponent({
       return menuRoot?.getStyle().stretch
     })
     
-    const group:MenuTiemGroup|undefined = inject("MenuItemGroup")
+    const group:MenuItemGroup|undefined = inject("MenuItemGroup")
 
     const isInGroup = group?true:false
     

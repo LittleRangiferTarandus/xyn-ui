@@ -21,7 +21,12 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject, ref, watch } from 'vue'
-import {RadioGroup} from '../types/component'
+
+interface RadioGroup{
+  setSelect:Function,
+  getSelect:Function
+}
+
 export default defineComponent({
     name:"XynRadio",
     props: {
