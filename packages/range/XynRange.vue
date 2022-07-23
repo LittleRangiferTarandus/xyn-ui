@@ -1,41 +1,51 @@
 <template>
   <div  class="xyn-range" :class="{reverse:reverse}">
     <div v-if="showInterval==='dual'||showInterval==='pre'">{{min}}</div>
-    <div class="xyn-range-container" ref="container">
-      <div class="xyn-range-left xyn-range-terminal"></div>
-      <div class="xyn-range-center"  >
-        <section class="xyn-range-progress" ref="progress">
-        </section>
+    
+      <div class="xyn-range-container" ref="container" @click="clickHandler">
+        <div class="xyn-range-left xyn-range-terminal"></div>
+        <div class="xyn-range-center"  >
+          <section class="xyn-range-progress" ref="progress">
+          </section>
 
-      </div>
-      <label class="xyn-range-dot" ref="rightDot" 
+        </div>
+        <label class="xyn-range-dot" ref="rightDot" 
           @mousedown="mousedownHandler"
-          
+          @mouseover="mouseoverHandler"
+          @mouseout="mouseoutHandler"
         >
-        
-        <input type="range" class="xyn-range-inner" ref="inner" 
-          :max="max"
-          :min="min"
-          :step="step"
-          v-model="inputValue"
-        />
-      </label>
-      <div class="xyn-range-right xyn-range-terminal"></div>
-    </div>
+            
+          <input type="range" class="xyn-range-inner" ref="inner" 
+            :max="max"
+            :min="min"
+            :step="step"
+            v-model="inputValue"
+          />
+        </label> 
+        <xyn-simple-tip :content="currentValue+''" 
+          ref="tip" class="xyn-range-tip"
+          :minWidth="40"
+        >
+        </xyn-simple-tip>
+        <div class="xyn-range-right xyn-range-terminal"></div>
+      </div>
+    
     <div v-if="showInterval==='dual'||showInterval==='post'">{{max}}</div>
+
+
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, Ref , onMounted, onBeforeUnmount, PropType} from 'vue'
-import { getLeft } from '../utils/getAbsolutePosition';
+import { defineComponent, ref, Ref , onMounted, onBeforeUnmount, PropType, computed} from 'vue'
+import XynSimpleTip from '../tip/XynSimpleTip.vue';
+import XynTip from '../tip/XynTip.vue';
 
-enum ShowInterval {
-  pre='pre',
-  post='post',
-  dual='dual'
-}
+import { getLeftToWindow, getRealStytle } from '../utils/getRealStyle';
+
+type ShowInterval='pre'|'post'|'dual'
 
 export default defineComponent({
+  components: { XynTip, XynSimpleTip },
   name: 'XynRange',
   props:{
     max:{
@@ -56,7 +66,7 @@ export default defineComponent({
     },
     showInterval:{
       type:String as PropType<ShowInterval>,
-      default:ShowInterval.dual
+      default:'dual'
     },
     reverse:{
       type:Boolean,
@@ -72,20 +82,28 @@ export default defineComponent({
       progress:Ref<HTMLDivElement|undefined>=ref(),
       inner:Ref<HTMLInputElement|undefined>=ref(),
       isMove = ref(false),
-      inputValue = ref(props.modelValue)
-
+      inputValue = ref(props.modelValue),
+      tip:Ref<any>=ref()
+    const currentValue = computed(()=>inputValue.value+props.min)
+    let tipOriginTrans = ''
+    onMounted(()=>{
+      tipOriginTrans=getRealStytle(tip.value.$el,'transform')
+    })
+    
     const initialize=()=>{
-      if(!container.value||!rightDot.value||!progress.value){
+      if(!container.value||!rightDot.value||!progress.value||!tip.value){
         return
       }
       let max = container.value.offsetWidth-16,
         min=0
-      let mouseX = inputValue.value/(props.max-props.min)*(max-min)+min
+      
+      let mouseX = (inputValue.value-props.min)/(props.max-props.min)*(max-min)+min
       if(props.reverse){
         mouseX-=max
       }
       rightDot.value.style.transform = `translate(${mouseX}px,0)`
       progress.value.style.transform = `translate(${mouseX}px,0)`
+      tip.value.$el.style.transform =tipOriginTrans+ `translate(${mouseX}px,0)`
     }
     onMounted(initialize)
 
@@ -96,12 +114,12 @@ export default defineComponent({
       }
     
       timer = setTimeout(()=>{
-        if(!container.value || !rightDot.value || !progress.value ||!inner.value){
+        if(!container.value || !rightDot.value || !progress.value ||!inner.value||!tip.value){
           return
         }
         if (isMove.value) {
       
-          let containerLeft = getLeft(container.value)
+          let containerLeft = getLeftToWindow(container.value)
           let mouseClientX = e.clientX
           let mouseX = mouseClientX - containerLeft-8
           
@@ -122,10 +140,12 @@ export default defineComponent({
 
           rightDot.value.style.transform = `translate(${move}px,0)`
           progress.value.style.transform = `translate(${move}px,0)`
+          tip.value.$el.style.transform =tipOriginTrans+ `translate(${move}px,0)`
+          
           
           
           inputValue.value=Math.round((mouseX-min)/(max-min)*(props.max-props.min)/props.step)*props.step
-          context.emit('update:modelValue',inputValue.value)
+          context.emit('update:modelValue',currentValue.value)
           
           
         }
@@ -160,14 +180,62 @@ export default defineComponent({
       isMove.value=true
     }
 
-    
+    const mouseoverHandler=()=>{
+      if(!tip.value){
+        return
+      }
+      (tip.value as any).showHandler()
+    }
+
+    const mouseoutHandler=()=>{
+      if(!tip.value){
+        return
+      }
+      (tip.value as any).hideHandler()
+    }
+    const clickHandler=(e:MouseEvent)=>{
+      if(!container.value || !rightDot.value || !progress.value ||!inner.value||!tip.value){
+        return
+      }
+  
+      let containerLeft = getLeftToWindow(container.value)
+      let mouseClientX = e.clientX
+      let mouseX = mouseClientX - containerLeft-8
+      
+      let max = container.value.offsetWidth-16,
+        min=0
+      
+      if(mouseX<min){
+        mouseX=min
+        
+      }else if(mouseX>max){
+        mouseX=max
+      }
+
+      let move = mouseX
+      if(props.reverse){
+        move-=max
+      }
+
+      rightDot.value.style.transform = `translate(${move}px,0)`
+      progress.value.style.transform = `translate(${move}px,0)`
+      tip.value.$el.style.transform =tipOriginTrans+ `translate(${move}px,0)`
+      inputValue.value=Math.round((mouseX-min)/(max-min)*(props.max-props.min)/props.step)*props.step
+      context.emit('update:modelValue',currentValue.value)
+        
+    }
     return {
       rightDot,
       container,
       progress,
       inner,
       mousedownHandler,
-      inputValue
+      inputValue,
+      tip,
+      mouseoverHandler,
+      mouseoutHandler,
+      currentValue,
+      clickHandler
     }
   }
 })
@@ -186,13 +254,13 @@ export default defineComponent({
   display: inline-block;
   height: 2*@height;
   width: 90%;
-  padding: 0 0.5*@height 0 0.5*@height ;
+  padding: 0 0.5*@height+1px 0 0.5*@height+1px ;
 
   .xyn-range-center {
-    position: relative;
+    position: absolute;
     margin-top: -0.5*@height - 1px;
     top: 50%;
-    width: 100%;
+    width: calc(100% - @height);
     height: @height;
     border-top: 1px @border solid;
     border-bottom: 1px @border solid;
@@ -214,10 +282,11 @@ export default defineComponent({
     height: 2*@height;
     width: 2*@height;
     border-radius: 50%;
+    
     position: absolute;
     top: 50%;
-    left: 0;
     background-color: @primary;
+    left: 0;
     cursor: pointer;
     &>.xyn-range-inner{
       display: none;
@@ -252,21 +321,26 @@ export default defineComponent({
   width: 500px;
   align-items: center;
   justify-content: space-around;
+  position: relative;
   &.reverse {
-    .xyn-range-progress{
+    &.reverse .xyn-range-progress{
       right: -100%;
     }
-    .xyn-range-dot{
+    &.reverse .xyn-range-dot{
       left: 100%;
       margin-left: -2*@height;
     }
-    .xyn-range-right{
+    &.reverse .xyn-range-right{
       background-color: @progress;
     }
-    .xyn-range-left{
+    &.reverse .xyn-range-left{
       background: @background;
     }
   }
 }
-
+.xyn-range-tip{
+  top: 0;
+  transform: translate(-50%,-100%) translateX(@height);
+  left: 0;
+}
 </style>

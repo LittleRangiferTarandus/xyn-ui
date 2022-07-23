@@ -28,6 +28,10 @@ import XynLineChart from './statisticGraph/continueContinueChart/XLineChart.vue'
 import XynMenu from './menu/XynMenu.vue'
 import XynMenuItem from './menu/XynMenuItem.vue'
 import XynMenuItemGroup from './menu/XynMenuItemGroup.vue'
+import XynRange from './range/XynRange.vue'
+import XynSimpleTip from './tip/XynSimpleTip.vue'
+
+
 import { App,Plugin } from 'vue'
 const components=[
   XynButton,
@@ -58,7 +62,9 @@ const components=[
   XynLineChart,
   XynMenu,
   XynMenuItem,
-  XynMenuItemGroup
+  XynMenuItemGroup,
+  XynRange,
+  XynSimpleTip
 ]
 
 export {
@@ -91,7 +97,9 @@ export {
   transColor,
   XynMenu,
   XynMenuItem,
-  XynMenuItemGroup
+  XynMenuItemGroup,
+  XynRange,
+  XynSimpleTip
 }
 
 const XynUI :Plugin = {

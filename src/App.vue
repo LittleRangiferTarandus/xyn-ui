@@ -1,33 +1,20 @@
 <template>
-  <xyn-form :formData="formData" :rules="rules">
-    <xyn-form-item label="username" ruleKey="username">
-      <xyn-range v-model="formData.username" :reverse="true"></xyn-range>
-    </xyn-form-item>
-  </xyn-form>
+  <div class="temp"></div>
+  <xyn-range :max="100" :min="5" :step="0.5"></xyn-range>
 </template>
-
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue' 
+import { defineComponent } from 'vue'
 import XynRange from '../packages/range/XynRange.vue'
 
 export default defineComponent({
   components: { XynRange },
-  setup() {
-    const formData = reactive({
-      username:1,
-      hobby:[]
-    })
-    const rules = {
-      username:[{
-        verify:(data)=>{console.log(data);
-        },error:"不可为空" 
-      },{
-        verify:/^\w+$/,error:"非法用户名" 
-      }],
-    }
-    return{
-      formData,rules
-    }
-  },
+  setup(){
+    
+  }
 })
 </script>
+<style lang="less" scoped>
+.temp{
+  padding: 100px;
+}
+</style>

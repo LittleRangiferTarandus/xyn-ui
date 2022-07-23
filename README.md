@@ -627,16 +627,10 @@ export default defineComponent({
 |min|-/-|number|最小值|0|
 |step|-/-|number|步长，或者说刻度|1|
 |modelValue|-/-|number|组件的值，用于双向绑定|0|
-|showInterval|-/-|ShowInterval|是否显示取值区间，可取值为'pre'、'post'、'dual'；ShowInterval是枚举对象|'dual'|
+|showInterval|-/-|ShowInterval|是否显示取值区间，可取值为'pre'、'post'、'dual'；`ShowInterval='pre'|'post'|'dual'`|
 |reverse|-/-|boolean|进度条是否从右往左|false|
 
-```ts
-enum ShowInterval {
-  pre='pre',
-  post='post',
-  dual='dual'
-}
-```
+
 
 # 展示组件
 ## 轮播图Carousel
@@ -648,8 +642,8 @@ import { defineComponent, reactive  } from 'vue'
 
 export default defineComponent({
   setup() {
-    const dataSource = reactive([{url:'https://images.unsplash.com/photo-1572197491557-5b1a2c767c7b?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000',id:1},
-      {url:'https://images.unsplash.com/photo-1572197491557-5b1a2c767c7b?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000',id:2}
+    const dataSource = reactive([{url:'https://example1',id:1},
+      {url:'https://example1',id:2}
       
     ])
 
